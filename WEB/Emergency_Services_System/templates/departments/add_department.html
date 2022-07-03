@@ -1,0 +1,128 @@
+{% extends 'base.html' %}
+{% block title %}Emergency Services System | Admin | Add Department{% endblock %}
+{% block content %}
+
+<script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+
+<div class="content-wrapper">
+  <div class="row">
+
+    <div class="col-12 grid-margin stretch-card">
+      <div class="card">
+        <div class="card-body">
+          <h4 class="card-title">Add Department</h4>
+
+          <form class="forms-sample" id="form_create">
+
+            <div class="form-group">
+              <label for="name">Department Name</label>
+              <input type="text" class="form-control" id="name" placeholder="Department Name">
+            </div>
+
+            <div class="form-group">
+              <label for="emergency-number-1">Emergency Number 1</label>
+              <input type="text" class="form-control" id="emergency-number-1" placeholder="Emergency Number 1">
+            </div>
+
+            <div class="form-group">
+              <label for="emergency-number-2">Emergency Number 2</label>
+              <input type="text" class="form-control" id="emergency-number-2" placeholder="Emergency Number 2">
+            </div>
+
+            <div class="form-group">
+              <label for="web-link">Website Link</label>
+              <input type="text" class="form-control" id="web-link" placeholder="Website Link">
+            </div>
+
+            <div class="form-group">
+              <label for="address">Head Office Address</label>
+              <textarea class="form-control" id="address" rows="4" placeholder="Head Office Address"></textarea>
+            </div>
+
+            <div class="form-group">
+              <label for="desc">Description</label>
+              <textarea class="form-control" id="desc" rows="4" placeholder="Description"></textarea>
+            </div>
+
+            <div class="form-group">
+              <label>Image Upload</label>
+              <input type="file" name="img[]" id="thumbnail" class="file-upload-default" accept="image/*">
+              <div class="input-group col-xs-12">
+                <input type="text" class="form-control file-upload-info" disabled placeholder="Upload Image">
+                <span class="input-group-append">
+                  <button class="file-upload-browse btn btn-primary" type="button">Upload</button>
+                </span>
+              </div>
+            </div>
+
+            <button type="submit" id="btn-add" class="btn btn-primary me-2">Add</button>
+            <button type="clear" class="btn btn-light">Cancel</button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+
+  $(function () {
+    $('#btn-add').click(function () {
+
+      var name = $('#name').val();
+      var emergency_number_1 = $('#emergency-number-1').val();
+      var emergency_number_2 = $('#emergency-number-2').val();
+      var web_link = $('#web-link').val();
+      var address = $('#address').val();
+      var desc = $('#desc').val();
+
+      if (name == "" || emergency_number_1 == "" || emergency_number_2 == "" || web_link == "" || address == "" ||
+        desc == "" || $('#thumbnail').val() == "") {
+        swal.fire("Add Department", "Fields are empty!", "warning");
+
+      } else {
+
+        var form_data = new FormData();
+        form_data.append('name', name);
+        form_data.append('emergency_number_1', emergency_number_1);
+        form_data.append('emergency_number_2', emergency_number_2);
+        form_data.append('web_link', web_link);
+        form_data.append('address', address);
+        form_data.append('desc', desc);
+        form_data.append('thumbnail', $('#thumbnail').prop('files')[0]);
+
+        $.ajax({
+          url: "/departments/add_department_details",
+          enctype: 'multipart/form-data',
+          data: form_data,
+          contentType: false,
+          cache: false,
+          processData: false,
+          type: 'POST',
+        })
+          .done(function (data) {
+            if (data.redirect) {
+              window.location.href = data.redirect;
+            }
+            else if (data.success) {
+              Swal.fire("Add Department", data.success, "success");
+              document.getElementById("form_create").reset();
+            }
+            else if (data.error) {
+              Swal.fire("Add Department", data.error, "warning");
+            }
+            else {
+              Swal.fire("Add Department", "Some error occur!", "warning");
+            }
+          });
+
+      }
+
+      event.preventDefault();
+    });
+  });
+
+</script>
+
+{% endblock %}

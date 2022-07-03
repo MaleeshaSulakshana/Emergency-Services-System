@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+{% block title %}Emergency Services System | Admin | View Departments{% endblock %}
+{% block content %}
+
+<div class="content-wrapper">
+  <div class="row">
+
+    <div class="card">
+      <div class="card-body">
+        <h4 class="card-title">View Departments</h4>
+
+
+        <div class="table-responsive">
+          <table class="table table-hover">
+            <thead>
+              <tr>
+                <th>Thumbnail</th>
+                <th>Department Name</th>
+                <th>Emergency Number 1</th>
+                <th>Emergency Number 2</th>
+                <th>Web Link</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+
+              {% if departments %}
+              {% for item in departments %}
+              <tr>
+                <td class="py-1">
+                  <img src="static/images/departments_images/{{ item[7] }}" alt="image" />
+                </td>
+                <td>{{ item[1] }}</td>
+                <td>{{ item[2] }}</td>
+                <td>{{ item[3] }}</td>
+                <td>{{ item[4] }}</td>
+                <td>
+                  <a href="#" class="btn btn-secondary">VIEW</a>
+                </td>
+              </tr>
+              {% endfor %}
+              {% else %}
+
+              <tr>
+                <td colspan="7">
+                  <center>No View Departments</center>
+                </td>
+              </tr>
+
+              {% endif %}
+
+            </tbody>
+          </table>
+
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</div>
+
+{% endblock %}

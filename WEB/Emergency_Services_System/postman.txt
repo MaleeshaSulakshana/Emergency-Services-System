@@ -1,0 +1,10 @@
+http://127.0.0.1:5000/users/register
+Method - POST
+
+{
+    "name": "Maleesha",
+    "nic": "982760747V",
+    "number": "0767950600",
+    "address": "406/5/1, Pitipana North Homagama",
+    "psw": "12345678"
+}
