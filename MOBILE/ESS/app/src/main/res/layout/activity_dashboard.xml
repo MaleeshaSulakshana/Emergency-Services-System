@@ -10,7 +10,7 @@
     tools:context=".DashboardActivity">
 
     <LinearLayout
-        android:id="@+id/btnDepartments"
+        android:id="@+id/btnServices"
         android:layout_width="150dp"
         android:layout_height="50dp"
         android:layout_marginBottom="20dp"
@@ -35,7 +35,7 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/btnForm"
+        android:id="@+id/btnSearch"
         android:layout_width="150dp"
         android:layout_height="50dp"
         android:layout_marginBottom="20dp"
@@ -59,7 +59,7 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/btnSearch"
+        android:id="@+id/btnInquiries"
         android:layout_width="150dp"
         android:layout_height="50dp"
         android:layout_marginBottom="20dp"
