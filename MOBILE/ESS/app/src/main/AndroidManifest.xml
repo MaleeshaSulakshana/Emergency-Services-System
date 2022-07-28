@@ -14,6 +14,9 @@
         android:theme="@style/Theme.ESS"
         tools:targetApi="31">
         <activity
+            android:name=".BranchesActivity"
+            android:exported="false" />
+        <activity
             android:name=".InquiriesActivity"
             android:exported="false" />
         <activity

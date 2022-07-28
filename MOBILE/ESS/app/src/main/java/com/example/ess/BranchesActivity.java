@@ -5,10 +5,6 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
-import android.content.Intent;
-import android.content.res.Resources;
-import android.media.Image;
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,15 +17,15 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-public class ServicesActivity extends AppCompatActivity {
+public class BranchesActivity extends AppCompatActivity {
 
     private ListView listView;
-    private ArrayList<Service> detailsArrayList = new ArrayList<>();
+    private ArrayList<Branch> detailsArrayList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_services);
+        setContentView(R.layout.activity_branches);
 
         listView = findViewById(R.id.listView);
 
@@ -41,9 +37,9 @@ public class ServicesActivity extends AppCompatActivity {
 
                 String selected = String.valueOf(detailsArrayList.get(i).getId());
 
-                Intent intent = new Intent(ServicesActivity.this, BranchesActivity.class);
-                intent.putExtra("id", selected);
-                startActivity(intent);
+//                Intent intent = new Intent(BranchesActivity.this, BranchDetailsActivity.class);
+//                intent.putExtra("id", selected);
+//                startActivity(intent);
 
             }
         });
@@ -55,24 +51,29 @@ public class ServicesActivity extends AppCompatActivity {
         detailsArrayList.clear();
         listView.setAdapter(null);
 
-        ServiceAdapter serviceAdapter = new ServiceAdapter(this, R.layout.row_services_item, detailsArrayList);
-        listView.setAdapter(serviceAdapter);
+        BranchAdapter branchAdapter = new BranchAdapter(this, R.layout.row_branches_item, detailsArrayList);
+        listView.setAdapter(branchAdapter);
 
-        detailsArrayList.add(new Service("1", "Police", "R.drawable.sl_police"));
-        serviceAdapter.notifyDataSetChanged();
+        detailsArrayList.add(new Branch("1", "Colombo"));
+        detailsArrayList.add(new Branch("1", "Colombo Station"));
+        detailsArrayList.add(new Branch("1", "Mirihana"));
+        detailsArrayList.add(new Branch("1", "Maharagama"));
+        detailsArrayList.add(new Branch("1", "Kottawa"));
+        detailsArrayList.add(new Branch("1", "Nugegoda"));
+        detailsArrayList.add(new Branch("1", "Kirilapana"));
+        branchAdapter.notifyDataSetChanged();
 
     }
 
 }
 
-class Service {
+class Branch {
 
-    String id, title, logo;
+    String id, title;
 
-    public Service(String id, String title, String logo) {
+    public Branch(String id, String title) {
         this.id = id;
         this.title = title;
-        this.logo = logo;
     }
 
     public String getId() {
@@ -82,18 +83,14 @@ class Service {
     public String getTitle() {
         return title;
     }
-
-    public String getLogo() {
-        return logo;
-    }
 }
 
-class ServiceAdapter extends ArrayAdapter<Service> {
+class BranchAdapter extends ArrayAdapter<Branch> {
 
     private Context mContext;
     private int mResource;
 
-    public ServiceAdapter(@NonNull Context context, int resource, @NonNull ArrayList<Service> objects) {
+    public BranchAdapter(@NonNull Context context, int resource, @NonNull ArrayList<Branch> objects) {
         super(context, resource, objects);
 
         this.mContext = context;
@@ -107,10 +104,7 @@ class ServiceAdapter extends ArrayAdapter<Service> {
         convertView = layoutInflater.inflate(mResource, parent, false);
 
         TextView title = (TextView) convertView.findViewById(R.id.title);
-        ImageView logo = (ImageView) convertView.findViewById(R.id.logo);
-
         title.setText(getItem(position).getTitle());
-//        logo.setImageURI(Uri.parse(getItem(position).getLogo()));
 
         return convertView;
     }

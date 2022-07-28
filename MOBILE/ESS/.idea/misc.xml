@@ -8,6 +8,7 @@
         <entry key="..\:/External-Projects/#KDU/Sithu-Final-Project/Project/Emergency-Services-System/MOBILE/ESS/app/src/main/res/drawable/ic_person.xml" value="0.332" />
         <entry key="..\:/External-Projects/#KDU/Sithu-Final-Project/Project/Emergency-Services-System/MOBILE/ESS/app/src/main/res/drawable/ic_search.xml" value="0.332" />
         <entry key="..\:/External-Projects/#KDU/Sithu-Final-Project/Project/Emergency-Services-System/MOBILE/ESS/app/src/main/res/drawable/white_background.xml" value="0.332" />
+        <entry key="..\:/External-Projects/#KDU/Sithu-Final-Project/Project/Emergency-Services-System/MOBILE/ESS/app/src/main/res/layout/activity_branches.xml" value="0.36666666666666664" />
         <entry key="..\:/External-Projects/#KDU/Sithu-Final-Project/Project/Emergency-Services-System/MOBILE/ESS/app/src/main/res/layout/activity_dashboard.xml" value="0.36666666666666664" />
         <entry key="..\:/External-Projects/#KDU/Sithu-Final-Project/Project/Emergency-Services-System/MOBILE/ESS/app/src/main/res/layout/activity_inquiries.xml" value="0.36666666666666664" />
         <entry key="..\:/External-Projects/#KDU/Sithu-Final-Project/Project/Emergency-Services-System/MOBILE/ESS/app/src/main/res/layout/activity_main.xml" value="0.36666666666666664" />
@@ -16,6 +17,8 @@
         <entry key="..\:/External-Projects/#KDU/Sithu-Final-Project/Project/Emergency-Services-System/MOBILE/ESS/app/src/main/res/layout/activity_services.xml" value="0.36666666666666664" />
         <entry key="..\:/External-Projects/#KDU/Sithu-Final-Project/Project/Emergency-Services-System/MOBILE/ESS/app/src/main/res/layout/activity_sign_in.xml" value="0.36666666666666664" />
         <entry key="..\:/External-Projects/#KDU/Sithu-Final-Project/Project/Emergency-Services-System/MOBILE/ESS/app/src/main/res/layout/activity_sign_up.xml" value="0.35260416666666666" />
+        <entry key="..\:/External-Projects/#KDU/Sithu-Final-Project/Project/Emergency-Services-System/MOBILE/ESS/app/src/main/res/layout/row_branches_item.xml" value="0.365625" />
+        <entry key="..\:/External-Projects/#KDU/Sithu-Final-Project/Project/Emergency-Services-System/MOBILE/ESS/app/src/main/res/layout/row_services_item.xml" value="0.365625" />
       </map>
     </option>
   </component>
