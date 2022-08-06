@@ -2,11 +2,11 @@ import db_connector as dbConn
 
 
 # Function for check exist number
-def is_exist_number(number):
+def is_exist_email_in_users(email):
     conn = dbConn.db_connector()
 
-    query = ''' SELECT count(number) FROM users WHERE number = %s '''
-    values = (str(number),)
+    query = ''' SELECT count(email) FROM users WHERE email = %s '''
+    values = (str(email),)
 
     cur = conn.cursor()
     cur.execute(query, values)
@@ -29,17 +29,20 @@ def login(number, psw):
 def user_registration(data):
     conn = dbConn.db_connector()
 
-    name = data['name']
+    first_name = data['first_name']
+    last_name = data['last_name']
+    email = data['email']
     nic = data['nic']
-    address = data['address']
     number = data['number']
+    address = data['address']
     psw = data['psw']
 
     query = ''
     row_count = 0
 
-    query = ''' INSERT INTO users (number, name, nic, address, psw) VALUES (%s, %s, %s, %s, %s) '''
-    values = (int(number), str(name), str(nic), str(address), str(psw))
+    query = ''' INSERT INTO users (first_name, last_name, email, nic, number, address, psw) VALUES (%s, %s, %s, %s, %s, %s, %s) '''
+    values = (int(first_name), str(last_name), str(email),
+              str(nic), str(number), str(address), str(psw))
     cur = conn.cursor()
     cur.execute(query, values)
     conn.commit()
@@ -73,39 +76,43 @@ def get_account_details(email):
     return cur.fetchall()
 
 
-# Function for update user details
+# Function for update profile details
 def update_user_details(data):
     conn = dbConn.db_connector()
 
-    name = data['name']
+    first_name = data['first_name']
+    last_name = data['last_name']
+    email = data['email']
     nic = data['nic']
-    address = data['address']
     number = data['number']
+    address = data['address']
+
+    query = ''
+    row_count = 0
+
+    query = ''' UPDATE users SET first_name = %s, last_name = %s, nic = %s, number = %s, address = %s WHERE email = %s '''
+    values = (int(first_name), str(last_name),
+              str(nic), str(number), str(address), str(email))
+    cur = conn.cursor()
+    cur.execute(query, values)
+    conn.commit()
+
+    row_count = cur.rowcount
+    return row_count
+
+
+# Function for update user psw
+def update_user_psw(data):
+    conn = dbConn.db_connector()
+
+    email = data['email']
     psw = data['psw']
 
     query = ''
     row_count = 0
 
-    query = ''' UPDATE users_details SET name = %s, nic = %s, address = %s WHERE number = %s '''
-    values = (str(name), str(nic), str(address), int(number))
-    cur = conn.cursor()
-    cur.execute(query, values)
-
-    conn.commit()
-    row_count = cur.rowcount
-
-    return row_count
-
-
-# Function for update user psw
-def update_user_psw(number, psw):
-    conn = dbConn.db_connector()
-
-    query = ''
-    row_count = 0
-
-    query = ''' UPDATE users SET psw = %s WHERE number = %s '''
-    values = (str(psw), str(number))
+    query = ''' UPDATE users SET psw = %s WHERE email = %s '''
+    values = (str(psw), str(email))
     cur = conn.cursor()
     cur.execute(query, values)
 
