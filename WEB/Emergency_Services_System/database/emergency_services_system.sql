@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 03, 2022 at 07:34 PM
+-- Generation Time: Aug 09, 2022 at 10:13 PM
 -- Server version: 10.4.19-MariaDB
 -- PHP Version: 7.4.19
 
@@ -45,10 +45,26 @@ INSERT INTO `admin` (`id`, `email`, `psw`, `account_type`, `full_name`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `branches`
+--
+
+CREATE TABLE `branches` (
+  `id` int(255) NOT NULL,
+  `branch_id` varchar(255) NOT NULL,
+  `department_id` varchar(255) NOT NULL,
+  `location` varchar(255) NOT NULL,
+  `emergency_number` varchar(255) NOT NULL,
+  `address` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `departments`
 --
 
 CREATE TABLE `departments` (
+  `id` int(255) NOT NULL,
   `department_id` int(255) NOT NULL,
   `name` varchar(255) NOT NULL,
   `emergency_number_1` varchar(255) NOT NULL,
@@ -63,8 +79,8 @@ CREATE TABLE `departments` (
 -- Dumping data for table `departments`
 --
 
-INSERT INTO `departments` (`department_id`, `name`, `emergency_number_1`, `emergency_number_2`, `web_link`, `address`, `description`, `thumbnail`) VALUES
-(2147483647, 'Police', '119', '118', 'police.lk', 'Colombo', 'Hello', '20220330933613.png');
+INSERT INTO `departments` (`id`, `department_id`, `name`, `emergency_number_1`, `emergency_number_2`, `web_link`, `address`, `description`, `thumbnail`) VALUES
+(1, 2147483647, 'Police', '119', '118', 'police.lk', 'Colombo', 'Hello', '20220330933613.png');
 
 -- --------------------------------------------------------
 
@@ -73,9 +89,12 @@ INSERT INTO `departments` (`department_id`, `name`, `emergency_number_1`, `emerg
 --
 
 CREATE TABLE `users` (
-  `number` int(255) NOT NULL,
-  `name` varchar(255) NOT NULL,
+  `id` int(255) NOT NULL,
+  `first_name` varchar(255) NOT NULL,
+  `last_name` varchar(255) NOT NULL,
+  `email` varchar(255) NOT NULL,
   `nic` varchar(255) NOT NULL,
+  `number` varchar(255) NOT NULL,
   `address` varchar(255) NOT NULL,
   `psw` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -84,8 +103,8 @@ CREATE TABLE `users` (
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`number`, `name`, `nic`, `address`, `psw`) VALUES
-(767950600, 'Maleesha', '982760747V', '406/5/1, Pitipana North Homagama', '25d55ad283aa400af464c76d713c07ad');
+INSERT INTO `users` (`id`, `first_name`, `last_name`, `email`, `nic`, `number`, `address`, `psw`) VALUES
+(1, '', '', '', '982760747V', '', '406/5/1, Pitipana North Homagama', '25d55ad283aa400af464c76d713c07ad');
 
 --
 -- Indexes for dumped tables
@@ -98,10 +117,22 @@ ALTER TABLE `admin`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `branches`
+--
+ALTER TABLE `branches`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `departments`
+--
+ALTER TABLE `departments`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `users`
 --
 ALTER TABLE `users`
-  ADD PRIMARY KEY (`number`);
+  ADD PRIMARY KEY (`id`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -111,6 +142,24 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `admin`
 --
 ALTER TABLE `admin`
+  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `branches`
+--
+ALTER TABLE `branches`
+  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `departments`
+--
+ALTER TABLE `departments`
+  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `users`
+--
+ALTER TABLE `users`
   MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 COMMIT;
 
