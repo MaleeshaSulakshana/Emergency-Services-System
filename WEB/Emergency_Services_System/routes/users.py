@@ -18,6 +18,36 @@ root = os.path.dirname(APP_ROOT)
 static_folder = os.path.dirname(root)
 
 
+# Route for user login
+@users.route('/login', methods=['GET', 'POST'])
+def login():
+
+    if request.method == "POST":
+
+        request_data = request.get_json()
+
+        email = request_data['email']
+        psw = request_data['psw']
+
+        if (len(email) == 0 or len(psw) == 0):
+
+            return jsonify({'error': "Fields are empty!"})
+
+        else:
+
+            psw = hashlib.md5(psw.encode()).hexdigest()
+
+            # Check email already exist
+            details = uq.is_exist_user_by_email_and_psw(email, psw)
+            if len(details) < 1:
+                return jsonify({"status": "error", "msg": "Email or password incorrect!"})
+
+            else:
+                return jsonify({"status": "success", "msg": "User login success.", "id": str(details[0][0]), "name": str(details[0][1]) + " " + str(details[0][2])})
+
+    return jsonify({'error': "Method invalid"})
+
+
 # Route for user register
 @users.route('/register', methods=['GET', 'POST'])
 def register():
@@ -53,22 +83,27 @@ def register():
                 'psw': psw
             }
 
-            # print(data)
-
             # Check email already exist
             is_exist = uq.is_exist_email_in_users(email)
             if is_exist[0][0] > 0:
-                return jsonify({'error': "Email already exist!"})
+                return jsonify({"status": "error", 'msg': "Email already exist!"})
 
             else:
                 is_created = uq.user_registration(data)
                 if is_created > 0:
-                    return jsonify({'success': "Account has been created. Please sign in!"})
+                    return jsonify({"status": "success", 'msg': "Account has been created. Please sign in!"})
 
                 else:
-                    return jsonify({'error': "Account not created. Please try again!"})
+                    return jsonify({"status": "error", 'msg': "Account not created. Please try again!"})
 
     return jsonify({'error': "Method invalid"})
+
+
+@users.route('/<id>', methods=['GET', 'POST'])
+def account_details(id):
+
+    details = uq.get_account_details(id)
+    return jsonify(details)
 
 
 # Route for user update profile
@@ -79,6 +114,7 @@ def update():
 
         request_data = request.get_json()
 
+        id = request_data['id']
         first_name = request_data['first_name']
         last_name = request_data['last_name']
         email = request_data['email']
@@ -86,16 +122,15 @@ def update():
         number = request_data['number']
         address = request_data['address']
 
-        if (len(first_name) == 0 or len(last_name) == 0 or len(email) == 0 or len(nic) == 0 or
+        if (len(id) == 0 or len(first_name) == 0 or len(last_name) == 0 or len(email) == 0 or len(nic) == 0 or
                 len(number) == 0 or len(address) == 0):
 
             return jsonify({'error': "Fields are empty!"})
 
         else:
 
-            psw = hashlib.md5(psw.encode()).hexdigest()
-
             data = {
+                'id': id,
                 'first_name': first_name,
                 'last_name': last_name,
                 'email': email,
@@ -114,10 +149,10 @@ def update():
             else:
                 is_created = uq.update_user_details(data)
                 if is_created > 0:
-                    return jsonify({'success': "Account has been updated."})
+                    return jsonify({"status": "success", 'msg': "Account has been updated."})
 
                 else:
-                    return jsonify({'error': "Account not updated."})
+                    return jsonify({"status": "error", 'msg': "Account not updated."})
 
     return jsonify({'error': "Method invalid"})
 

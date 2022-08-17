@@ -3,14 +3,20 @@ package com.example.ess;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 
+import com.example.ess.Classes.Preferences;
+
 public class DashboardActivity extends AppCompatActivity {
 
-    private LinearLayout btnServices, btnInquiries, btnProfile;
+    private LinearLayout btnServices, btnInquiries, btnProfile, btnLogout;
+
+    private SharedPreferences sharedPreferences;
+    private SharedPreferences.Editor editor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,6 +26,11 @@ public class DashboardActivity extends AppCompatActivity {
         btnServices = (LinearLayout) this.findViewById(R.id.btnServices);
         btnInquiries = (LinearLayout) this.findViewById(R.id.btnInquiries);
         btnProfile = (LinearLayout) this.findViewById(R.id.btnProfile);
+        btnLogout = (LinearLayout) this.findViewById(R.id.btnLogout);
+
+//        For shared preferences
+        sharedPreferences = getSharedPreferences("Login", MODE_PRIVATE);
+        editor = sharedPreferences.edit();
 
         btnServices.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -51,6 +62,22 @@ public class DashboardActivity extends AppCompatActivity {
             }
         });
 
+        btnLogout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Preferences.LOGGED_USER_ID = "";
+                Preferences.LOGGED_USER_NAME = "";
+
+                editor.clear();
+                editor.apply();
+
+                Intent intent = new Intent(DashboardActivity.this, MainActivity.class);
+                startActivity(intent);
+                finishAffinity();
+
+            }
+        });
 
     }
 }

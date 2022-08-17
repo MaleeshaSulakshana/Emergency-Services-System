@@ -41,7 +41,7 @@ def user_registration(data):
     row_count = 0
 
     query = ''' INSERT INTO users (first_name, last_name, email, nic, number, address, psw) VALUES (%s, %s, %s, %s, %s, %s, %s) '''
-    values = (int(first_name), str(last_name), str(email),
+    values = (str(first_name), str(last_name), str(email),
               str(nic), str(number), str(address), str(psw))
     cur = conn.cursor()
     cur.execute(query, values)
@@ -51,11 +51,23 @@ def user_registration(data):
     return row_count
 
 
+# Function for check exist user by email and psw
+def is_exist_user_by_email_and_psw(email, psw):
+    conn = dbConn.db_connector()
+
+    query = ''' SELECT id, first_name, last_name, email FROM users WHERE email = %s AND psw = %s '''
+    values = (str(email), str(psw))
+
+    cur = conn.cursor()
+    cur.execute(query, values)
+    return cur.fetchall()
+
+
 # Function for get all users
 def get_all_users(is_approved):
     conn = dbConn.db_connector()
 
-    query = ''' SELECT number, name, address, number FROM users '''
+    query = ''' SELECT id, first_name, last_name, email, nic, number, address FROM users '''
 
     values = (str(is_approved),)
 
@@ -65,11 +77,11 @@ def get_all_users(is_approved):
 
 
 # Function for get profile details
-def get_account_details(email):
+def get_account_details(id):
     conn = dbConn.db_connector()
 
-    query = ''' SELECT number, name, address, number FROM users WHERE number = %s '''
-    values = (str(email),)
+    query = ''' SELECT id, first_name, last_name, email, nic, number, address FROM users WHERE id = %s '''
+    values = (int(id),)
 
     cur = conn.cursor()
     cur.execute(query, values)
@@ -80,6 +92,7 @@ def get_account_details(email):
 def update_user_details(data):
     conn = dbConn.db_connector()
 
+    id = data['id']
     first_name = data['first_name']
     last_name = data['last_name']
     email = data['email']
@@ -90,9 +103,9 @@ def update_user_details(data):
     query = ''
     row_count = 0
 
-    query = ''' UPDATE users SET first_name = %s, last_name = %s, nic = %s, number = %s, address = %s WHERE email = %s '''
-    values = (int(first_name), str(last_name),
-              str(nic), str(number), str(address), str(email))
+    query = ''' UPDATE users SET first_name = %s, last_name = %s, nic = %s, number = %s, address = %s WHERE id = %s '''
+    values = (str(first_name), str(last_name),
+              str(nic), str(number), str(address), int(id))
     cur = conn.cursor()
     cur.execute(query, values)
     conn.commit()
