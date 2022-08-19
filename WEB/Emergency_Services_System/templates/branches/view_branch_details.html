@@ -1,6 +1,8 @@
 {% extends 'base.html' %}
-{% block title %}Emergency Services System | Admin | Add Branch{% endblock %}
+{% block title %}Emergency Services System | Admin | View Branch Details{% endblock %}
 {% block content %}
+
+{% if details %}
 
 <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
 
@@ -10,9 +12,15 @@
     <div class="col-12 grid-margin stretch-card">
       <div class="card">
         <div class="card-body">
-          <h4 class="card-title">Add Branch</h4>
+          <h4 class="card-title">View Branch Details</h4>
 
           <form class="forms-sample" id="form_create">
+
+            <div class="form-group">
+              <label for="id">Branch Id</label>
+              <input type="text" class="form-control" id="id" placeholder="Branch Id" value="{{ details[0][1] }}"
+                disabled>
+            </div>
 
             <div class="form-group">
               <label for="department">Department Name</label>
@@ -20,7 +28,9 @@
                 <option value="none">Select Department</option>
                 {% if departments %}
                 {% for i in departments %}
-                <option value="{{ i[0] }}">{{ i[1] }}</option>
+                <option value="{{ i[0] }}" {% if details[0][2]=="2147483647" %} selected {% endif %}>
+                  {{ i[1] }}
+                </option>
                 {% endfor %}
                 {% endif %}
               </select>
@@ -28,20 +38,23 @@
 
             <div class="form-group">
               <label for="location">Branch Location</label>
-              <input type="text" class="form-control" id="location" placeholder="Branch Location">
+              <input type="text" class="form-control" id="location" placeholder="Branch Location"
+                value="{{ details[0][4] }}">
             </div>
 
             <div class="form-group">
               <label for="emergency-number">Branch Emergency Number</label>
-              <input type="text" class="form-control" id="emergency-number" placeholder="Branch Emergency Number">
+              <input type="text" class="form-control" id="emergency-number" placeholder="Branch Emergency Number"
+                value="{{ details[0][5] }}">
             </div>
 
             <div class="form-group">
               <label for="address">Branch Address</label>
-              <textarea class="form-control" id="address" rows="4" placeholder="Branch Address"></textarea>
+              <textarea class="form-control" id="address" rows="4"
+                placeholder="Branch Address">{{ details[0][6] }}</textarea>
             </div>
 
-            <button type="submit" id="btn-add" class="btn btn-primary me-2">Add</button>
+            <button type="submit" id="btn-update" class="btn btn-primary me-2">Update</button>
             <button type="clear" class="btn btn-light">Cancel</button>
           </form>
         </div>
@@ -54,26 +67,28 @@
 <script>
 
   $(function () {
-    $('#btn-add').click(function () {
+    $('#btn-update').click(function () {
 
+      var id = $('#id').val();
       var department = $('#department').val();
       var location = $('#location').val();
       var emergency_number = $('#emergency-number').val();
       var address = $('#address').val();
 
-      if (department == "" || location == "" || emergency_number == "" || address == "") {
+      if (id == "" || department == "" || location == "" || emergency_number == "" || address == "") {
         swal.fire("Add Branch", "Fields are empty!", "warning");
 
       } else {
 
         var form_data = new FormData();
+        form_data.append('id', id);
         form_data.append('department', department);
         form_data.append('location', location);
         form_data.append('emergency_number', emergency_number);
         form_data.append('address', address);
 
         $.ajax({
-          url: "/branches/add_branch_details",
+          url: "/branches/update_branch_details",
           enctype: 'multipart/form-data',
           data: form_data,
           contentType: false,
@@ -87,7 +102,6 @@
             }
             else if (data.success) {
               Swal.fire("Add Branch", data.success, "success");
-              document.getElementById("form_create").reset();
             }
             else if (data.error) {
               Swal.fire("Add Branch", data.error, "warning");
@@ -104,5 +118,7 @@
   });
 
 </script>
+
+{% endif %}
 
 {% endblock %}

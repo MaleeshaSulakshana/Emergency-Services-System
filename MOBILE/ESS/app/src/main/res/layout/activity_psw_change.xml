@@ -26,7 +26,7 @@
         android:textStyle="bold" />
 
     <EditText
-        android:id="@+id/txtPsw"
+        android:id="@+id/psw"
         android:layout_width="300dp"
         android:layout_height="50dp"
         android:paddingLeft="10dp"
@@ -40,7 +40,7 @@
         android:inputType="textPassword"/>
 
     <EditText
-        android:id="@+id/txtCPsw"
+        android:id="@+id/cpsw"
         android:layout_width="300dp"
         android:layout_height="50dp"
         android:paddingLeft="10dp"

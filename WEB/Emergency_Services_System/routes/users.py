@@ -31,7 +31,7 @@ def login():
 
         if (len(email) == 0 or len(psw) == 0):
 
-            return jsonify({'error': "Fields are empty!"})
+            return jsonify({"status": "error", 'msg': "Fields are empty!"})
 
         else:
 
@@ -45,7 +45,7 @@ def login():
             else:
                 return jsonify({"status": "success", "msg": "User login success.", "id": str(details[0][0]), "name": str(details[0][1]) + " " + str(details[0][2])})
 
-    return jsonify({'error': "Method invalid"})
+    return jsonify({"status": "error", 'msg': "Method invalid"})
 
 
 # Route for user register
@@ -67,7 +67,7 @@ def register():
         if (len(first_name) == 0 or len(last_name) == 0 or len(email) == 0 or len(nic) == 0 or
                 len(number) == 0 or len(address) == 0 or len(psw) == 0):
 
-            return jsonify({'error': "Fields are empty!"})
+            return jsonify({"status": "error", 'msg': "Fields are empty!"})
 
         else:
 
@@ -96,7 +96,7 @@ def register():
                 else:
                     return jsonify({"status": "error", 'msg': "Account not created. Please try again!"})
 
-    return jsonify({'error': "Method invalid"})
+    return jsonify({"status": "error", 'msg': "Method invalid"})
 
 
 @users.route('/<id>', methods=['GET', 'POST'])
@@ -125,7 +125,7 @@ def update():
         if (len(id) == 0 or len(first_name) == 0 or len(last_name) == 0 or len(email) == 0 or len(nic) == 0 or
                 len(number) == 0 or len(address) == 0):
 
-            return jsonify({'error': "Fields are empty!"})
+            return jsonify({"status": "error", 'msg': "Fields are empty!"})
 
         else:
 
@@ -144,7 +144,7 @@ def update():
             # Check email already exist
             is_exist = uq.is_exist_email_in_users(email)
             if is_exist[0][0] < 1:
-                return jsonify({'error': "Email not exist!"})
+                return jsonify({"status": "error", 'msg': "Email not exist!"})
 
             else:
                 is_created = uq.update_user_details(data)
@@ -165,33 +165,33 @@ def update_psw():
 
         request_data = request.get_json()
 
-        email = request_data['email']
+        id = request_data['id']
         psw = request_data['psw']
 
-        if (len(email) == 0 or len(psw) == 0):
+        if (len(id) == 0 or len(psw) == 0):
 
-            return jsonify({'error': "Fields are empty!"})
+            return jsonify({"status": "error", 'msg': "Fields are empty!"})
 
         else:
 
             psw = hashlib.md5(psw.encode()).hexdigest()
 
             data = {
-                'email': email,
+                'id': id,
                 'psw': psw
             }
 
             # Check email already exist
-            is_exist = uq.is_exist_email_in_users(email)
+            is_exist = uq.is_exist_id_in_users(id)
             if is_exist[0][0] < 1:
                 return jsonify({'error': "Email not exist!"})
 
             else:
                 is_created = uq.update_user_psw(data)
                 if is_created > 0:
-                    return jsonify({'success': "Account has been updated."})
+                    return jsonify({"status": "success", 'msg': "Password has been updated."})
 
                 else:
-                    return jsonify({'error': "Account not updated."})
+                    return jsonify({"status": "error", 'msg': "Password not updated."})
 
-    return jsonify({'error': "Method invalid"})
+    return jsonify({"status": "error", 'msg': "Method invalid"})

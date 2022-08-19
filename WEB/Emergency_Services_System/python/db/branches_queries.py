@@ -30,7 +30,7 @@ def branches_registration(data):
 def get_all_branches():
     conn = dbConn.db_connector()
 
-    query = ''' SELECT branches.id, branch_id, name, location, emergency_number, branches.address FROM branches
+    query = ''' SELECT branches.id, branch_id, name, location, branches.emergency_number, branches.address FROM branches
                 INNER JOIN departments ON departments.department_id = branches.department_id'''
 
     cur = conn.cursor()
@@ -39,13 +39,37 @@ def get_all_branches():
 
 
 # Function for get branch details
-def get_branches_account_details(branch_id):
+def get_branch_account_details(branch_id):
     conn = dbConn.db_connector()
 
-    query = ''' SELECT branches.id, branch_id, name, location, emergency_number, branches.address FROM branches
+    query = ''' SELECT branches.id, branch_id, branches.department_id, name, location, branches.emergency_number, branches.address FROM branches
                 INNER JOIN departments ON departments.department_id = branches.department_id WHERE branch_id = %s '''
     values = (int(branch_id),)
 
     cur = conn.cursor()
     cur.execute(query, values)
     return cur.fetchall()
+
+
+# Function for branch details update
+def branches_registration(data):
+    conn = dbConn.db_connector()
+
+    department = data['department']
+    location = data['location']
+    emergency_number = data['emergency_number']
+    address = data['address']
+    branch_id = data['branch_id']
+
+    query = ''
+    row_count = 0
+
+    query = ''' UPDATE branches SET department_id = %s, location = %s, emergency_number = %s, address = %s WHERE branch_id = %s '''
+    values = (str(department), str(
+        location), str(emergency_number), str(address), int(branch_id))
+    cur = conn.cursor()
+    cur.execute(query, values)
+    conn.commit()
+
+    row_count = cur.rowcount
+    return row_count

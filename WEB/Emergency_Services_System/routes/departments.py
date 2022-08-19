@@ -36,6 +36,17 @@ def view_departments():
     return render_template('departments/view_departments.html', departments=departments)
 
 
+# Route for view departments details
+@departments.route('/view-department-details')
+def view_department_details():
+    if 'adminId' not in session:
+        return redirect('/login')
+
+    department_id = request.args['id']
+    details = dq.get_departments_account_details(department_id)
+    return render_template('departments/view_department_details.html', details=details)
+
+
 # Route for add department
 @departments.route('/add_department_details', methods=['GET', 'POST'])
 def add_department_details():
@@ -47,14 +58,13 @@ def add_department_details():
 
         else:
             name = request.form.get('name')
-            emergency_number_1 = request.form.get('emergency_number_1')
-            emergency_number_2 = request.form.get('emergency_number_2')
+            emergency_number = request.form.get('emergency_number')
             web_link = request.form.get('web_link')
             address = request.form.get('address')
             desc = request.form.get('desc')
             thumbnail = request.files.get('thumbnail')
 
-            if (len(name) == 0 or len(emergency_number_1) == 0 or len(emergency_number_2) == 0 or len(web_link) == 0 or
+            if (len(name) == 0 or len(emergency_number) == 0 or len(web_link) == 0 or
                     len(address) == 0 or len(desc) == 0 or thumbnail == None):
 
                 return jsonify({'error': "Fields are empty!"})
@@ -71,8 +81,7 @@ def add_department_details():
 
                 data = {
                     'name': name,
-                    'emergency_number_1': emergency_number_1,
-                    'emergency_number_2': emergency_number_2,
+                    'emergency_number': emergency_number,
                     'web_link': web_link,
                     'address': address,
                     'desc': desc,
@@ -86,5 +95,48 @@ def add_department_details():
 
                 else:
                     return jsonify({'error': "Department registered not successfully. Please try again!"})
+
+    return jsonify({'redirect': url_for('index')})
+
+
+# Route for update department
+@departments.route('/update_department_details', methods=['GET', 'POST'])
+def update_department_details():
+
+    if request.method == "POST":
+
+        if 'adminId' not in session:
+            return jsonify({'redirect': url_for('login')})
+
+        else:
+            department_id = request.form.get('id')
+            name = request.form.get('name')
+            emergency_number = request.form.get('emergency_number')
+            web_link = request.form.get('web_link')
+            address = request.form.get('address')
+            desc = request.form.get('desc')
+
+            if (len(department_id) == 0 or len(emergency_number) == 0 or len(web_link) == 0 or
+                    len(address) == 0 or len(desc) == 0):
+
+                return jsonify({'error': "Fields are empty!"})
+
+            else:
+
+                data = {
+                    'name': name,
+                    'emergency_number': emergency_number,
+                    'web_link': web_link,
+                    'address': address,
+                    'desc': desc,
+                    'department_id': department_id
+                }
+
+                is_updated = dq.departments_update(data)
+                if is_updated > 0:
+                    return jsonify({'success': "Department details update successfully!"})
+
+                else:
+                    return jsonify({'error': "Department details update not successfully. Please try again!"})
 
     return jsonify({'redirect': url_for('index')})

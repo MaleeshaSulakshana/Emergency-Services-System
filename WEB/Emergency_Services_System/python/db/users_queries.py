@@ -13,6 +13,18 @@ def is_exist_email_in_users(email):
     return cur.fetchall()
 
 
+# Function for check exist number
+def is_exist_id_in_users(id):
+    conn = dbConn.db_connector()
+
+    query = ''' SELECT count(id) FROM users WHERE id = %s '''
+    values = (str(id),)
+
+    cur = conn.cursor()
+    cur.execute(query, values)
+    return cur.fetchall()
+
+
 # Function for login
 def login(number, psw):
     conn = dbConn.db_connector()
@@ -118,14 +130,14 @@ def update_user_details(data):
 def update_user_psw(data):
     conn = dbConn.db_connector()
 
-    email = data['email']
+    id = data['id']
     psw = data['psw']
 
     query = ''
     row_count = 0
 
-    query = ''' UPDATE users SET psw = %s WHERE email = %s '''
-    values = (str(psw), str(email))
+    query = ''' UPDATE users SET psw = %s WHERE id = %s '''
+    values = (str(psw), int(id))
     cur = conn.cursor()
     cur.execute(query, values)
 

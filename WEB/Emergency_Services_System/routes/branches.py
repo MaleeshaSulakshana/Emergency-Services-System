@@ -38,16 +38,30 @@ def view_branches():
     return render_template('branches/view_branches.html', branches=branches_details)
 
 
+# Route for view branch details
+@branches.route('/view-branch-details')
+def view_department_details():
+    if 'adminId' not in session:
+        return redirect('/login')
+
+    branch_id = request.args['id']
+
+    details = bq.get_branch_account_details(branch_id)
+    departments = dq.get_all_departments()
+
+    return render_template('branches/view_branch_details.html', details=details, departments=departments)
+
+
 # Route for add branch
 @branches.route('/add_branch_details', methods=['GET', 'POST'])
 def add_branch_details():
 
     if request.method == "POST":
-
         if 'adminId' not in session:
             return jsonify({'redirect': url_for('login')})
 
         else:
+
             department = request.form.get('department')
             location = request.form.get('location')
             emergency_number = request.form.get('emergency_number')
@@ -68,11 +82,52 @@ def add_branch_details():
                     'branch_id': branch_id
                 }
 
-                is_created = dq.branches_registration(data)
+                is_created = bq.branches_registration(data)
+
                 if is_created > 0:
                     return jsonify({'success': "Branch registered successfully!"})
 
                 else:
                     return jsonify({'error': "Branch registered not successfully. Please try again!"})
+
+    return jsonify({'redirect': url_for('index')})
+
+
+# Route for update branch
+@branches.route('/update_branch_details', methods=['GET', 'POST'])
+def update_branch_details():
+
+    if request.method == "POST":
+        if 'adminId' not in session:
+            return jsonify({'redirect': url_for('login')})
+
+        else:
+
+            branch_id = request.form.get('id')
+            department = request.form.get('department')
+            location = request.form.get('location')
+            emergency_number = request.form.get('emergency_number')
+            address = request.form.get('address')
+
+            if (len(branch_id) == 0 or len(department) == 0 or len(location) == 0 or len(emergency_number) == 0 or len(address) == 0):
+                return jsonify({'error': "Fields are empty!"})
+
+            else:
+
+                data = {
+                    'department': department,
+                    'location': location,
+                    'emergency_number': emergency_number,
+                    'address': address,
+                    'branch_id': branch_id
+                }
+
+                is_created = bq.branches_registration(data)
+
+                if is_created > 0:
+                    return jsonify({'success': "Branch details update successfully!"})
+
+                else:
+                    return jsonify({'error': "Branch details update not successfully. Please try again!"})
 
     return jsonify({'redirect': url_for('index')})
