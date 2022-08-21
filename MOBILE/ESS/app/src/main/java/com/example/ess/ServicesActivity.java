@@ -18,6 +18,19 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.Volley;
+import com.example.ess.Classes.API;
+import com.squareup.picasso.Picasso;
+
+import org.json.JSONArray;
+import org.json.JSONException;
 
 import java.util.ArrayList;
 
@@ -58,8 +71,49 @@ public class ServicesActivity extends AppCompatActivity {
         ServiceAdapter serviceAdapter = new ServiceAdapter(this, R.layout.row_services_item, detailsArrayList);
         listView.setAdapter(serviceAdapter);
 
-        detailsArrayList.add(new Service("1", "Police", "R.drawable.sl_police"));
-        serviceAdapter.notifyDataSetChanged();
+        String URL = API.DEPARTMENT_API;
+
+        RequestQueue requestQueue = Volley.newRequestQueue(ServicesActivity.this);
+        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(
+                Request.Method.GET,
+                URL,
+                null,
+                new Response.Listener<JSONArray>() {
+                    @Override
+                    public void onResponse(JSONArray response) {
+
+                        try {
+
+                            for (int index = 0; index < response.length(); index++) {
+
+                                JSONArray responseData = response.getJSONArray(index);
+
+                                String id = (String) responseData.get(0);
+                                String title = (String) responseData.get(1);
+                                String logo = API.ASSERT_URL + "/" +  ((String) responseData.get(6));
+
+                                detailsArrayList.add(new Service(id, title, logo));
+
+                            }
+
+                            serviceAdapter.notifyDataSetChanged();
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(ServicesActivity.this, error.toString(),Toast.LENGTH_SHORT).show();
+                    }
+                }
+
+        );
+
+        requestQueue.add(jsonArrayRequest);
 
     }
 
@@ -110,7 +164,9 @@ class ServiceAdapter extends ArrayAdapter<Service> {
         ImageView logo = (ImageView) convertView.findViewById(R.id.logo);
 
         title.setText(getItem(position).getTitle());
-//        logo.setImageURI(Uri.parse(getItem(position).getLogo()));
+
+        Uri imgUri = Uri.parse(getItem(position).getLogo());
+        Picasso.get().load(imgUri).into(logo);
 
         return convertView;
     }

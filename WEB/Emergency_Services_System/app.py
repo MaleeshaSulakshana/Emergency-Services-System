@@ -20,6 +20,9 @@ from departments import departments
 # Import branches route files
 from branches import branches
 
+# Import branch users route files
+from branch_user import branch_user
+
 # Import users route files
 from users import users
 
@@ -29,6 +32,7 @@ app.env = "development"
 # Blueprints
 app.register_blueprint(departments)
 app.register_blueprint(branches)
+app.register_blueprint(branch_user)
 app.register_blueprint(users)
 
 app.secret_key = "Emergency_Services_System"

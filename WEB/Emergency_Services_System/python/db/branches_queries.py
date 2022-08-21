@@ -52,7 +52,7 @@ def get_branch_account_details(branch_id):
 
 
 # Function for branch details update
-def branches_registration(data):
+def branch_details_update(data):
     conn = dbConn.db_connector()
 
     department = data['department']
@@ -73,3 +73,46 @@ def branches_registration(data):
 
     row_count = cur.rowcount
     return row_count
+
+
+# Function for get all branches by department
+def get_all_branches():
+    conn = dbConn.db_connector()
+
+    query = ''' SELECT branches.id, branches.branch_id, departments.name, branches.location, branches.emergency_number, branches.address,
+                        departments.emergency_number, departments.web_link, departments.address, departments.description, departments.thumbnail FROM branches
+                INNER JOIN departments ON departments.department_id = branches.department_id '''
+
+    cur = conn.cursor()
+    cur.execute(query)
+    return cur.fetchall()
+
+
+# Function for get all branches by department
+def get_all_branches_by_department(department_id):
+    conn = dbConn.db_connector()
+
+    query = ''' SELECT branches.id, branches.branch_id, departments.name, branches.location, branches.emergency_number, branches.address,
+                        departments.emergency_number, departments.web_link, departments.address, departments.description, departments.thumbnail FROM branches
+                INNER JOIN departments ON departments.department_id = branches.department_id WHERE departments.department_id = %s '''
+
+    values = (str(department_id),)
+
+    cur = conn.cursor()
+    cur.execute(query, values)
+    return cur.fetchall()
+
+
+# Function for get branch by department
+def get_branch_all_details_by_id(branch_id):
+    conn = dbConn.db_connector()
+
+    query = ''' SELECT branches.id, branches.branch_id, departments.name, branches.location, branches.emergency_number, branches.address,
+                        departments.emergency_number, departments.web_link, departments.address, departments.description, departments.thumbnail FROM branches
+                INNER JOIN departments ON departments.department_id = branches.department_id WHERE branches.branch_id = %s '''
+
+    values = (str(branch_id),)
+
+    cur = conn.cursor()
+    cur.execute(query, values)
+    return cur.fetchall()

@@ -28,13 +28,13 @@ def date_picker_no_space():
     return date
 
 
-# Function for genarate random number
+# Function for generate random number
 def random_number():
     rand_no = str(random.randint(100000, 999999))
     return rand_no
 
 
-# Function for genarate random number
+# Function for generate random number
 def random_number_with_date():
     date = date_picker_no_space()
     rand_no = random_number()
@@ -43,7 +43,7 @@ def random_number_with_date():
     return new_rand_no
 
 
-# Function for save deseases images
+# Function for save files
 def file_save(image, save_folder, image_name):
     if image != None:
         file_name = image.filename

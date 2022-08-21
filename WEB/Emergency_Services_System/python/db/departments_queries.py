@@ -18,8 +18,8 @@ def departments_registration(data):
 
     query = ''' INSERT INTO departments (department_id, name, emergency_number, web_link, 
                                     address, description, thumbnail) VALUES 
-                                    (%s, %s, %s, %s, %s, %s, %s, %s) '''
-    values = (int(department_id), str(name), str(emergency_number), str(web_link),
+                                    (%s, %s, %s, %s, %s, %s, %s) '''
+    values = (str(department_id), str(name), str(emergency_number), str(web_link),
               str(address), str(desc), str(thumbnail))
     cur = conn.cursor()
     cur.execute(query, values)

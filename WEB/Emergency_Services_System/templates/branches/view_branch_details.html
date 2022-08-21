@@ -56,6 +56,7 @@
 
             <button type="submit" id="btn-update" class="btn btn-primary me-2">Update</button>
             <button type="clear" class="btn btn-light">Cancel</button>
+
           </form>
         </div>
       </div>
@@ -64,8 +65,95 @@
   </div>
 </div>
 
+<div class="content-wrapper">
+  <div class="row">
+
+    <div class="col-12 grid-margin stretch-card">
+      <div class="card">
+        <div class="card-body">
+          <h4 class="card-title">Add Branch New User</h4>
+
+          <form class="forms-sample" id="form_create">
+
+            <div class="form-group">
+              <label for="buname">Branch User Name</label>
+              <input type="text" class="form-control" id="buname" placeholder="Branch User Name">
+            </div>
+
+            <div class="form-group">
+              <label for="buemail">Branch User Email</label>
+              <input type="text" class="form-control" id="buemail" placeholder="Branch User Email">
+            </div>
+
+            <div class="form-group">
+              <label for="bupsw">Branch User Password</label>
+              <input type="text" class="form-control" id="bupsw" placeholder="Branch User Password">
+            </div>
+
+            <button type="submit" id="btn-add" class="btn btn-primary me-2">Add</button>
+            <button type="clear" class="btn btn-light">Cancel</button>
+
+          </form>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="content-wrapper">
+  <div class="row">
+
+    <div class="card">
+      <div class="card-body">
+        <h4 class="card-title">All Branch Users</h4>
+
+
+        <div class="table-responsive">
+          <table class="table table-hover">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+
+              {% if branch_users %}
+              {% for item in branch_users %}
+              <tr>
+                <td>{{ item[2] }}</td>
+                <td>{{ item[3] }}</td>
+                <td>
+                  <a href="/branch_user/view-branch-user-details?id={{ item[0] }}" class="btn btn-secondary">VIEW</a>
+                </td>
+              </tr>
+              {% endfor %}
+              {% else %}
+
+              <tr>
+                <td colspan="7">
+                  <center>No Branch Users</center>
+                </td>
+              </tr>
+
+              {% endif %}
+
+            </tbody>
+          </table>
+
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</div>
+
 <script>
 
+  // For update branch details
   $(function () {
     $('#btn-update').click(function () {
 
@@ -101,13 +189,63 @@
               window.location.href = data.redirect;
             }
             else if (data.success) {
-              Swal.fire("Add Branch", data.success, "success");
+              Swal.fire("Update Branch", data.success, "success");
             }
             else if (data.error) {
-              Swal.fire("Add Branch", data.error, "warning");
+              Swal.fire("Update Branch", data.error, "warning");
             }
             else {
-              Swal.fire("Add Branch", "Some error occur!", "warning");
+              Swal.fire("Update Branch", "Some error occur!", "warning");
+            }
+          });
+
+      }
+
+      event.preventDefault();
+    });
+  });
+
+  // Add branch user
+  $(function () {
+    $('#btn-add').click(function () {
+
+      var bid = $('#id').val();
+      var buname = $('#buname').val();
+      var buemail = $('#buemail').val();
+      var bupsw = $('#bupsw').val();
+
+      if (bid == "" || buname == "" || buemail == "" || bupsw == "") {
+        swal.fire("Add Branch User", "Fields are empty!", "warning");
+
+      } else {
+
+        var form_data = new FormData();
+        form_data.append('bid', bid);
+        form_data.append('buname', buname);
+        form_data.append('buemail', buemail);
+        form_data.append('bupsw', bupsw);
+
+        $.ajax({
+          url: "/branch_user/add_branch_user",
+          enctype: 'multipart/form-data',
+          data: form_data,
+          contentType: false,
+          cache: false,
+          processData: false,
+          type: 'POST',
+        })
+          .done(function (data) {
+            if (data.redirect) {
+              window.location.href = data.redirect;
+            }
+            else if (data.success) {
+              Swal.fire("Add Branch User", data.success, "success");
+            }
+            else if (data.error) {
+              Swal.fire("Add Branch User", data.error, "warning");
+            }
+            else {
+              Swal.fire("Add Branch User", "Some error occur!", "warning");
             }
           });
 

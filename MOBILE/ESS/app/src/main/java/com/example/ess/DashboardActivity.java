@@ -13,7 +13,7 @@ import com.example.ess.Classes.Preferences;
 
 public class DashboardActivity extends AppCompatActivity {
 
-    private LinearLayout btnServices, btnInquiries, btnProfile, btnLogout;
+    private LinearLayout btnServices, btnSearch, btnInquiries, btnProfile, btnLogout;
 
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
@@ -24,6 +24,7 @@ public class DashboardActivity extends AppCompatActivity {
         setContentView(R.layout.activity_dashboard);
 
         btnServices = (LinearLayout) this.findViewById(R.id.btnServices);
+        btnSearch = (LinearLayout) this.findViewById(R.id.btnSearch);
         btnInquiries = (LinearLayout) this.findViewById(R.id.btnInquiries);
         btnProfile = (LinearLayout) this.findViewById(R.id.btnProfile);
         btnLogout = (LinearLayout) this.findViewById(R.id.btnLogout);
@@ -37,6 +38,16 @@ public class DashboardActivity extends AppCompatActivity {
             public void onClick(View view) {
 
                 Intent intent = new Intent(DashboardActivity.this, ServicesActivity.class);
+                startActivity(intent);
+
+            }
+        });
+
+        btnSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Intent intent = new Intent(DashboardActivity.this, SearchActivity.class);
                 startActivity(intent);
 
             }

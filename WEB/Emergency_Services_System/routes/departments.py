@@ -71,11 +71,13 @@ def add_department_details():
 
             else:
 
-                department_id = ut.random_number_with_date()
+                department_id = name.replace(
+                    " ", "").strip() + ut.random_number_with_date()
 
                 # Save uploaded images and get file names
                 save_folder = os.path.join(
-                    static_folder, 'static/images/departments_images/')
+                    root, 'static/images/departments_images/')
+
                 thumbnail_name, extention = ut.file_save(
                     thumbnail, save_folder, department_id)
 
@@ -140,3 +142,20 @@ def update_department_details():
                     return jsonify({'error': "Department details update not successfully. Please try again!"})
 
     return jsonify({'redirect': url_for('index')})
+
+
+# For mobile app
+# Route for get departments
+@departments.route('/', methods=['GET', 'POST'])
+def get_all_departments():
+
+    details = dq.get_all_departments()
+    return jsonify(details)
+
+
+# Route for get department details by id
+@departments.route('/<id>', methods=['GET', 'POST'])
+def get_department(id):
+
+    details = dq.get_departments_account_details(id)
+    return jsonify(details)

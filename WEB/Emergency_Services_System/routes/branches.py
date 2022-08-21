@@ -11,6 +11,7 @@ sys.path.append(os.path.abspath('python/db/'))
 
 import utils as ut
 import branches_queries as bq
+import branch_user_queries as buq
 import departments_queries as dq
 
 APP_ROOT = os.path.dirname(os.path.abspath(__file__))
@@ -48,8 +49,9 @@ def view_department_details():
 
     details = bq.get_branch_account_details(branch_id)
     departments = dq.get_all_departments()
+    branch_users = buq.get_all_branch_users_by_branch(branch_id)
 
-    return render_template('branches/view_branch_details.html', details=details, departments=departments)
+    return render_template('branches/view_branch_details.html', details=details, departments=departments, branch_users=branch_users)
 
 
 # Route for add branch
@@ -61,7 +63,6 @@ def add_branch_details():
             return jsonify({'redirect': url_for('login')})
 
         else:
-
             department = request.form.get('department')
             location = request.form.get('location')
             emergency_number = request.form.get('emergency_number')
@@ -122,7 +123,7 @@ def update_branch_details():
                     'branch_id': branch_id
                 }
 
-                is_created = bq.branches_registration(data)
+                is_created = bq.branch_details_update(data)
 
                 if is_created > 0:
                     return jsonify({'success': "Branch details update successfully!"})
@@ -131,3 +132,28 @@ def update_branch_details():
                     return jsonify({'error': "Branch details update not successfully. Please try again!"})
 
     return jsonify({'redirect': url_for('index')})
+
+
+# For mobile app
+# Route for get all branches
+@branches.route('/all', methods=['GET', 'POST'])
+def get_all_branches():
+
+    details = bq.get_all_branches()
+    return jsonify(details)
+
+
+# Route for get branches
+@branches.route('/all/<id>', methods=['GET', 'POST'])
+def get_all_branches_by_department(id):
+
+    details = bq.get_all_branches_by_department(id)
+    return jsonify(details)
+
+
+# Route for get branch details by id
+@branches.route('/<id>', methods=['GET', 'POST'])
+def get_branch(id):
+
+    details = bq.get_branch_all_details_by_id(id)
+    return jsonify(details)

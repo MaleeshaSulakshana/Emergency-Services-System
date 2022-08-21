@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg4"
+    android:gravity="center"
+    android:orientation="vertical"
+    tools:context=".ServiceBranchDetailsActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center">
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="15dp"
+            android:fontFamily="sans-serif-condensed-light"
+            android:gravity="center"
+            android:text="Police"
+            android:textColor="@color/gray2"
+            android:textSize="30dp"
+            android:textAllCaps="true"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:id="@+id/logo"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:src="@drawable/sl_police"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:orientation="vertical"
+            android:gravity="center">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:fontFamily="sans-serif-condensed-light"
+                android:gravity="center"
+                android:text="- Branch Details -"
+                android:textColor="@color/blue2"
+                android:textSize="16dp"
+                android:textAllCaps="true"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/branchLocation"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:fontFamily="sans-serif-condensed-light"
+                android:gravity="center"
+                android:text="Homagama"
+                android:textColor="@color/gray2"
+                android:textSize="25dp"
+                android:textAllCaps="true"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/branchNumber"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:fontFamily="sans-serif-condensed-light"
+                android:gravity="center"
+                android:text="0112452654"
+                android:textColor="@color/gray2"
+                android:textSize="20dp"
+                android:textAllCaps="true"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/branchAddress"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-condensed-light"
+                android:gravity="center"
+                android:text="406/5/1, Pitipana North, Homagama"
+                android:textColor="@color/gray2"
+                android:textSize="20dp"
+                android:textAllCaps="true"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:orientation="vertical"
+            android:gravity="center">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:fontFamily="sans-serif-condensed-light"
+                android:gravity="center"
+                android:text="- Department Details -"
+                android:textColor="@color/blue2"
+                android:textSize="16dp"
+                android:textAllCaps="true"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/departmentNumber"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:fontFamily="sans-serif-condensed-light"
+                android:gravity="center"
+                android:text="0112452654"
+                android:textColor="@color/gray2"
+                android:textSize="20dp"
+                android:textAllCaps="true"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/departmentLink"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:fontFamily="sans-serif-condensed-light"
+                android:gravity="center"
+                android:text="www.hospital.lk"
+                android:textColor="@color/gray2"
+                android:textSize="20dp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/departmentAddress"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:fontFamily="sans-serif-condensed-light"
+                android:gravity="center"
+                android:text="406/5/1, Pitipana North, Homagama"
+                android:textColor="@color/gray2"
+                android:textSize="18dp"
+                android:textAllCaps="true"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/departmentDesc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-condensed-light"
+                android:gravity="center"
+                android:text="We always assign help to people."
+                android:textColor="@color/blue1"
+                android:textSize="16dp"
+                android:textAllCaps="true"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/btnAdd"
+            android:layout_width="300dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/blue_background"
+            android:textColor="@color/white"
+            android:text="Add Inquiry"
+            android:textSize="18dp"
+            android:textStyle="bold"
+            app:backgroundTint="@null"/>
+
+    </LinearLayout>
+
+</LinearLayout>
