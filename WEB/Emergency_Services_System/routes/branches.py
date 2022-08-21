@@ -134,8 +134,42 @@ def update_branch_details():
     return jsonify({'redirect': url_for('index')})
 
 
+# Route for remove branch
+@branches.route('/remove_branch_details', methods=['GET', 'POST'])
+def remove_branch_details():
+
+    if request.method == "POST":
+        if 'adminId' not in session:
+            return jsonify({'redirect': url_for('login')})
+
+        else:
+
+            branch_id = request.form.get('id')
+
+            if (len(branch_id) == 0):
+                return jsonify({'error': "Fields are empty!"})
+
+            else:
+
+                is_available = buq.get_branch_user_count(branch_id)[0][0]
+
+                if is_available != 0:
+                    return jsonify({'error': "Branch users available. Please delete them!"})
+
+                is_deleted = bq.branch_details_remove(branch_id)
+
+                if is_deleted > 0:
+                    return jsonify({'success': "Branch details delete successfully!"})
+
+                else:
+                    return jsonify({'error': "Branch details delete not successfully. Please try again!"})
+
+    return jsonify({'redirect': url_for('index')})
+
 # For mobile app
 # Route for get all branches
+
+
 @branches.route('/all', methods=['GET', 'POST'])
 def get_all_branches():
 

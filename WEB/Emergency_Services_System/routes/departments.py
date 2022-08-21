@@ -11,6 +11,7 @@ sys.path.append(os.path.abspath('python/db/'))
 
 import utils as ut
 import departments_queries as dq
+import branches_queries as bq
 
 APP_ROOT = os.path.dirname(os.path.abspath(__file__))
 root = os.path.dirname(APP_ROOT)
@@ -140,6 +141,39 @@ def update_department_details():
 
                 else:
                     return jsonify({'error': "Department details update not successfully. Please try again!"})
+
+    return jsonify({'redirect': url_for('index')})
+
+
+# Route for remove department
+@departments.route('/remove_department_details', methods=['GET', 'POST'])
+def remove_department_details():
+
+    if request.method == "POST":
+        if 'adminId' not in session:
+            return jsonify({'redirect': url_for('login')})
+
+        else:
+
+            department_id = request.form.get('id')
+
+            if (len(department_id) == 0):
+                return jsonify({'error': "Fields are empty!"})
+
+            else:
+
+                is_available = bq.get_branch_count(department_id)[0][0]
+
+                if is_available != 0:
+                    return jsonify({'error': "Branches available. Please delete them!"})
+
+                is_deleted = dq.department_details_remove(department_id)
+
+                if is_deleted > 0:
+                    return jsonify({'success': "Department details delete successfully!"})
+
+                else:
+                    return jsonify({'error': "Department details delete not successfully. Please try again!"})
 
     return jsonify({'redirect': url_for('index')})
 

@@ -51,19 +51,9 @@
               <textarea class="form-control" id="desc" rows="4" placeholder="Description">{{ details[0][5] }}</textarea>
             </div>
 
-            <!-- <div class="form-group">
-              <label>Image Upload</label>
-              <input type="file" name="img[]" id="thumbnail" class="file-upload-default" accept="image/*">
-              <div class="input-group col-xs-12">
-                <input type="text" class="form-control file-upload-info" disabled placeholder="Upload Image">
-                <span class="input-group-append">
-                  <button class="file-upload-browse btn btn-primary" type="button">Upload</button>
-                </span>
-              </div>
-            </div> -->
-
             <button type="submit" id="btn-update" class="btn btn-primary me-2">Update</button>
-            <button type="clear" class="btn btn-light">Cancel</button>
+            <button type="submit" id="btn-remove" class="btn btn-danger me-2">Remove</button>
+
           </form>
         </div>
       </div>
@@ -120,6 +110,51 @@
             }
             else {
               Swal.fire("Update Department", "Some error occur!", "warning");
+            }
+          });
+
+      }
+
+      event.preventDefault();
+    });
+  });
+
+
+  $(function () {
+    $('#btn-remove').click(function () {
+
+      var id = $('#id').val();
+
+      if (id == "") {
+        swal.fire("Remove Department", "Fields are empty!", "warning");
+
+      } else {
+
+        var form_data = new FormData();
+        form_data.append('id', id);
+
+        $.ajax({
+          url: "/departments/remove_department_details",
+          enctype: 'multipart/form-data',
+          data: form_data,
+          contentType: false,
+          cache: false,
+          processData: false,
+          type: 'POST',
+        })
+          .done(function (data) {
+            if (data.redirect) {
+              window.location.href = data.redirect;
+            }
+            else if (data.success) {
+              Swal.fire("Remove Department", data.success, "success");
+              window.location.href = "/departments/view-departments"
+            }
+            else if (data.error) {
+              Swal.fire("Remove Department", data.error, "warning");
+            }
+            else {
+              Swal.fire("Remove Department", "Some error occur!", "warning");
             }
           });
 

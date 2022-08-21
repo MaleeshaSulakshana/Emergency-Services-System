@@ -75,6 +75,20 @@ def branch_details_update(data):
     return row_count
 
 
+def branch_details_remove(branch_id):
+    conn = dbConn.db_connector()
+
+    query = ''' DELETE FROM branches WHERE branch_id = %s '''
+    values = (int(branch_id),)
+
+    cur = conn.cursor()
+    cur.execute(query, values)
+    conn.commit()
+
+    row_count = cur.rowcount
+    return row_count
+
+
 # Function for get all branches by department
 def get_all_branches():
     conn = dbConn.db_connector()
@@ -112,6 +126,18 @@ def get_branch_all_details_by_id(branch_id):
                 INNER JOIN departments ON departments.department_id = branches.department_id WHERE branches.branch_id = %s '''
 
     values = (str(branch_id),)
+
+    cur = conn.cursor()
+    cur.execute(query, values)
+    return cur.fetchall()
+
+
+# Function for check is available branches
+def get_branch_count(department_id):
+    conn = dbConn.db_connector()
+
+    query = ''' SELECT COUNT(*) FROM branches WHERE department_id = %s '''
+    values = (str(department_id),)
 
     cur = conn.cursor()
     cur.execute(query, values)

@@ -65,3 +65,15 @@ def branch_user_remove(id):
 
     row_count = cur.rowcount
     return row_count
+
+
+# Function for check is available branch users
+def get_branch_user_count(branch_id):
+    conn = dbConn.db_connector()
+
+    query = ''' SELECT COUNT(*) FROM branch_users WHERE branch_id = %s '''
+    values = (str(branch_id),)
+
+    cur = conn.cursor()
+    cur.execute(query, values)
+    return cur.fetchall()

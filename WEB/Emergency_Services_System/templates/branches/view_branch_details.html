@@ -55,7 +55,7 @@
             </div>
 
             <button type="submit" id="btn-update" class="btn btn-primary me-2">Update</button>
-            <button type="clear" class="btn btn-light">Cancel</button>
+            <button type="submit" id="btn-remove" class="btn btn-danger me-2">Remove</button>
 
           </form>
         </div>
@@ -91,7 +91,6 @@
             </div>
 
             <button type="submit" id="btn-add" class="btn btn-primary me-2">Add</button>
-            <button type="clear" class="btn btn-light">Cancel</button>
 
           </form>
         </div>
@@ -204,6 +203,52 @@
       event.preventDefault();
     });
   });
+
+
+  $(function () {
+    $('#btn-remove').click(function () {
+
+      var id = $('#id').val();
+
+      if (id == "") {
+        swal.fire("Remove Branch", "Fields are empty!", "warning");
+
+      } else {
+
+        var form_data = new FormData();
+        form_data.append('id', id);
+
+        $.ajax({
+          url: "/branches/remove_branch_details",
+          enctype: 'multipart/form-data',
+          data: form_data,
+          contentType: false,
+          cache: false,
+          processData: false,
+          type: 'POST',
+        })
+          .done(function (data) {
+            if (data.redirect) {
+              window.location.href = data.redirect;
+            }
+            else if (data.success) {
+              Swal.fire("Remove Branch", data.success, "success");
+              window.location.href = "/branches/view-branches"
+            }
+            else if (data.error) {
+              Swal.fire("Remove Branch", data.error, "warning");
+            }
+            else {
+              Swal.fire("Remove Branch", "Some error occur!", "warning");
+            }
+          });
+
+      }
+
+      event.preventDefault();
+    });
+  });
+
 
   // Add branch user
   $(function () {

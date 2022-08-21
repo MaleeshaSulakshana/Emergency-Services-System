@@ -73,8 +73,22 @@ def get_departments_account_details(department_id):
 
     query = ''' SELECT department_id, name, emergency_number, web_link, 
                                     address, description, thumbnail FROM departments WHERE department_id = %s '''
-    values = (int(department_id),)
+    values = (str(department_id),)
 
     cur = conn.cursor()
     cur.execute(query, values)
     return cur.fetchall()
+
+
+def department_details_remove(department_id):
+    conn = dbConn.db_connector()
+
+    query = ''' DELETE FROM departments WHERE department_id = %s '''
+    values = (str(department_id),)
+
+    cur = conn.cursor()
+    cur.execute(query, values)
+    conn.commit()
+
+    row_count = cur.rowcount
+    return row_count
