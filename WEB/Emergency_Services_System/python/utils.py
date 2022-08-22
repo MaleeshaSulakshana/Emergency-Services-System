@@ -30,7 +30,7 @@ def date_picker_no_space():
 
 # Function for generate random number
 def random_number():
-    rand_no = str(random.randint(100000, 999999))
+    rand_no = str(random.randint(10000000, 99999999))
     return rand_no
 
 

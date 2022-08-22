@@ -27,7 +27,7 @@ import java.io.UnsupportedEncodingException;
 public class SignUpActivity extends AppCompatActivity {
 
     private TextView textLogin;
-    private EditText fname, lname, email, nic, number, address, psw, cpsw;
+    private EditText fname, lname, email, nic, number, address;
     private Button btnSignUp;
 
     @Override
@@ -43,8 +43,6 @@ public class SignUpActivity extends AppCompatActivity {
         nic = (EditText) this.findViewById(R.id.nic);
         number = (EditText) this.findViewById(R.id.number);
         address = (EditText) this.findViewById(R.id.address);
-        psw = (EditText) this.findViewById(R.id.psw);
-        cpsw = (EditText) this.findViewById(R.id.cpsw);
 
         btnSignUp = (Button) this.findViewById(R.id.btnSignUp);
 
@@ -75,18 +73,13 @@ public class SignUpActivity extends AppCompatActivity {
         String nicValue = nic.getText().toString();
         String numberValue = number.getText().toString();
         String addressValue = address.getText().toString();
-        String pswValue = psw.getText().toString();
-        String cpswValue = cpsw.getText().toString();
 
         if (fnameValue.equals("") || lnameValue.equals("") || nicValue.equals("") || numberValue.equals("") ||
-                emailValue.equals("") || addressValue.equals("") || pswValue.equals("") || cpswValue.equals("") ) {
+                emailValue.equals("") || addressValue.equals("")) {
             Toast.makeText(SignUpActivity.this, "Fields empty!",Toast.LENGTH_SHORT).show();
 
         } else if (number.length() != 10) {
             Toast.makeText(SignUpActivity.this, "Invalid mobile number!",Toast.LENGTH_SHORT).show();
-
-        } else if (!pswValue.equals(cpswValue)) {
-            Toast.makeText(SignUpActivity.this, "Password and confirm password not matched!",Toast.LENGTH_SHORT).show();
 
         } else {
 
@@ -102,7 +95,6 @@ public class SignUpActivity extends AppCompatActivity {
                 jsonBody.put("nic", nicValue);
                 jsonBody.put("number", numberValue);
                 jsonBody.put("address", addressValue);
-                jsonBody.put("psw", pswValue);
 
                 final String requestBody = jsonBody.toString();
 
@@ -123,8 +115,6 @@ public class SignUpActivity extends AppCompatActivity {
                                 nic.setText("");
                                 number.setText("");
                                 address.setText("");
-                                psw.setText("");
-                                cpsw.setText("");
                             }
 
                             Toast.makeText(SignUpActivity.this, msg, Toast.LENGTH_SHORT).show();

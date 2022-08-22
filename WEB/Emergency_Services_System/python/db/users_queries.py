@@ -76,12 +76,10 @@ def is_exist_user_by_email_and_psw(email, psw):
 
 
 # Function for get all users
-def get_all_users(is_approved):
+def get_all_users():
     conn = dbConn.db_connector()
 
     query = ''' SELECT id, first_name, last_name, email, nic, number, address FROM users '''
-
-    values = (str(is_approved),)
 
     cur = conn.cursor()
     cur.execute(query)
@@ -151,7 +149,7 @@ def update_user_psw(data):
 def login(email, psw):
     conn = dbConn.db_connector()
 
-    query = ''' SELECT id, email, account_type FROM admin WHERE email = %s AND psw = %s '''
+    query = ''' SELECT id, email, account_type, full_name FROM admin WHERE email = %s AND psw = %s '''
     values = (str(email), str(psw))
 
     cur = conn.cursor()
@@ -186,6 +184,30 @@ def is_exist_email(email):
     conn = dbConn.db_connector()
 
     query = ''' SELECT count(email) FROM admin WHERE email = %s '''
+    values = (str(email),)
+
+    cur = conn.cursor()
+    cur.execute(query, values)
+    return cur.fetchall()
+
+
+# Function for get all admins
+def get_all_admins():
+    conn = dbConn.db_connector()
+
+    query = ''' SELECT id, full_name, email FROM admin '''
+
+    cur = conn.cursor()
+    cur.execute(query)
+    return cur.fetchall()
+
+
+# Function for get admin
+def get_admin_details_by_email(email):
+    conn = dbConn.db_connector()
+
+    query = ''' SELECT id, full_name, email FROM admin WHERE email = %s'''
+
     values = (str(email),)
 
     cur = conn.cursor()

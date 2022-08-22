@@ -125,36 +125,6 @@
                 android:textColorHint="@color/gray2"
                 android:inputType="text|textMultiLine"/>
 
-            <EditText
-                android:id="@+id/psw"
-                android:layout_width="300dp"
-                android:layout_height="50dp"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp"
-                android:layout_marginBottom="20dp"
-                android:background="@drawable/white_background"
-                android:shadowColor="@color/gray2"
-                android:textColor="@color/gray2"
-                android:hint="Password"
-                android:textColorHint="@color/gray2"
-                android:inputType="textPassword"
-                app:passwordToggleEnabled="true"/>
-
-            <EditText
-                android:id="@+id/cpsw"
-                android:layout_width="300dp"
-                android:layout_height="50dp"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp"
-                android:layout_marginBottom="20dp"
-                android:background="@drawable/white_background"
-                android:shadowColor="@color/gray2"
-                android:textColor="@color/gray2"
-                android:hint="Confirm Password"
-                android:textColorHint="@color/gray2"
-                android:inputType="textPassword"
-                app:passwordToggleEnabled="true"/>
-
             <Button
                 android:id="@+id/btnSignUp"
                 android:layout_width="300dp"

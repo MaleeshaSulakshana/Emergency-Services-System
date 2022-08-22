@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 09, 2022 at 10:13 PM
+-- Generation Time: Aug 22, 2022 at 08:45 PM
 -- Server version: 10.4.19-MariaDB
 -- PHP Version: 7.4.19
 
@@ -57,6 +57,37 @@ CREATE TABLE `branches` (
   `address` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Dumping data for table `branches`
+--
+
+INSERT INTO `branches` (`id`, `branch_id`, `department_id`, `location`, `emergency_number`, `address`) VALUES
+(4, '20220821498124', '2147483647', 'Homagama', '0112452632', 'Homagama'),
+(5, '2022082252092101', 'Hospital2022082211406184', 'Galle', '0914526532', 'Galle Town');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `branch_users`
+--
+
+CREATE TABLE `branch_users` (
+  `id` int(255) NOT NULL,
+  `branch_id` varchar(255) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `email` varchar(255) NOT NULL,
+  `psw` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `branch_users`
+--
+
+INSERT INTO `branch_users` (`id`, `branch_id`, `name`, `email`, `psw`) VALUES
+(2, '20220821498124', 'Maleesha S', 'maleeshaspolice@gmail.com', '25d55ad283aa400af464c76d713c07ad'),
+(3, '20220820907011', 'Maleesha H', 'maleeshahospital@gmail.com', '25d55ad283aa400af464c76d713c07ad'),
+(4, '2022082252092101', 'Maleesha Hospital', 'maleeshahospital@gmail.com', '25d55ad283aa400af464c76d713c07ad');
+
 -- --------------------------------------------------------
 
 --
@@ -65,10 +96,9 @@ CREATE TABLE `branches` (
 
 CREATE TABLE `departments` (
   `id` int(255) NOT NULL,
-  `department_id` int(255) NOT NULL,
+  `department_id` varchar(255) NOT NULL,
   `name` varchar(255) NOT NULL,
-  `emergency_number_1` varchar(255) NOT NULL,
-  `emergency_number_2` varchar(255) NOT NULL,
+  `emergency_number` varchar(255) NOT NULL,
   `web_link` varchar(255) NOT NULL,
   `address` varchar(500) NOT NULL,
   `description` varchar(2000) NOT NULL,
@@ -79,8 +109,9 @@ CREATE TABLE `departments` (
 -- Dumping data for table `departments`
 --
 
-INSERT INTO `departments` (`id`, `department_id`, `name`, `emergency_number_1`, `emergency_number_2`, `web_link`, `address`, `description`, `thumbnail`) VALUES
-(1, 2147483647, 'Police', '119', '118', 'police.lk', 'Colombo', 'Hello', '20220330933613.png');
+INSERT INTO `departments` (`id`, `department_id`, `name`, `emergency_number`, `web_link`, `address`, `description`, `thumbnail`) VALUES
+(1, '2147483647', 'Police', '119', 'www.police.lk', 'Colombo', 'Sri Lanka Police Department', '20220330933613.png'),
+(5, 'Hospital2022082211406184', 'Hospital', '0112452632', 'www.hospital.gov.lk', 'Colombo', 'Sri Lanka General Hospital', 'Hospital2022082211406184.png');
 
 -- --------------------------------------------------------
 
@@ -104,7 +135,10 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `first_name`, `last_name`, `email`, `nic`, `number`, `address`, `psw`) VALUES
-(1, '', '', '', '982760747V', '', '406/5/1, Pitipana North Homagama', '25d55ad283aa400af464c76d713c07ad');
+(1, 'Maleesha', 'Sulakshana', 'maleesha@gmail.com', '982760747V', '0764852852', '406/5/1, Pitipana North Homagama', '25d55ad283aa400af464c76d713c07ad'),
+(3, 'Sulakshana', 'Jayasinghe', 'sulakshana@gmail.com', '982760747V', '0767950600', '406/5/1, Pitipana North Homagama', '25d55ad283aa400af464c76d713c07ad'),
+(5, 'Jayasinghe', 'Sulakshana', 'jayasinghesulakshana@gmail.com', '982760747V', '0765241365', '406/5/1, Colombo', '7b9b8391b2dce732bfa9c27263578ac4'),
+(6, 'Sithumini', 'Navodya', 'nsithumini96@gmail.com', '965236548V', '0715828021', 'Galle', 'd4ff583a9814c3bbf6dbb14b1d4b9873');
 
 --
 -- Indexes for dumped tables
@@ -120,6 +154,12 @@ ALTER TABLE `admin`
 -- Indexes for table `branches`
 --
 ALTER TABLE `branches`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `branch_users`
+--
+ALTER TABLE `branch_users`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -148,19 +188,25 @@ ALTER TABLE `admin`
 -- AUTO_INCREMENT for table `branches`
 --
 ALTER TABLE `branches`
-  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- AUTO_INCREMENT for table `branch_users`
+--
+ALTER TABLE `branch_users`
+  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `departments`
 --
 ALTER TABLE `departments`
-  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

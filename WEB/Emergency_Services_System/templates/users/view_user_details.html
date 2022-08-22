@@ -1,6 +1,8 @@
 {% extends 'base.html' %}
-{% block title %}Emergency Services System | Change Account Password{% endblock %}
+{% block title %}Emergency Services System | Admin | View User Details{% endblock %}
 {% block content %}
+
+{% if details %}
 
 <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
 
@@ -10,21 +12,45 @@
     <div class="col-12 grid-margin stretch-card">
       <div class="card">
         <div class="card-body">
-          <h4 class="card-title">Change Account Password</h4>
+          <h4 class="card-title">View User Details</h4>
 
           <form class="forms-sample" id="form_create">
 
             <div class="form-group">
-              <label for="psw">Password</label>
-              <input type="password" class="form-control" id="psw" placeholder="Password">
+              <label for="fname">First Name</label>
+              <input type="text" class="form-control" id="fname" placeholder="First Name" value="{{ details[0][1] }}"
+                disabled>
             </div>
 
             <div class="form-group">
-              <label for="cpsw">Confirm Password</label>
-              <input type="password" class="form-control" id="cpsw" placeholder="Confirm Password">
+              <label for="lname">Last Name</label>
+              <input type="text" class="form-control" id="lname" placeholder="Last Name" value="{{ details[0][2] }}"
+                disabled>
             </div>
 
-            <button type="button" id="btn-add" class="btn btn-primary me-2">Update</button>
+            <div class="form-group">
+              <label for="email">Email</label>
+              <input type="email" class="form-control" id="email" placeholder="Email" value="{{ details[0][3] }}"
+                disabled>
+            </div>
+
+            <div class="form-group">
+              <label for="nic">NIC</label>
+              <input type="text" class="form-control" id="nic" placeholder="NIC" value="{{ details[0][4] }}" disabled>
+            </div>
+
+            <div class="form-group">
+              <label for="number">Number</label>
+              <input type="text" class="form-control" id="number" placeholder="Number" value="{{ details[0][5] }}"
+                disabled>
+            </div>
+
+            <div class="form-group">
+              <label for="address">Address</label>
+              <textarea class="form-control" id="address" rows="4" placeholder="Address"
+                disabled>{{ details[0][6] }}</textarea>
+            </div>
+
           </form>
         </div>
       </div>
@@ -84,5 +110,7 @@
   });
 
 </script> -->
+
+{% endif %}
 
 {% endblock %}

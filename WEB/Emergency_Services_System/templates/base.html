@@ -56,14 +56,19 @@
 						<div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="UserDropdown">
 							<div class="dropdown-header text-center">
 
-								<p class="mb-1 mt-3 font-weight-semibold">Allen Moreno</p>
-								<p class="fw-light text-muted mb-0">sithu@gmail.com</p>
+								{% if session['name'] %}
+								<p class="mb-1 mt-3 font-weight-semibold">{{ session['name'] }}</p>
+								{% endif %}
+
+								{% if session['email'] %}
+								<p class="fw-light text-muted mb-0">{{ session['email'] }}</p>
+								{% endif %}
 							</div>
-							<a class="dropdown-item" href="/profile/view"><i
+							<a class="dropdown-item" href="/profile"><i
 									class="dropdown-item-icon mdi mdi-account-outline text-primary me-2"></i> My
 								Profile</a>
 
-							<a class="dropdown-item"><i
+							<a class="dropdown-item" href="/psw-change"><i
 									class="dropdown-item-icon mdi mdi-key-outline text-primary me-2"></i> Change
 								Password</a>
 
@@ -143,6 +148,24 @@
 								<li class="nav-item"> <a class="nav-link" href="/add-admin">
 										Add Admin
 									</a></li>
+								<li class="nav-item"> <a class="nav-link" href="/view-admin">
+										View Admins</a></li>
+							</ul>
+						</div>
+					</li>
+
+					<li class="nav-item nav-category">Users</li>
+					<li class="nav-item">
+						<a class="nav-link" data-bs-toggle="collapse" href="#users" aria-expanded="false"
+							aria-controls="users">
+							<i class="menu-icon mdi mdi-account"></i>
+							<span class="menu-title">Users</span>
+							<i class="menu-arrow"></i>
+						</a>
+						<div class="collapse" id="users">
+							<ul class="nav flex-column sub-menu">
+								<li class="nav-item"> <a class="nav-link" href="/users/view-users">
+										View Users</a></li>
 							</ul>
 						</div>
 					</li>

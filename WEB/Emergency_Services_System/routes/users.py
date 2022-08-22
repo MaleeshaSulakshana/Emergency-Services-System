@@ -11,11 +11,33 @@ sys.path.append(os.path.abspath('../python/'))
 sys.path.append(os.path.abspath('python/db/'))
 
 import utils as ut
+import mailer
 import users_queries as uq
 
 APP_ROOT = os.path.dirname(os.path.abspath(__file__))
 root = os.path.dirname(APP_ROOT)
 static_folder = os.path.dirname(root)
+
+
+# Route for view users
+@users.route('/view-users')
+def view_users():
+    if 'adminId' not in session:
+        return redirect('/login')
+
+    users = uq.get_all_users()
+    return render_template('users/view_users.html', users=users)
+
+
+# Route for view users
+@users.route('/view-users-details')
+def view_users_details():
+    if 'adminId' not in session:
+        return redirect('/login')
+
+    user_id = request.args['id']
+    details = uq.get_account_details(user_id)
+    return render_template('users/view_user_details.html', details=details)
 
 
 # Route for user login
@@ -62,16 +84,16 @@ def register():
         nic = request_data['nic']
         number = request_data['number']
         address = request_data['address']
-        psw = request_data['psw']
 
         if (len(first_name) == 0 or len(last_name) == 0 or len(email) == 0 or len(nic) == 0 or
-                len(number) == 0 or len(address) == 0 or len(psw) == 0):
+                len(number) == 0 or len(address) == 0):
 
             return jsonify({"status": "error", 'msg': "Fields are empty!"})
 
         else:
 
-            psw = hashlib.md5(psw.encode()).hexdigest()
+            gen_psw = ut.random_number()
+            psw = hashlib.md5(gen_psw.encode()).hexdigest()
 
             data = {
                 'first_name': first_name,
@@ -90,8 +112,17 @@ def register():
 
             else:
                 is_created = uq.user_registration(data)
+
+                subject = "Emergency Services System Account Password"
+                msg = """Hi {} {}, <br>
+                        &emsp;Your account credentials is<br>
+                            &emsp;&emsp;Email : <b>{}</b><br>
+                            &emsp;&emsp;Password : <b>{}</b> <br><br>
+                        Thank you.""".format(str(first_name), str(last_name), str(email), str(gen_psw))
+
+                mailer.send_mail(email, subject, msg)
                 if is_created > 0:
-                    return jsonify({"status": "success", 'msg': "Account has been created. Please sign in!"})
+                    return jsonify({"status": "success", 'msg': "Password sent to mail and account has been created. Please sign in!"})
 
                 else:
                     return jsonify({"status": "error", 'msg': "Account not created. Please try again!"})

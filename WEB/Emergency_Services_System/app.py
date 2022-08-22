@@ -87,13 +87,42 @@ def index():
     return render_template('index.html')
 
 
-# Route for login
+# Route for add admin
 @app.route('/add-admin')
 def add_admin():
     if 'adminId' not in session:
         return redirect('/login')
 
     return render_template('admin/add_admin.html')
+
+
+# Route for view admins
+@app.route('/view-admin')
+def view_admin():
+    if 'adminId' not in session:
+        return redirect('/login')
+
+    admins = uq.get_all_admins()
+    return render_template('admin/view_admins.html', admins=admins)
+
+
+# Route for view admin profile
+@app.route('/profile')
+def profile():
+    if 'adminId' not in session:
+        return redirect('/login')
+
+    details = uq.get_admin_details_by_email(session['email'])
+    return render_template('profile/profile.html', details=details)
+
+
+# Route for view admin psw change
+@app.route('/psw-change')
+def psw_change():
+    if 'adminId' not in session:
+        return redirect('/login')
+
+    return render_template('profile/change_psw.html')
 
 
 # Route for sign out
@@ -176,6 +205,8 @@ def admin_login():
                 details = uq.login(email, psw)
                 if len(details) > 0:
                     session['adminId'] = str(details[0][1])
+                    session['email'] = str(details[0][1])
+                    session['name'] = str(details[0][3])
                     return jsonify({'redirect': url_for('index')})
 
                 else:
