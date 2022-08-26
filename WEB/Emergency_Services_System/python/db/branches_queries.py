@@ -10,14 +10,15 @@ def branches_registration(data):
     emergency_number = data['emergency_number']
     address = data['address']
     branch_id = data['branch_id']
+    map_url = data['map_url']
 
     query = ''
     row_count = 0
 
-    query = ''' INSERT INTO branches (branch_id, department_id, location, emergency_number, address) VALUES 
-                                    (%s, %s, %s, %s, %s) '''
+    query = ''' INSERT INTO branches (branch_id, department_id, location, emergency_number, address, map_url) VALUES 
+                                    (%s, %s, %s, %s, %s, %s) '''
     values = (int(branch_id), str(department), str(
-        location), str(emergency_number), str(address))
+        location), str(emergency_number), str(address), str(map_url))
     cur = conn.cursor()
     cur.execute(query, values)
     conn.commit()
@@ -30,7 +31,7 @@ def branches_registration(data):
 def get_all_branches():
     conn = dbConn.db_connector()
 
-    query = ''' SELECT branches.id, branch_id, name, location, branches.emergency_number, branches.address FROM branches
+    query = ''' SELECT branches.id, branch_id, name, location, branches.emergency_number, branches.address, map_url FROM branches
                 INNER JOIN departments ON departments.department_id = branches.department_id'''
 
     cur = conn.cursor()
@@ -42,7 +43,7 @@ def get_all_branches():
 def get_branch_account_details(branch_id):
     conn = dbConn.db_connector()
 
-    query = ''' SELECT branches.id, branch_id, branches.department_id, name, location, branches.emergency_number, branches.address FROM branches
+    query = ''' SELECT branches.id, branch_id, branches.department_id, name, location, branches.emergency_number, branches.address, map_url FROM branches
                 INNER JOIN departments ON departments.department_id = branches.department_id WHERE branch_id = %s '''
     values = (int(branch_id),)
 
@@ -60,13 +61,14 @@ def branch_details_update(data):
     emergency_number = data['emergency_number']
     address = data['address']
     branch_id = data['branch_id']
+    map_url = data['map_url']
 
     query = ''
     row_count = 0
 
-    query = ''' UPDATE branches SET department_id = %s, location = %s, emergency_number = %s, address = %s WHERE branch_id = %s '''
+    query = ''' UPDATE branches SET department_id = %s, location = %s, emergency_number = %s, address = %s, map_url = %s WHERE branch_id = %s '''
     values = (str(department), str(
-        location), str(emergency_number), str(address), int(branch_id))
+        location), str(emergency_number), str(address), str(map_url), int(branch_id))
     cur = conn.cursor()
     cur.execute(query, values)
     conn.commit()
@@ -94,7 +96,7 @@ def get_all_branches():
     conn = dbConn.db_connector()
 
     query = ''' SELECT branches.id, branches.branch_id, departments.name, branches.location, branches.emergency_number, branches.address,
-                        departments.emergency_number, departments.web_link, departments.address, departments.description, departments.thumbnail FROM branches
+                        departments.emergency_number, departments.web_link, departments.address, departments.description, departments.thumbnail,branches.map_url FROM branches
                 INNER JOIN departments ON departments.department_id = branches.department_id '''
 
     cur = conn.cursor()
@@ -107,7 +109,7 @@ def get_all_branches_by_department(department_id):
     conn = dbConn.db_connector()
 
     query = ''' SELECT branches.id, branches.branch_id, departments.name, branches.location, branches.emergency_number, branches.address,
-                        departments.emergency_number, departments.web_link, departments.address, departments.description, departments.thumbnail FROM branches
+                        departments.emergency_number, departments.web_link, departments.address, departments.description, departments.thumbnail, branches.map_url FROM branches
                 INNER JOIN departments ON departments.department_id = branches.department_id WHERE departments.department_id = %s '''
 
     values = (str(department_id),)
@@ -122,7 +124,7 @@ def get_branch_all_details_by_id(branch_id):
     conn = dbConn.db_connector()
 
     query = ''' SELECT branches.id, branches.branch_id, departments.name, branches.location, branches.emergency_number, branches.address,
-                        departments.emergency_number, departments.web_link, departments.address, departments.description, departments.thumbnail FROM branches
+                        departments.emergency_number, departments.web_link, departments.address, departments.description, departments.thumbnail, branches.map_url FROM branches
                 INNER JOIN departments ON departments.department_id = branches.department_id WHERE branches.branch_id = %s '''
 
     values = (str(branch_id),)

@@ -31,7 +31,7 @@ public class ServiceBranchDetailsActivity extends AppCompatActivity {
     private TextView branchLocation, branchNumber, branchAddress,
             departmentNumber, departmentLink, departmentAddress, departmentDesc;
 
-    String id = "";
+    String id = "", mapLink = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,6 +84,17 @@ public class ServiceBranchDetailsActivity extends AppCompatActivity {
             }
         });
 
+        branchAddress.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                if (!mapLink.equals("")) {
+                    openBrowser(mapLink);
+                }
+
+            }
+        });
+
     }
 
     //    Function for show department branch details
@@ -114,6 +125,9 @@ public class ServiceBranchDetailsActivity extends AppCompatActivity {
                                 String dLink = (String) responseData.get(7);
                                 String dAddress = (String) responseData.get(8);
                                 String dDesc = (String) responseData.get(9);
+                                String dMapLink = (String) responseData.get(11);
+
+                                mapLink = dMapLink;
 
                                 branchLocation.setText(bLocation);
                                 branchNumber.setText(bNumber);

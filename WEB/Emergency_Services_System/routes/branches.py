@@ -67,8 +67,9 @@ def add_branch_details():
             location = request.form.get('location')
             emergency_number = request.form.get('emergency_number')
             address = request.form.get('address')
+            map_url = request.form.get('map_url')
 
-            if (len(department) == 0 or len(location) == 0 or len(emergency_number) == 0 or len(address) == 0):
+            if (len(department) == 0 or len(location) == 0 or len(emergency_number) == 0 or len(address) == 0 or len(map_url) == 0):
                 return jsonify({'error': "Fields are empty!"})
 
             else:
@@ -80,7 +81,8 @@ def add_branch_details():
                     'location': location,
                     'emergency_number': emergency_number,
                     'address': address,
-                    'branch_id': branch_id
+                    'branch_id': branch_id,
+                    'map_url': map_url
                 }
 
                 is_created = bq.branches_registration(data)
@@ -109,8 +111,10 @@ def update_branch_details():
             location = request.form.get('location')
             emergency_number = request.form.get('emergency_number')
             address = request.form.get('address')
+            map_url = request.form.get('map_url')
 
-            if (len(branch_id) == 0 or len(department) == 0 or len(location) == 0 or len(emergency_number) == 0 or len(address) == 0):
+            if (len(branch_id) == 0 or len(department) == 0 or len(location) == 0 or 
+                len(emergency_number) == 0 or len(address) == 0 or len(map_url) == 0):
                 return jsonify({'error': "Fields are empty!"})
 
             else:
@@ -120,7 +124,8 @@ def update_branch_details():
                     'location': location,
                     'emergency_number': emergency_number,
                     'address': address,
-                    'branch_id': branch_id
+                    'branch_id': branch_id,
+                    'map_url': map_url
                 }
 
                 is_created = bq.branch_details_update(data)

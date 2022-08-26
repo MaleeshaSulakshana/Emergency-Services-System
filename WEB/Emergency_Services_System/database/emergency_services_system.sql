@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 22, 2022 at 08:45 PM
+-- Generation Time: Aug 26, 2022 at 11:15 PM
 -- Server version: 10.4.19-MariaDB
 -- PHP Version: 7.4.19
 
@@ -54,16 +54,17 @@ CREATE TABLE `branches` (
   `department_id` varchar(255) NOT NULL,
   `location` varchar(255) NOT NULL,
   `emergency_number` varchar(255) NOT NULL,
-  `address` varchar(255) NOT NULL
+  `address` varchar(255) NOT NULL,
+  `map_url` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `branches`
 --
 
-INSERT INTO `branches` (`id`, `branch_id`, `department_id`, `location`, `emergency_number`, `address`) VALUES
-(4, '20220821498124', '2147483647', 'Homagama', '0112452632', 'Homagama'),
-(5, '2022082252092101', 'Hospital2022082211406184', 'Galle', '0914526532', 'Galle Town');
+INSERT INTO `branches` (`id`, `branch_id`, `department_id`, `location`, `emergency_number`, `address`, `map_url`) VALUES
+(4, '20220821498124', 'Hospital2022082211406184', 'Homagama', '0112452632', 'Homagama', 'https://goo.gl/maps/UzuDn2t5sBqCANCC7'),
+(5, '2022082252092101', 'Hospital2022082211406184', 'Galle', '0914526532', 'Galle Town', 'https://goo.gl/maps/i26vAai2GXniSMHp9');
 
 -- --------------------------------------------------------
 

@@ -28,7 +28,7 @@
                 <option value="none">Select Department</option>
                 {% if departments %}
                 {% for i in departments %}
-                <option value="{{ i[0] }}" {% if details[0][2]=="2147483647" %} selected {% endif %}>
+                <option value="{{ i[0] }}" {% if details[0][2]==i[0] %} selected {% endif %}>
                   {{ i[1] }}
                 </option>
                 {% endfor %}
@@ -52,6 +52,11 @@
               <label for="address">Branch Address</label>
               <textarea class="form-control" id="address" rows="4"
                 placeholder="Branch Address">{{ details[0][6] }}</textarea>
+            </div>
+
+            <div class="form-group">
+              <label for="mapUrl">Branch Location Map URL</label>
+              <input type="text" class="form-control" id="mapUrl" placeholder="Branch Location Map URL" value="{{ details[0][7] }}">
             </div>
 
             <button type="submit" id="btn-update" class="btn btn-primary me-2">Update</button>
@@ -161,8 +166,9 @@
       var location = $('#location').val();
       var emergency_number = $('#emergency-number').val();
       var address = $('#address').val();
+      var mapUrl = $('#mapUrl').val();
 
-      if (id == "" || department == "" || location == "" || emergency_number == "" || address == "") {
+      if (id == "" || department == "" || location == "" || emergency_number == "" || address == "" || mapUrl == "") {
         swal.fire("Add Branch", "Fields are empty!", "warning");
 
       } else {
@@ -173,6 +179,7 @@
         form_data.append('location', location);
         form_data.append('emergency_number', emergency_number);
         form_data.append('address', address);
+        form_data.append('map_url', mapUrl);
 
         $.ajax({
           url: "/branches/update_branch_details",
