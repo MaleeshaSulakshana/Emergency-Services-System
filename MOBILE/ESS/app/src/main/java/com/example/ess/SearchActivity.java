@@ -139,7 +139,7 @@ public class SearchActivity extends AppCompatActivity {
                                 String id = (String) responseData.get(1);
                                 String department = (String) responseData.get(2);
                                 String branch = (String) responseData.get(3);
-                                String logo = API.ASSERT_URL + "/" +  ((String) responseData.get(10));
+                                String logo = API.DEPARTMENTS_ASSERT_URL + "/" +  ((String) responseData.get(10));
 
                                 detailsArrayList.add(new Search(id, department, branch, logo));
                                 detailsArrayList2.add(new Search(id, department, branch, logo));

@@ -13,7 +13,11 @@ public class API {
     public static final String BRANCHES_API = BASE_URL + "/branches";
 
     //    Assert api
-    public static final String ASSERT_URL = BASE_URL + "/static/images/departments_images";
+    public static final String ASSERT_URL = BASE_URL + "/static/images";
+
+    public static final String DEPARTMENTS_ASSERT_URL = ASSERT_URL + "/departments_images";
+
+    public static final String PROFILE_ASSERT_URL = ASSERT_URL + "/users_profile_pic";
 
 
 }

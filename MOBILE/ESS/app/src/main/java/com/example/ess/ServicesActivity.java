@@ -90,7 +90,7 @@ public class ServicesActivity extends AppCompatActivity {
 
                                 String id = (String) responseData.get(0);
                                 String title = (String) responseData.get(1);
-                                String logo = API.ASSERT_URL + "/" +  ((String) responseData.get(6));
+                                String logo = API.DEPARTMENTS_ASSERT_URL + "/" +  ((String) responseData.get(6));
 
                                 detailsArrayList.add(new Service(id, title, logo));
 

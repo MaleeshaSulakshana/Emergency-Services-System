@@ -1,3 +1,4 @@
+import base64
 import os
 import sys
 import hashlib
@@ -226,3 +227,35 @@ def update_psw():
                     return jsonify({"status": "error", 'msg': "Password not updated."})
 
     return jsonify({"status": "error", 'msg': "Method invalid"})
+
+
+# Upload profile picture
+@users.route('/upload_profile_pic', methods=['GET', 'POST'])
+def upload_profile_pic():
+
+    image = request.json['image']
+    user_id = request.json['user_id']
+
+    if image == None:
+        return jsonify({'error': "Image not uploaded"})
+
+    else:
+
+        uploaded_img_path = os.path.join(
+            root, 'static/images/users_profile_pic/')
+
+        if not os.path.exists(uploaded_img_path):
+            os.makedirs(uploaded_img_path)
+
+        filename = user_id + ".png"
+
+        img_url = uploaded_img_path + "/" + filename
+        with open(img_url, "wb") as fh:
+            fh.write(base64.b64decode(image))
+
+        if os.path.exists(img_url):
+            is_updated = uq.update_profile_picture(user_id, filename)
+            if is_updated > 0:
+                return jsonify({"status": "success", 'msg': "Password has been updated."})
+
+        return jsonify({"status": "error", 'msg': "Profile picture not uploaded."})

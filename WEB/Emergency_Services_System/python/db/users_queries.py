@@ -25,18 +25,6 @@ def is_exist_id_in_users(id):
     return cur.fetchall()
 
 
-# Function for login
-def login(number, psw):
-    conn = dbConn.db_connector()
-
-    query = ''' SELECT nic, number FROM users WHERE number = %s AND psw = %s '''
-    values = (str(number), str(psw))
-
-    cur = conn.cursor()
-    cur.execute(query, values)
-    return cur.fetchall()
-
-
 # Function for registration
 def user_registration(data):
     conn = dbConn.db_connector()
@@ -52,9 +40,9 @@ def user_registration(data):
     query = ''
     row_count = 0
 
-    query = ''' INSERT INTO users (first_name, last_name, email, nic, number, address, psw) VALUES (%s, %s, %s, %s, %s, %s, %s) '''
+    query = ''' INSERT INTO users (first_name, last_name, email, nic, number, address, psw, profile_pic) VALUES (%s, %s, %s, %s, %s, %s, %s, %s) '''
     values = (str(first_name), str(last_name), str(email),
-              str(nic), str(number), str(address), str(psw))
+              str(nic), str(number), str(address), str(psw), "")
     cur = conn.cursor()
     cur.execute(query, values)
     conn.commit()
@@ -67,7 +55,7 @@ def user_registration(data):
 def is_exist_user_by_email_and_psw(email, psw):
     conn = dbConn.db_connector()
 
-    query = ''' SELECT id, first_name, last_name, email FROM users WHERE email = %s AND psw = %s '''
+    query = ''' SELECT id, first_name, last_name, email, profile_pic FROM users WHERE email = %s AND psw = %s '''
     values = (str(email), str(psw))
 
     cur = conn.cursor()
@@ -79,7 +67,7 @@ def is_exist_user_by_email_and_psw(email, psw):
 def get_all_users():
     conn = dbConn.db_connector()
 
-    query = ''' SELECT id, first_name, last_name, email, nic, number, address FROM users '''
+    query = ''' SELECT id, first_name, last_name, email, nic, number, address, profile_pic FROM users '''
 
     cur = conn.cursor()
     cur.execute(query)
@@ -90,7 +78,7 @@ def get_all_users():
 def get_account_details(id):
     conn = dbConn.db_connector()
 
-    query = ''' SELECT id, first_name, last_name, email, nic, number, address FROM users WHERE id = %s '''
+    query = ''' SELECT id, first_name, last_name, email, nic, number, address, profile_pic FROM users WHERE id = %s '''
     values = (int(id),)
 
     cur = conn.cursor()
@@ -136,6 +124,24 @@ def update_user_psw(data):
 
     query = ''' UPDATE users SET psw = %s WHERE id = %s '''
     values = (str(psw), int(id))
+    cur = conn.cursor()
+    cur.execute(query, values)
+
+    conn.commit()
+    row_count = cur.rowcount
+
+    return row_count
+
+
+# Function for update user profile pic
+def update_profile_picture(user_id, filename):
+    conn = dbConn.db_connector()
+
+    query = ''
+    row_count = 0
+
+    query = ''' UPDATE users SET profile_pic = %s WHERE id = %s '''
+    values = (str(filename), int(user_id))
     cur = conn.cursor()
     cur.execute(query, values)
 

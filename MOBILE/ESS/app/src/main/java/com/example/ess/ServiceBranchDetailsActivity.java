@@ -117,7 +117,7 @@ public class ServiceBranchDetailsActivity extends AppCompatActivity {
 
                                 JSONArray responseData = response.getJSONArray(0);
 
-                                String strLogo = API.ASSERT_URL + "/" +  (String) responseData.get(10);
+                                String strLogo = API.DEPARTMENTS_ASSERT_URL + "/" +  (String) responseData.get(10);
                                 String bLocation = (String) responseData.get(3);
                                 String bNumber = (String) responseData.get(4);
                                 String bAddress = (String) responseData.get(5);
