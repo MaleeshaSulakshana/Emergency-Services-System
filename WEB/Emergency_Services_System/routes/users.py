@@ -121,8 +121,8 @@ def register():
                             &emsp;&emsp;Password : <b>{}</b> <br><br>
                         Thank you.""".format(str(first_name), str(last_name), str(email), str(gen_psw))
 
-                mailer.send_mail(email, subject, msg)
                 if is_created > 0:
+                    mailer.send_mail(email, subject, msg)
                     return jsonify({"status": "success", 'msg': "Password sent to mail and account has been created. Please sign in!"})
 
                 else:
@@ -255,7 +255,6 @@ def upload_profile_pic():
 
         if os.path.exists(img_url):
             is_updated = uq.update_profile_picture(user_id, filename)
-            if is_updated > 0:
-                return jsonify({"status": "success", 'msg': "Password has been updated."})
+            return jsonify({"status": "success", 'msg': "Profile picture uploaded."})
 
         return jsonify({"status": "error", 'msg': "Profile picture not uploaded."})

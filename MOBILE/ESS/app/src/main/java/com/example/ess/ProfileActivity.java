@@ -48,13 +48,7 @@ public class ProfileActivity extends AppCompatActivity {
     private ImageView profileImage;
 
     private static final int PICK_IMAGE = 100;
-    private static final int CAMERA_PERM_CODE = 101;
-    private static final int CAMERA_REQUEST_CODE = 102;
     private Uri imageUri = Uri.EMPTY;
-    private String isCaptured = "no";
-
-    private boolean doubleBackToExitPressedOnce = false;
-
     private Bitmap bitmap = null;
 
     @Override
@@ -211,6 +205,11 @@ public class ProfileActivity extends AppCompatActivity {
 
                             String status = jsonObject.getString("status");
                             String msg = jsonObject.getString("msg");
+
+                            if (status.equals("success")) {
+                                Intent intent = new Intent(ProfileActivity.this, DashboardActivity.class);
+                                startActivity(intent);
+                            }
 
                             Toast.makeText(ProfileActivity.this, msg, Toast.LENGTH_SHORT).show();
 

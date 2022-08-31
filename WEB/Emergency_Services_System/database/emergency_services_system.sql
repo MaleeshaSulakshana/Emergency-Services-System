@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 26, 2022 at 11:15 PM
+-- Generation Time: Aug 27, 2022 at 08:29 PM
 -- Server version: 10.4.19-MariaDB
 -- PHP Version: 7.4.19
 
@@ -128,18 +128,19 @@ CREATE TABLE `users` (
   `nic` varchar(255) NOT NULL,
   `number` varchar(255) NOT NULL,
   `address` varchar(255) NOT NULL,
-  `psw` varchar(255) NOT NULL
+  `psw` varchar(255) NOT NULL,
+  `profile_pic` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `first_name`, `last_name`, `email`, `nic`, `number`, `address`, `psw`) VALUES
-(1, 'Maleesha', 'Sulakshana', 'maleesha@gmail.com', '982760747V', '0764852852', '406/5/1, Pitipana North Homagama', '25d55ad283aa400af464c76d713c07ad'),
-(3, 'Sulakshana', 'Jayasinghe', 'sulakshana@gmail.com', '982760747V', '0767950600', '406/5/1, Pitipana North Homagama', '25d55ad283aa400af464c76d713c07ad'),
-(5, 'Jayasinghe', 'Sulakshana', 'jayasinghesulakshana@gmail.com', '982760747V', '0765241365', '406/5/1, Colombo', '7b9b8391b2dce732bfa9c27263578ac4'),
-(6, 'Sithumini', 'Navodya', 'nsithumini96@gmail.com', '965236548V', '0715828021', 'Galle', 'd4ff583a9814c3bbf6dbb14b1d4b9873');
+INSERT INTO `users` (`id`, `first_name`, `last_name`, `email`, `nic`, `number`, `address`, `psw`, `profile_pic`) VALUES
+(1, 'Maleesha', 'Sulakshana', 'maleesha@gmail.com', '982760747V', '0764852852', '406/5/1, Pitipana North Homagama', '25d55ad283aa400af464c76d713c07ad', ''),
+(3, 'Sulakshana', 'Jayasinghe', 'sulakshana@gmail.com', '982760747V', '0767950600', '406/5/1, Pitipana North Homagama', '25d55ad283aa400af464c76d713c07ad', ''),
+(5, 'Jayasinghe', 'Sulakshana', 'jayasinghesulakshana@gmail.com', '982760747V', '0765241365', '406/5/1, Colombo', '7b9b8391b2dce732bfa9c27263578ac4', ''),
+(6, 'Sithumini', 'Navodya', 'nsithumini96@gmail.com', '965236548V', '0715828021', 'Galle', 'd4ff583a9814c3bbf6dbb14b1d4b9873', '6.png');
 
 --
 -- Indexes for dumped tables

@@ -38,12 +38,37 @@
                 android:textAllCaps="true"
                 android:textStyle="bold" />
 
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/profileImage"
+            <LinearLayout
                 android:layout_width="130dp"
                 android:layout_height="130dp"
                 android:layout_marginBottom="10dp"
-                android:src="@drawable/user" />
+                android:orientation="vertical"
+                android:gravity="center">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@+id/profileImage"
+                        android:layout_width="130dp"
+                        android:layout_height="130dp"
+                        android:layout_marginBottom="10dp"
+                        android:src="@drawable/user"
+                        android:layout_centerInParent="true"/>
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_alignParentBottom="true"
+                        android:layout_centerInParent="true"
+                        android:src="@drawable/ic_edit"
+                        app:tint="@color/gray2" />
+
+                </RelativeLayout>
+
+            </LinearLayout>
 
             <EditText
                 android:id="@+id/fname"

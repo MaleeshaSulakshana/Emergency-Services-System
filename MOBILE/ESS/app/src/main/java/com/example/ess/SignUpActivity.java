@@ -108,6 +108,8 @@ public class SignUpActivity extends AppCompatActivity {
                             String status = jsonObject.getString("status");
                             String msg = jsonObject.getString("msg");
 
+                            Toast.makeText(SignUpActivity.this, msg, Toast.LENGTH_SHORT).show();
+
                             if (status.equals("success")) {
                                 fname.setText("");
                                 lname.setText("");
@@ -115,9 +117,11 @@ public class SignUpActivity extends AppCompatActivity {
                                 nic.setText("");
                                 number.setText("");
                                 address.setText("");
-                            }
 
-                            Toast.makeText(SignUpActivity.this, msg, Toast.LENGTH_SHORT).show();
+                                Intent intent = new Intent(SignUpActivity.this, SignInActivity.class);
+                                startActivity(intent);
+
+                            }
 
                         } catch (JSONException e) {
                             e.printStackTrace();
