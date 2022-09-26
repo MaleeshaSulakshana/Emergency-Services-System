@@ -18,7 +18,6 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.ess.Classes.API;
-import com.example.ess.Classes.Preferences;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
@@ -26,7 +25,7 @@ import org.json.JSONException;
 
 public class ServiceBranchDetailsActivity extends AppCompatActivity {
 
-    private Button btnAdd;
+    private Button btnInquiry;
     private ImageView logo;
     private TextView branchLocation, branchNumber, branchAddress,
             departmentNumber, departmentLink, departmentAddress, departmentDesc;
@@ -38,10 +37,10 @@ public class ServiceBranchDetailsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_service_branch_details);
 
-        Intent project = getIntent();
-        id = project.getStringExtra("id");
+        Intent intentThis = getIntent();
+        id = intentThis.getStringExtra("id");
 
-        btnAdd = (Button) this.findViewById(R.id.btnAdd);
+        btnInquiry = (Button) this.findViewById(R.id.btnInquiry);
         logo = (ImageView) this.findViewById(R.id.logo);
 
         branchLocation = (TextView) this.findViewById(R.id.branchLocation);
@@ -92,6 +91,15 @@ public class ServiceBranchDetailsActivity extends AppCompatActivity {
                     openBrowser(mapLink);
                 }
 
+            }
+        });
+
+        btnInquiry.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(ServiceBranchDetailsActivity.this, AddInquiryActivity.class);
+                intent.putExtra("id", id);
+                startActivity(intent);
             }
         });
 
