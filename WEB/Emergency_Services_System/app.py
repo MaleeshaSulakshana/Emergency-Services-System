@@ -9,10 +9,11 @@ sys.path.append(os.path.abspath('python/'))
 sys.path.append(os.path.abspath('python/db'))
 
 sys.path.append(os.path.abspath('routes/'))
-
+sys.path.append(os.path.abspath('routes/_branch'))
 
 import utils
 import users_queries as uq
+import branches_queries as bq
 
 # Import departments route files
 from departments import departments
@@ -26,17 +27,21 @@ from branch_user import branch_user
 # Import users route files
 from users import users
 
+# Import branch route files
+from branch import branch
+
 app = Flask(__name__)
 app.env = "development"
+# app.static_folder = "../static"
 
 # Blueprints
 app.register_blueprint(departments)
 app.register_blueprint(branches)
 app.register_blueprint(branch_user)
 app.register_blueprint(users)
+app.register_blueprint(branch)
 
 app.secret_key = "Emergency_Services_System"
-# app.static_folder = "templates"
 APP_ROOT = os.path.dirname(os.path.abspath(__file__))
 
 
@@ -74,7 +79,8 @@ def login():
     if 'adminId' in session:
         return redirect('/index')
 
-    return render_template('login.html')
+    details = bq.get_all_branches()
+    return render_template('login.html', details=details)
 
 
 # Route for index/home page
@@ -130,6 +136,8 @@ def psw_change():
 def signout():
     if 'adminId' in session:
         session.pop('adminId', None)
+        session.pop('email', None)
+        session.pop('name', None)
 
     return redirect(url_for('index'))
 
@@ -192,25 +200,26 @@ def admin_login():
         else:
             email = request.form.get('email')
             psw = request.form.get('psw')
+            branch = request.form.get('branch')
 
-            if (len(email) == 0 or len(psw) == 0):
-
+            if (len(email) == 0 or len(psw) == 0 or branch == 'none'):
                 return jsonify({'error': "Fields are empty!"})
 
             else:
 
                 psw = hashlib.md5(psw.encode()).hexdigest()
 
-                # Check email already exist
-                details = uq.login(email, psw)
-                if len(details) > 0:
-                    session['adminId'] = str(details[0][1])
-                    session['email'] = str(details[0][1])
-                    session['name'] = str(details[0][3])
-                    return jsonify({'redirect': url_for('index')})
+                if branch == 'admin':
 
-                else:
-                    return jsonify({'error': "Sign in failed. Please try again!"})
+                    # Check email already exist
+                    details = uq.admin_login(email, psw)
+                    if len(details) > 0:
+                        session['adminId'] = str(details[0][1])
+                        session['email'] = str(details[0][1])
+                        session['name'] = str(details[0][3])
+                        return jsonify({'redirect': url_for('index')})
+
+                return jsonify({'error': "Sign in failed. Please try again!"})
 
     return jsonify({'redirect': url_for('sign-in')})
 

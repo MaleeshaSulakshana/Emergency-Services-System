@@ -77,3 +77,15 @@ def get_branch_user_count(branch_id):
     cur = conn.cursor()
     cur.execute(query, values)
     return cur.fetchall()
+
+
+# Function for branch user login
+def branch_user_login(email, psw):
+    conn = dbConn.db_connector()
+
+    query = ''' SELECT id, branch_id, name, email FROM branch_users WHERE email = %s AND psw = %s '''
+    values = (str(email), str(psw))
+
+    cur = conn.cursor()
+    cur.execute(query, values)
+    return cur.fetchall()

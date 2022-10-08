@@ -1,0 +1,40 @@
+{% extends '_branch/base.html' %}
+{% block title %}Emergency Services System | View Account{% endblock %}
+{% block content %}
+
+{% if details %}
+
+<script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+
+<div class="content-wrapper">
+  <div class="row">
+
+    <div class="col-12 grid-margin stretch-card">
+      <div class="card">
+        <div class="card-body">
+          <h4 class="card-title">View Account</h4>
+
+          <form class="forms-sample" id="form_create">
+
+            <div class="form-group">
+              <label for="name">Name</label>
+              <input type="text" class="form-control" id="name" placeholder="Name" value="{{ details[0][2] }}">
+            </div>
+
+            <div class="form-group">
+              <label for="email">Email</label>
+              <input type="email" class="form-control" id="email" placeholder="Email" value="{{ details[0][3] }}"
+                disabled>
+            </div>
+
+          </form>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+{% endif %}
+
+{% endblock %}

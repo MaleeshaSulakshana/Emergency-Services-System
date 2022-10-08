@@ -151,8 +151,8 @@ def update_profile_picture(user_id, filename):
     return row_count
 
 
-# Function for login
-def login(email, psw):
+# Function for admin login
+def admin_login(email, psw):
     conn = dbConn.db_connector()
 
     query = ''' SELECT id, email, account_type, full_name FROM admin WHERE email = %s AND psw = %s '''
