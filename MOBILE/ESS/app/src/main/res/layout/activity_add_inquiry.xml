@@ -62,7 +62,6 @@
 
         <EditText
             android:id="@+id/contact"
-            android:enabled="false"
             android:layout_width="300dp"
             android:layout_height="50dp"
             android:paddingLeft="10dp"

@@ -30,6 +30,9 @@ from users import users
 # Import branch route files
 from branch import branch
 
+# Import inquiries route files
+from inquiries import inquiries
+
 app = Flask(__name__)
 app.env = "development"
 # app.static_folder = "../static"
@@ -40,6 +43,7 @@ app.register_blueprint(branches)
 app.register_blueprint(branch_user)
 app.register_blueprint(users)
 app.register_blueprint(branch)
+app.register_blueprint(inquiries)
 
 app.secret_key = "Emergency_Services_System"
 APP_ROOT = os.path.dirname(os.path.abspath(__file__))
@@ -188,7 +192,7 @@ def admin_register():
     return jsonify({'redirect': url_for('index')})
 
 
-# Route for admin user
+# Route for admin login
 @app.route('/admin_login', methods=['GET', 'POST'])
 def admin_login():
 
