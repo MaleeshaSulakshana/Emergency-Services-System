@@ -38,6 +38,10 @@ import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
+
 public class AddInquiryActivity extends AppCompatActivity {
 
     private Button btnAdd, btnSelectImages, btnSelectVideo;
@@ -124,10 +128,14 @@ public class AddInquiryActivity extends AppCompatActivity {
                         parameter.put("user_id", Preferences.LOGGED_USER_ID);
                         parameter.put("branch", id);
 
-                        if (!videoPath.equals("")) {
-                            File file = new File(videoPath);
-                            parameter.put("video", file);
-                        }
+//                        if (!videoPath.equals("")) {
+////                            File file = new File(videoPath);
+//                            File videoFile = new File(videoPath);
+//                            RequestBody videoBody = RequestBody.create(MediaType.parse("video/*"), videoFile);
+//                            MultipartBody.Part vFile = MultipartBody.Part.createFormData("video", videoFile.getName(), videoBody);
+//                            parameter.put("video", vFile);
+//
+//                        }
 
                         JsonObjectRequest jsonObject = new JsonObjectRequest(Request.Method.POST, URL, parameter, new Response.Listener<JSONObject>() {
                             @Override
@@ -140,7 +148,11 @@ public class AddInquiryActivity extends AppCompatActivity {
 
                                     Toast.makeText(AddInquiryActivity.this, msg, Toast.LENGTH_SHORT).show();
 
-//                                    bitmap = null;
+                                    if (status.equals("success")) {
+                                        Intent intent = new Intent(AddInquiryActivity.this, InquiriesActivity.class);
+                                        startActivity(intent);
+                                        finish();
+                                    }
 
                                 } catch (JSONException e) {
                                     e.printStackTrace();

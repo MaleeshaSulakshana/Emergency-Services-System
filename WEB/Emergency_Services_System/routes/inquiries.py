@@ -1,8 +1,10 @@
 import base64
+from email import utils
 import os
 import sys
 import hashlib
 from datetime import datetime
+from wsgiref import util
 from flask import Blueprint, render_template, redirect, jsonify, url_for, request, session
 
 inquiries = Blueprint("inquiries", __name__, url_prefix="/inquiries",
@@ -11,7 +13,8 @@ inquiries = Blueprint("inquiries", __name__, url_prefix="/inquiries",
 sys.path.append(os.path.abspath('../python/'))
 sys.path.append(os.path.abspath('python/db/'))
 
-# import utils as ut
+import utils as ut
+import inquiry_queries as iq
 # import mailer
 # import user_queries as uq
 
@@ -239,45 +242,46 @@ def add_inquiry():
     contact = request.json['contact']
     user_id = request.json['user_id']
     branch = request.json['branch']
+    lat = request.json['lat']
+    lon = request.json['lon']
+    date = request.json['lon']
 
     if 'video' in request.json:
         video = request.json['video']
 
-        print(f"********** {len(video)}")
+        # print(f"********** {len(video)}")
 
-        uploaded_video_path = os.path.join(
-            root, 'static/videos/video1/')
+    if (len(images) == 0 or len(details) == 0 or len(location) == 0
+            or len(contact) == 0 or len(branch) == 0 or len(lat) == 0 or len(lon) == 0):
+        return jsonify({"status": "error", 'msg': "Fields are empty!"})
 
-        if not os.path.exists(uploaded_video_path):
-            os.makedirs(uploaded_video_path)
+    else:
 
-        filename = user_id + ".mp4"
+        rand_no = ut.random_number_with_date()
 
-        img_url = uploaded_video_path + "/" + filename
-        with open(img_url, "wb") as fh:
-            fh.write(base64.b64decode(video))
+        inquiries_uploaded_path = os.path.join(
+            root, 'static/images/inquiries', rand_no)
 
-    # if image == None:
-    #     return jsonify({'error': "Image not uploaded"})
+        if not os.path.exists(inquiries_uploaded_path):
+            os.makedirs(inquiries_uploaded_path)
 
-    # else:
+        for index, image in enumerate(images):
+            filename = rand_no + "_" + str(index) + ".png"
+            img_url = inquiries_uploaded_path + "/" + filename
+            with open(img_url, "wb") as fh:
+                fh.write(base64.b64decode(image))
 
-    #     uploaded_img_path = os.path.join(
-    #         root, 'static/images/inquiries_profile_pic/')
+        if os.path.exists(inquiries_uploaded_path):
+            is_added = iq.add_inquiry_details(
+                id, details, location, contact, user_id, branch, lat, lon, date)
+            if (is_added > 0):
+                return jsonify({"status": "success", 'msg': "Inquiry details uploaded."})
 
-    #     if not os.path.exists(uploaded_img_path):
-    #         os.makedirs(uploaded_img_path)
+        return jsonify({"status": "error", 'msg': "Inquiry details not uploaded."})
 
-    #     filename = user_id + ".png"
 
-    #     img_url = uploaded_img_path + "/" + filename
-    #     with open(img_url, "wb") as fh:
-    #         fh.write(base64.b64decode(image))
+@inquiries.route('/<id>', methods=['GET', 'POST'])
+def get_inquiry_by_id(id):
 
-    #     if os.path.exists(img_url):
-    #         is_updated = uq.update_profile_picture(user_id, filename)
-    #         return jsonify({"status": "success", 'msg': "Profile picture uploaded."})
-
-    #     return jsonify({"status": "error", 'msg': "Profile picture not uploaded."})
-
-    return jsonify({"status": "error", 'msg': "Profile picture not uploaded."})
+    details = iq.get_inquires_by_id(id)
+    return jsonify(details)
