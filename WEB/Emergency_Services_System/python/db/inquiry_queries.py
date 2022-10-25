@@ -211,7 +211,9 @@ import db_connector as dbConn
 def get_inquires_by_id(id):
     conn = dbConn.db_connector()
 
-    query = ''' SELECT auto_id, id, details, location, contact, user_id, branch, lat, lon, status, date FROM inquiries WHERE id = %s'''
+    query = ''' SELECT auto_id, inquiries.id, details, inquiries.location, contact, user_id, branch, lat, lon, status, date, departments.name, branches.location FROM inquiries
+                INNER JOIN branches ON branches.id = inquiries.branch
+                INNER JOIN departments ON departments.department_id = branches.department_id WHERE inquiries.id = %s'''
 
     values = (str(id),)
 
@@ -224,7 +226,9 @@ def get_inquires_by_id(id):
 def get_inquires_by_branch(branch):
     conn = dbConn.db_connector()
 
-    query = ''' SELECT auto_id, id, details, location, contact, user_id, branch, lat, lon, status, date FROM inquiries WHERE branch = %s'''
+    query = ''' SELECT auto_id, inquiries.id, details, inquiries.location, contact, user_id, branch, lat, lon, status, date, departments.name, branches.location FROM inquiries
+                INNER JOIN branches ON branches.id = inquiries.branch
+                INNER JOIN departments ON departments.department_id = branches.department_id WHERE branch = %s'''
 
     values = (str(branch),)
 
@@ -237,7 +241,9 @@ def get_inquires_by_branch(branch):
 def get_inquires_by_user(email):
     conn = dbConn.db_connector()
 
-    query = ''' SELECT auto_id, id, details, location, contact, user_id, branch, lat, lon, status, date FROM inquiries WHERE user_id = %s'''
+    query = ''' SELECT auto_id, inquiries.id, details, inquiries.location, contact, user_id, branch, lat, lon, status, date, departments.name, branches.location FROM inquiries
+                INNER JOIN branches ON branches.id = inquiries.branch
+                INNER JOIN departments ON departments.department_id = branches.department_id WHERE user_id = %s'''
 
     values = (str(email),)
 

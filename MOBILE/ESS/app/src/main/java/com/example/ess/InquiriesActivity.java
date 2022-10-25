@@ -66,7 +66,7 @@ public class InquiriesActivity extends AppCompatActivity {
         detailsArrayList.clear();
         listView.setAdapter(null);
 
-        InquiryAdapter inquiryAdapter = new InquiryAdapter(this, R.layout.row_services_item, detailsArrayList);
+        InquiryAdapter inquiryAdapter = new InquiryAdapter(this, R.layout.row_inquiry_item, detailsArrayList);
         listView.setAdapter(inquiryAdapter);
 
         String URL = API.DEPARTMENT_API;
