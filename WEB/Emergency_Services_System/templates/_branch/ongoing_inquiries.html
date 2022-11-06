@@ -1,5 +1,5 @@
 {% extends '_branch/base.html' %}
-{% block title %}Emergency Services System | Branch | Dashboard{% endblock %}
+{% block title %}Emergency Services System | Branch | Ongoing Inquiries{% endblock %}
 {% block content %}
 
 <div class="content-wrapper">
@@ -18,7 +18,7 @@
                       <div class="card-body">
                         <div class="d-sm-flex justify-content-between align-items-start">
                           <div>
-                            <h4 class="card-title card-title-dash">Pending Inquires</h4>
+                            <h4 class="card-title card-title-dash">Ongoing Inquires</h4>
                           </div>
                         </div>
                         <div class="table-responsive  mt-1">
@@ -46,7 +46,7 @@
                                     <h6>{{ i[12] }}</h6>
                                   </td>
                                   <td>
-                                    <div class="badge badge-opacity-warning">{{ i[9] }}</div>
+                                    <div class="badge badge-opacity-primary">{{ i[9] }}</div>
                                   </td>
                                 </tr>
                               {% endfor %}

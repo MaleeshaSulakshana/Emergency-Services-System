@@ -12,11 +12,11 @@ inquiries = Blueprint("inquiries", __name__, url_prefix="/inquiries",
 
 sys.path.append(os.path.abspath('../python/'))
 sys.path.append(os.path.abspath('python/db/'))
+sys.path.append(os.path.abspath('python/prediction/'))
 
 import utils as ut
 import inquiry_queries as iq
-# import mailer
-# import user_queries as uq
+import prediction
 
 APP_ROOT = os.path.dirname(os.path.abspath(__file__))
 root = os.path.dirname(APP_ROOT)
@@ -244,12 +244,11 @@ def add_inquiry():
     branch = request.json['branch']
     lat = request.json['lat']
     lon = request.json['lon']
-    date = request.json['lon']
+    date = ut.date_picker()
 
+    video = ""
     if 'video' in request.json:
         video = request.json['video']
-
-        # print(f"********** {len(video)}")
 
     if (len(images) == 0 or len(details) == 0 or len(location) == 0
             or len(contact) == 0 or len(branch) == 0 or len(lat) == 0 or len(lon) == 0):
@@ -259,21 +258,36 @@ def add_inquiry():
 
         rand_no = ut.random_number_with_date()
 
-        inquiries_uploaded_path = os.path.join(
+        inquiries_uploaded_images_pred_path = os.path.join(
             root, 'static/images/inquiries', rand_no)
+
+        inquiries_uploaded_path = os.path.join(
+            inquiries_uploaded_images_pred_path, "images")
 
         if not os.path.exists(inquiries_uploaded_path):
             os.makedirs(inquiries_uploaded_path)
 
-        for index, image in enumerate(images):
-            filename = rand_no + "_" + str(index) + ".png"
+        for image in enumerate(images):
+            filename = rand_no + "_" + str(image[0]) + ".png"
             img_url = inquiries_uploaded_path + "/" + filename
             with open(img_url, "wb") as fh:
-                fh.write(base64.b64decode(image))
+                fh.write(base64.b64decode(image[1]['image']))
+                iq.add_inquiry_images(rand_no, filename)
+
+        if os.path.exists(inquiries_uploaded_images_pred_path):
+            predict_data = prediction.predict_images(
+                inquiries_uploaded_images_pred_path)
+
+            for pred in predict_data:
+                iq.add_prediction(
+                    pred['IMAGE_NAME'], pred['PREDICTED_CLASS'], pred['ACCURACY'])
+
+        if video != "":
+            iq.add_inquiry_video(rand_no, video)
 
         if os.path.exists(inquiries_uploaded_path):
             is_added = iq.add_inquiry_details(
-                id, details, location, contact, user_id, branch, lat, lon, date)
+                rand_no, details, location, contact, user_id, branch, lat, lon, date)
             if (is_added > 0):
                 return jsonify({"status": "success", 'msg': "Inquiry details uploaded."})
 
@@ -284,4 +298,11 @@ def add_inquiry():
 def get_inquiry_by_id(id):
 
     details = iq.get_inquires_by_id(id)
+    return jsonify(details)
+
+
+@inquiries.route('/<id>/user', methods=['GET', 'POST'])
+def get_inquiry_by_user_id(id):
+
+    details = iq.get_inquires_by_user(id)
     return jsonify(details)

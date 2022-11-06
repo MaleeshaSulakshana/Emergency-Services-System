@@ -127,6 +127,8 @@ public class AddInquiryActivity extends AppCompatActivity {
                         parameter.put("contact", strContact);
                         parameter.put("user_id", Preferences.LOGGED_USER_ID);
                         parameter.put("branch", id);
+                        parameter.put("lat", "87.215");
+                        parameter.put("lon", "127.5246");
 
 //                        if (!videoPath.equals("")) {
 ////                            File file = new File(videoPath);

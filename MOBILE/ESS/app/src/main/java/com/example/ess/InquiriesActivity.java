@@ -25,6 +25,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.ess.Classes.API;
+import com.example.ess.Classes.Preferences;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
@@ -69,7 +70,7 @@ public class InquiriesActivity extends AppCompatActivity {
         InquiryAdapter inquiryAdapter = new InquiryAdapter(this, R.layout.row_inquiry_item, detailsArrayList);
         listView.setAdapter(inquiryAdapter);
 
-        String URL = API.DEPARTMENT_API;
+        String URL = API.INQUIRIES_API + "/" + Preferences.LOGGED_USER_ID + "/user";
 
         RequestQueue requestQueue = Volley.newRequestQueue(InquiriesActivity.this);
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(
@@ -89,9 +90,14 @@ public class InquiriesActivity extends AppCompatActivity {
                                 String id = (String) responseData.get(1);
                                 String desc = (String) responseData.get(2);
                                 String date = (String) responseData.get(10);
+                                String image =  API.DEPARTMENTS_ASSERT_URL + "/" +  ((String) responseData.get(13));
+//                                String image = (String) responseData.get(10);
+                                String department = (String) responseData.get(11);
+                                String branch = (String) responseData.get(12);
+                                String status = (String) responseData.get(9);
                                 int autoId = (int) responseData.get(0);
 
-                                detailsArrayList.add(new Inquiry(id, desc, date, autoId));
+                                detailsArrayList.add(new Inquiry(id, desc, date, image, department, branch, status, autoId));
 
                             }
 
@@ -120,13 +126,17 @@ public class InquiriesActivity extends AppCompatActivity {
 
 class Inquiry {
 
-    String id, desc, date;
+    String id, desc, date, image, department, branch, status;
     int autoId;
 
-    public Inquiry(String id, String desc, String date, int autoId) {
+    public Inquiry(String id, String desc, String date, String image, String department, String branch, String status, int autoId) {
         this.id = id;
         this.desc = desc;
         this.date = date;
+        this.image = image;
+        this.department = department;
+        this.branch = branch;
+        this.status = status;
         this.autoId = autoId;
     }
 
@@ -140,6 +150,22 @@ class Inquiry {
 
     public String getDate() {
         return date;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public String getDepartment() {
+        return department;
+    }
+
+    public String getBranch() {
+        return branch;
+    }
+
+    public String getStatus() {
+        return status;
     }
 
     public int getAutoId() {
@@ -165,13 +191,21 @@ class InquiryAdapter extends ArrayAdapter<Inquiry> {
         LayoutInflater layoutInflater = LayoutInflater.from(mContext);
         convertView = layoutInflater.inflate(mResource, parent, false);
 
-//        TextView title = (TextView) convertView.findViewById(R.id.title);
-//        ImageView logo = (ImageView) convertView.findViewById(R.id.logo);
-//
-//        title.setText(getItem(position).getTitle());
-//
-//        Uri imgUri = Uri.parse(getItem(position).getLogo());
-//        Picasso.get().load(imgUri).into(logo);
+        ImageView logo = (ImageView) convertView.findViewById(R.id.logo);
+        TextView department = (TextView) convertView.findViewById(R.id.department);
+        TextView branch = (TextView) convertView.findViewById(R.id.branch);
+        TextView desc = (TextView) convertView.findViewById(R.id.desc);
+        TextView status = (TextView) convertView.findViewById(R.id.status);
+        TextView date = (TextView) convertView.findViewById(R.id.date);
+
+        department.setText(getItem(position).getDepartment());
+        branch.setText(getItem(position).getBranch());
+        desc.setText(getItem(position).getDesc());
+        status.setText(getItem(position).getStatus());
+        date.setText(getItem(position).getDate());
+
+        Uri imgUri = Uri.parse(getItem(position).getImage());
+        Picasso.get().load(imgUri).into(logo);
 
         return convertView;
     }

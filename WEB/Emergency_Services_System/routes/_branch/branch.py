@@ -11,6 +11,7 @@ sys.path.append(os.path.abspath('../../python/'))
 sys.path.append(os.path.abspath('python/db/'))
 
 import utils as ut
+import inquiry_queries as iq
 import branches_queries as bq
 import users_queries as uq
 import branch_user_queries as buq
@@ -28,7 +29,28 @@ def index():
     if 'branchUserId' not in session:
         return redirect('/login')
 
-    return render_template('_branch/index.html')
+    details = iq.get_inquires_by_branch(session['branchId'], "Pending")
+    return render_template('_branch/index.html', details=details)
+
+
+# Route for view ongoing inquires
+@branch.route('ongoing')
+def ongoing():
+    if 'branchUserId' not in session:
+        return redirect('/login')
+
+    details = iq.get_inquires_by_branch(session['branchId'], "Ongoing")
+    return render_template('_branch/ongoing_inquiries.html', details=details)
+
+
+# Route for view completed inquires
+@branch.route('completed')
+def completed():
+    if 'branchUserId' not in session:
+        return redirect('/login')
+
+    details = iq.get_inquires_by_branch(session['branchId'], "Completed")
+    return render_template('_branch/completed_inquiries.html', details=details)
 
 
 # Route for view branch user profile
