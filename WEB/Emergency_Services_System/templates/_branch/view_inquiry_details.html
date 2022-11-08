@@ -1,0 +1,420 @@
+{% extends '_branch/base.html' %}
+{% block title %}Emergency Services System | Admin | View Branch Details{% endblock %}
+{% block content %}
+
+{% if details %}
+
+<script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+
+<div class="content-wrapper">
+  <div class="row">
+
+    <div class="col-12 grid-margin stretch-card">
+      <div class="card">
+        <div class="card-body">
+          <h4 class="card-title">View Inquiry Details</h4>
+
+          <form class="forms-sample" id="form_create">
+
+            <div class="form-group">
+              <label for="id">Inquiry Id</label>
+              <input type="text" class="form-control" id="id" value="{{ details[0][1] }}"
+                disabled>
+            </div>
+
+            <div class="form-group">
+              <label for="inquiry">Inquiry Details</label>
+              <textarea class="form-control" id="inquiry" rows="4" disabled>{{ details[0][2] }}</textarea>
+            </div>
+
+            <div class="form-group">
+              <label for="location">Location</label>
+              <textarea class="form-control" id="location" rows="4" disabled>{{ details[0][3] }}</textarea>
+            </div>
+
+            <div class="form-group">
+              <label for="contact">Contact</label>
+              <input type="text" class="form-control" id="contact" value="{{ details[0][4] }}" disabled>
+            </div>
+
+            <div class="form-group">
+              <label for="">Location On Map</label>
+              <button type="submit" id="btn-update" class="form-control btn btn-secondary">Location On Map</button>
+            </div>
+      
+            <div class="form-group">
+              <label for="date">Date</label>
+              <input type="text" class="form-control" id="date" value="{{ details[0][10] }}" disabled>
+            </div>
+
+            <div class="form-group">
+              <label for="branch">Branch</label>
+              <select class="form-control" id="branch">
+                <option value="none">Select Branch</option>
+                {% if branches %}
+                {% for i in branches %}
+                <option value="{{ i[1] }}" {% if details[0][6]==i[1] %} selected {% endif %}>
+                  {{ i[2] }} - {{ i[3] }}
+                </option>
+                {% endfor %}
+                {% endif %}
+              </select>
+              <br/>
+              <button onclick="update_branch('{{ details[0][1] }}', '{{ details[0][6] }}')" class="form-control btn btn-danger">Change Branch</button>
+            </div>
+
+            <div class="form-group">
+              <label for="status">Status</label>
+              <select class="form-control" id="status">
+                <option value="none">Select Status</option>
+                {% if status %}
+                {% for i in status %}
+                <option value="{{ i[1] }}" {% if details[0][9]==i[1] %} selected {% endif %}>
+                  {{ i[0] }}
+                </option>
+                {% endfor %}
+                {% endif %}
+              </select>
+              <br/>
+              <button onclick="update_status('{{ details[0][1] }}', '{{ details[0][9] }}')" class="form-control btn btn-primary">Change Status</button>
+            </div>
+
+          </form>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="content-wrapper">
+  <div class="row">
+
+    <div class="col-12 grid-margin stretch-card">
+      <div class="card">
+        <div class="card-body">
+          <h4 class="card-title">All Images</h4>
+          <div class="table-responsive">
+            <table class="table table-hover">
+              <tbody>
+
+                {% if images %}
+                {% for image in images %}
+                <tr>
+                  <td class="col">Inquiry Image {{ image[0] }}</td>
+                  <td class="col"><a href="/static/images/inquiries/{{ image[2] }}/images/{{ image[3] }}" class="form-control btn btn-secondary" target="_blank">View</a></td>
+                </tr>
+                {% endfor %}
+                {% endif %}
+
+              </tbody>
+            </table>
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+{% if videos %}
+<div class="content-wrapper">
+  <div class="row">
+
+    <div class="col-12 grid-margin stretch-card">
+      <div class="card">
+        <div class="card-body">
+          <h4 class="card-title">All Videos</h4>
+          <div class="table-responsive">
+            <table class="table table-hover">
+              <tbody>
+
+                
+                {% for video in videos %}
+                <tr>
+                  <td class="col">Inquiry Video {{ image[0] }}</td>
+                  <td class="col"><a href="{{ image[3] }}" class="form-control btn btn-secondary" target="_blank">View</a></td>
+                </tr>
+                {% endfor %}
+                
+
+              </tbody>
+            </table>
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+{% endif %}
+
+<div class="content-wrapper">
+  <div class="row">
+
+    <div class="col-12 grid-margin stretch-card">
+      <div class="card">
+        <div class="card-body">
+          <h4 class="card-title">Add Actions</h4>
+
+          <form class="forms-sample" id="form_create">
+
+            <div class="form-group">
+              <label for="action_details">Action</label>
+              <textarea class="form-control" id="action_details" rows="4" placeholder="Action"></textarea>
+            </div>
+
+            <button type="button" onclick="add_action('{{ details[0][1] }}')" class="btn btn-primary me-2">Add</button>
+
+          </form>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="content-wrapper">
+  <div class="row">
+
+    <div class="col-12 grid-margin stretch-card">
+      <div class="card">
+        <div class="card-body">
+          <h4 class="card-title">All Actions</h4>
+
+
+          <div class="table-responsive">
+            <table class="table table-hover">
+              <thead>
+                <tr>
+                  <th class="col">Department & Branch</th>
+                  <th class="col">User</th>
+                  <th class="col">Date</th>
+                  <th class="col">Action</th>
+                </tr>
+              </thead>
+              <tbody>
+
+                {% if actions %}
+                {% for item in actions %}
+                <tr>
+                  <td class="col">{{ item[4] }} - {{ item[5] }}</td>
+                  <td class="col">{{ item[6] }}</td>
+                  <td class="col">{{ item[7] }}</td>
+                  <td class="col text-break">{{ item[3] }}</td>
+                </tr>
+                {% endfor %}
+                {% else %}
+
+                <tr>
+                  <td colspan="7">
+                    <center>No Actions</center>
+                  </td>
+                </tr>
+
+                {% endif %}
+
+              </tbody>
+            </table>
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="content-wrapper">
+  <div class="row">
+
+    <div class="col-12 grid-margin stretch-card">
+      <div class="card">
+        <div class="card-body">
+          <h4 class="card-title">All Comments</h4>
+
+
+          <div class="table-responsive">
+            <table class="table table-hover">
+              <tbody>
+
+                {% if comments %}
+                {% for item in comments %}
+                <tr>
+                  <td class="col">{{ item[2] }}</td>
+                </tr>
+                {% endfor %}
+                {% else %}
+
+                <tr>
+                  <td colspan="7">
+                    <center>No Comments</center>
+                  </td>
+                </tr>
+
+                {% endif %}
+
+              </tbody>
+            </table>
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+
+  // For update inquiry details
+  function update_branch(_id, _cbranch) {
+
+    var id = _id;
+    var cbranch = _cbranch;
+    var branch = $('#branch').val();
+    var nbranch = $('#branch option:selected').text();
+
+    if (id == "" || branch == "none") {
+      swal.fire("Update Inquiry Branch", "Fields are empty!", "warning");
+
+    } else {
+
+      var form_data = new FormData();
+      form_data.append('id', id);
+      form_data.append('cbranch', cbranch);
+      form_data.append('branch', branch);
+      form_data.append('nbranch', nbranch);
+
+      $.ajax({
+        url: "/branch/update_inquiry_branch",
+        enctype: 'multipart/form-data',
+        data: form_data,
+        contentType: false,
+        cache: false,
+        processData: false,
+        type: 'POST',
+      })
+        .done(function (data) {
+          if (data.redirect) {
+            window.location.href = data.redirect;
+          }
+          else if (data.success) {
+            Swal.fire("Update Inquiry Branch", data.success, "success");
+            window.history.back();
+          }
+          else if (data.error) {
+            Swal.fire("Update Inquiry Branch", data.error, "warning");
+          }
+          else {
+            Swal.fire("Update Inquiry Branch", "Some error occur!", "warning");
+          }
+        });
+
+    }
+
+    event.preventDefault();
+  };
+
+
+    // For update inquiry details
+  function update_status(_id) {
+
+    var id = _id;
+    var status = $('#status').val();
+
+    if (id == "" || status == "none") {
+      swal.fire("Update Inquiry Status", "Fields are empty!", "warning");
+
+    } else {
+
+      var form_data = new FormData();
+      form_data.append('id', id);
+      form_data.append('status', status);
+
+      $.ajax({
+        url: "/branch/update_inquiry_status",
+        enctype: 'multipart/form-data',
+        data: form_data,
+        contentType: false,
+        cache: false,
+        processData: false,
+        type: 'POST',
+      })
+        .done(function (data) {
+          if (data.redirect) {
+            window.location.href = data.redirect;
+          }
+          else if (data.success) {
+            Swal.fire("Update Inquiry Status", data.success, "success");
+          }
+          else if (data.error) {
+            Swal.fire("Update Inquiry Status", data.error, "warning");
+          }
+          else {
+            Swal.fire("Update Inquiry Status", "Some error occur!", "warning");
+          }
+        });
+
+    }
+
+    event.preventDefault();
+  };
+
+
+  // Add inquiry actions
+  function add_action(_id) {
+
+    var id = _id;
+    var action_details = $('#action_details').val();
+
+    if (id == "" || action_details == "") {
+      swal.fire("Add Inquiry Action", "Fields are empty!", "warning");
+
+    } else {
+
+      var form_data = new FormData();
+      form_data.append('id', id);
+      form_data.append('action', action_details);
+
+      $.ajax({
+        url: "/branch/add_inquiry_actions",
+        enctype: 'multipart/form-data',
+        data: form_data,
+        contentType: false,
+        cache: false,
+        processData: false,
+        type: 'POST',
+      })
+        .done(function (data) {
+          if (data.redirect) {
+            window.location.href = data.redirect;
+          }
+          else if (data.success) {
+            Swal.fire("Add Inquiry Action", data.success, "success");
+            window.location.reload();
+          }
+          else if (data.error) {
+            Swal.fire("Add Inquiry Action", data.error, "warning");
+          }
+          else {
+            Swal.fire("Add Inquiry Action", "Some error occur!", "warning");
+          }
+        });
+
+    }
+
+    event.preventDefault();
+  }
+
+</script>
+
+{% endif %}
+
+{% endblock %}

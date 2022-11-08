@@ -113,8 +113,8 @@ def update_branch_details():
             address = request.form.get('address')
             map_url = request.form.get('map_url')
 
-            if (len(branch_id) == 0 or len(department) == 0 or len(location) == 0 or 
-                len(emergency_number) == 0 or len(address) == 0 or len(map_url) == 0):
+            if (len(branch_id) == 0 or len(department) == 0 or len(location) == 0 or
+                    len(emergency_number) == 0 or len(address) == 0 or len(map_url) == 0):
                 return jsonify({'error': "Fields are empty!"})
 
             else:
@@ -171,10 +171,9 @@ def remove_branch_details():
 
     return jsonify({'redirect': url_for('index')})
 
+
 # For mobile app
 # Route for get all branches
-
-
 @branches.route('/all', methods=['GET', 'POST'])
 def get_all_branches():
 

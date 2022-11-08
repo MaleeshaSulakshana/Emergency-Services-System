@@ -29,6 +29,7 @@
                                 <th>Department</th>
                                 <th>Branch</th>
                                 <th>Status</th>
+                                <th></th>
                               </tr>
                             </thead>
                             <tbody>
@@ -47,6 +48,9 @@
                                   </td>
                                   <td>
                                     <div class="badge badge-opacity-warning">{{ i[9] }}</div>
+                                  </td>
+                                  <td>
+                                    <a href="/branch/view-inquiry-details?id={{ i[1] }}" class="btn btn-primary-outlined">VIEW</a>
                                   </td>
                                 </tr>
                               {% endfor %}

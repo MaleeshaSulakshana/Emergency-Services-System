@@ -208,7 +208,7 @@ import db_connector as dbConn
 #     return cur.fetchall()
 
 # Function for get inquires by branch
-def get_inquires_by_id(id):
+def get_inquiry_by_id(id):
     conn = dbConn.db_connector()
 
     query = ''' SELECT auto_id, inquiries.id, details, inquiries.location, contact, user_id, branch, lat, lon, status, date, departments.name, branches.location FROM inquiries
@@ -259,7 +259,7 @@ def add_inquiry_details(id, details, location, contact, user_id, branch, lat, lo
     query = ''
     row_count = 0
 
-    query = ''' INSERT INTO inquiries (id, details, location, contact, user_id, branch, lat, lon, status, date) 
+    query = ''' INSERT INTO inquiries (id, details, location, contact, user_id, branch, lat, lon, status, date)
                     VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s) '''
     values = (str(id), str(details), str(location), str(contact),
               str(user_id), str(branch), str(lat), str(lon), "pending", str(date))
@@ -293,7 +293,7 @@ def add_inquiry_images(inquiry_id, image_name):
 def get_inquiry_images(inquiry_id):
     conn = dbConn.db_connector()
 
-    query = ''' SELECT id, inquiry_id, image_name FROM inquiry_images
+    query = ''' SELECT ROW_NUMBER() OVER (Order by inquiry_images.id) AS number, inquiry_images.id, inquiry_id, image_name FROM inquiry_images
                 INNER JOIN predictions ON predictions.image_id = inquiry_images.image_name WHERE inquiry_id = %s'''
 
     values = (str(inquiry_id),)
@@ -325,13 +325,47 @@ def add_inquiry_video(inquiry_id, video_link):
 def get_inquiry_video(inquiry_id):
     conn = dbConn.db_connector()
 
-    query = ''' SELECT id, inquiry_id, video_link FROM inquiry_video WHERE inquiry_id = %s'''
+    query = ''' SELECT ROW_NUMBER() OVER (Order by inquiry_video.id) AS number, id, inquiry_id, video_link FROM inquiry_video WHERE inquiry_id = %s'''
 
     values = (str(inquiry_id),)
 
     cur = conn.cursor()
     cur.execute(query, values)
     return cur.fetchall()
+
+
+# Function for update branch
+def update_inquiry_branch(id, branch):
+    conn = dbConn.db_connector()
+
+    query = ''
+    row_count = 0
+
+    query = ''' UPDATE inquiries SET branch = %s WHERE id = %s '''
+    values = (str(branch), str(id))
+    cur = conn.cursor()
+    cur.execute(query, values)
+    conn.commit()
+
+    row_count = cur.rowcount
+    return row_count
+
+
+# Function for update status
+def update_inquiry_status(id, status):
+    conn = dbConn.db_connector()
+
+    query = ''
+    row_count = 0
+
+    query = ''' UPDATE inquiries SET status = %s WHERE id = %s '''
+    values = (str(status), str(id))
+    cur = conn.cursor()
+    cur.execute(query, values)
+    conn.commit()
+
+    row_count = cur.rowcount
+    return row_count
 
 
 # Save images prediction data
@@ -350,3 +384,88 @@ def add_prediction(image_id, prediction, accuracy):
 
     row_count = cur.rowcount
     return row_count
+
+
+# Save comment data
+# Function for add comment
+def add_inquiry_comment(inquiry_id, comment):
+    conn = dbConn.db_connector()
+
+    query = ''
+    row_count = 0
+
+    query = ''' INSERT INTO inquiry_comments (inquiry_id, comment) VALUES (%s, %s) '''
+    values = (str(inquiry_id), str(comment))
+    cur = conn.cursor()
+    cur.execute(query, values)
+    conn.commit()
+
+    row_count = cur.rowcount
+    return row_count
+
+
+# Function for get inquiry comment
+def get_inquiry_comment(inquiry_id):
+    conn = dbConn.db_connector()
+
+    query = ''' SELECT id, inquiry_id, comment FROM inquiry_comments WHERE inquiry_id = %s'''
+
+    values = (str(inquiry_id),)
+
+    cur = conn.cursor()
+    cur.execute(query, values)
+    return cur.fetchall()
+
+
+# Save action data
+# Function for add action
+def add_inquiry_action(inquiry_id, branch_id, branch_user_id, action, c_date_time):
+    conn = dbConn.db_connector()
+
+    query = ''
+    row_count = 0
+
+    query = ''' INSERT INTO inqury_actions (inquiry_id, branch_id, branch_user_id, action, date_time) VALUES (%s, %s, %s, %s, %s) '''
+    values = (str(inquiry_id), str(branch_id),
+              str(branch_user_id), str(action), str(c_date_time))
+    cur = conn.cursor()
+    cur.execute(query, values)
+    conn.commit()
+
+    row_count = cur.rowcount
+    return row_count
+
+
+# Function for get inquiry action
+def get_inquiry_action(inquiry_id):
+    conn = dbConn.db_connector()
+
+    query = ''' SELECT inqury_actions.id, inquiry_id, inqury_actions.branch_id, action, departments.name, branches.location, branch_users.name, date_time FROM inqury_actions
+                INNER JOIN branches ON branches.branch_id = inqury_actions.branch_id
+                INNER JOIN departments ON departments.department_id = branches.department_id
+                INNER JOIN branch_users ON branch_users.id = inqury_actions.branch_user_id
+                WHERE inquiry_id = %s'''
+
+    values = (str(inquiry_id),)
+
+    cur = conn.cursor()
+    cur.execute(query, values)
+    return cur.fetchall()
+
+
+# # Function for update inquiry action
+# def add_inquiry_action(inquiry_id, branch_id, branch_user_id, action):
+#     conn = dbConn.db_connector()
+
+#     query = ''
+#     row_count = 0
+
+#     query = ''' INSERT INTO inqury_actions (inquiry_id, branch_id, branch_user_id, action) VALUES (%s, %s) '''
+#     values = (str(inquiry_id), str(branch_id),
+#               str(branch_user_id), str(action))
+#     cur = conn.cursor()
+#     cur.execute(query, values)
+#     conn.commit()
+
+#     row_count = cur.rowcount
+#     return row_count
