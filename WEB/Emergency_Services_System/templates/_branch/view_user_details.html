@@ -1,0 +1,116 @@
+{% extends '_branch/base.html' %}
+{% block title %}Emergency Services System | Branch | View User Details{% endblock %}
+{% block content %}
+
+{% if details %}
+
+<script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+
+<div class="content-wrapper">
+  <div class="row">
+
+    <div class="col-12 grid-margin stretch-card">
+      <div class="card">
+        <div class="card-body">
+          <h4 class="card-title">View User Details</h4>
+
+          <form class="forms-sample" id="form_create">
+
+            <div class="form-group">
+              <label for="fname">First Name</label>
+              <input type="text" class="form-control" id="fname" placeholder="First Name" value="{{ details[0][1] }}"
+                disabled>
+            </div>
+
+            <div class="form-group">
+              <label for="lname">Last Name</label>
+              <input type="text" class="form-control" id="lname" placeholder="Last Name" value="{{ details[0][2] }}"
+                disabled>
+            </div>
+
+            <div class="form-group">
+              <label for="email">Email</label>
+              <input type="email" class="form-control" id="email" placeholder="Email" value="{{ details[0][3] }}"
+                disabled>
+            </div>
+
+            <div class="form-group">
+              <label for="nic">NIC</label>
+              <input type="text" class="form-control" id="nic" placeholder="NIC" value="{{ details[0][4] }}" disabled>
+            </div>
+
+            <div class="form-group">
+              <label for="number">Number</label>
+              <input type="text" class="form-control" id="number" placeholder="Number" value="{{ details[0][5] }}"
+                disabled>
+            </div>
+
+            <div class="form-group">
+              <label for="address">Address</label>
+              <textarea class="form-control" id="address" rows="4" placeholder="Address"
+                disabled>{{ details[0][6] }}</textarea>
+            </div>
+
+          </form>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- <script>
+
+  $(function () {
+    $('#btn-add').click(function () {
+
+      var name = $('#name').val();
+      var email = $('#email').val();
+      var psw = $('#psw').val();
+
+      if (name == "" || email == "" || psw == "") {
+        swal.fire("Add Admin", "Fields are empty!", "warning");
+
+      } else {
+
+        var form_data = new FormData();
+        form_data.append('name', name);
+        form_data.append('email', email);
+        form_data.append('psw', psw);
+
+        $.ajax({
+          url: "/admin_register",
+          enctype: 'multipart/form-data',
+          data: form_data,
+          contentType: false,
+          cache: false,
+          processData: false,
+          type: 'POST',
+        })
+          .done(function (data) {
+            if (data.redirect) {
+              window.location.href = data.redirect;
+            }
+            else if (data.success) {
+              Swal.fire("Add Admin", data.success, "success");
+              document.getElementById("form_create").reset();
+            }
+            else if (data.error) {
+              Swal.fire("Add Admin", data.error, "warning");
+            }
+            else {
+              Swal.fire("Add Admin", "Some error occur!", "warning");
+            }
+          });
+
+      }
+
+      event.preventDefault();
+    });
+  });
+
+</script> -->
+
+{% endif %}
+
+{% endblock %}

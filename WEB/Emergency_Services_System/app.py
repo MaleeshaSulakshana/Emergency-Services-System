@@ -14,6 +14,9 @@ sys.path.append(os.path.abspath('routes/_branch'))
 import utils
 import users_queries as uq
 import branches_queries as bq
+import inquiry_queries as iq
+import departments_queries as dq
+import branch_user_queries as buq
 
 # Import departments route files
 from departments import departments
@@ -94,7 +97,44 @@ def index():
     if 'adminId' not in session:
         return redirect('/login')
 
-    return render_template('index.html')
+    pending_inquires_count = 0
+    users_count = 0
+    departments_count = 0
+    branches_count = 0
+    branch_users_count = 0
+
+    inquires = iq.get_inquires("pending")
+    users = uq.get_all_users()
+    departments = dq.get_all_departments()
+    branches = bq.get_all_branches()
+    branch_users = buq.get_all_branch_users()
+
+    pending_inquires_count = len(inquires)
+    users_count = len(users)
+    departments_count = len(departments)
+    branches_count = len(branches)
+    branch_users_count = len(branch_users)
+
+    return render_template('index.html', inquires=inquires, users_count=users_count, departments_count=departments_count, branches_count=branches_count,
+                           branch_users_count=branch_users_count, pending_inquires_count=pending_inquires_count)
+
+
+# Route for view inquiry
+@app.route('/view-inquiry-details')
+def view_inquiry_details():
+    if 'adminId' not in session:
+        return redirect('/login')
+
+    id = request.args['id']
+
+    details = iq.get_inquiry_by_id(id)
+    images = iq.get_inquiry_images(id)
+    videos = iq.get_inquiry_video(id)
+    actions = iq.get_inquiry_action(id)
+    comments = iq.get_inquiry_comment(id)
+    branches = bq.get_all_branches()
+
+    return render_template('view_inquiry_details.html', details=details, images=images, videos=videos, actions=actions, comments=comments, branches=branches)
 
 
 # Route for add admin

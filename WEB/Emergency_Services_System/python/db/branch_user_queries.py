@@ -24,6 +24,18 @@ def branch_user_registration(data):
 
 
 # Function for get all branch users
+def get_all_branch_users():
+    conn = dbConn.db_connector()
+
+    query = ''' SELECT branch_users.id, branch_users.name, branch_users.branch_id, branch_users.email FROM branch_users
+                INNER JOIN branches ON branches.branch_id = branch_users.branch_id '''
+
+    cur = conn.cursor()
+    cur.execute(query)
+    return cur.fetchall()
+
+
+# Function for get all branch users
 def get_all_branch_users_by_branch(branch_id):
     conn = dbConn.db_connector()
 

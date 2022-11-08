@@ -14,23 +14,23 @@
                 <div class="statistics-details d-flex align-items-center justify-content-between">
                   <div>
                     <p class="statistics-title">Users</p>
-                    <h3 class="rate-percentage">100</h3>
+                    <h3 class="rate-percentage">{{ users_count }}</h3>
                   </div>
                   <div>
                     <p class="statistics-title">Department</p>
-                    <h3 class="rate-percentage">7682</h3>
+                    <h3 class="rate-percentage">{{ departments_count }}</h3>
                   </div>
                   <div>
                     <p class="statistics-title">Branches</p>
-                    <h3 class="rate-percentage">68.8</h3>
+                    <h3 class="rate-percentage">{{ branches_count }}</h3>
                   </div>
                   <div class="d-none d-md-block">
                     <p class="statistics-title">Branches Users</p>
-                    <h3 class="rate-percentage">500</h3>
+                    <h3 class="rate-percentage">{{ branch_users_count }}</h3>
                   </div>
                   <div class="d-none d-md-block">
-                    <p class="statistics-title">Inquires</p>
-                    <h3 class="rate-percentage">68</h3>
+                    <p class="statistics-title">Pending Inquires</p>
+                    <h3 class="rate-percentage">{{ pending_inquires_count }}</h3>
                   </div>
                 </div>
               </div>
@@ -55,58 +55,6 @@
                   </div>
                 </div>
               </div>
-              <!-- <div class="col-lg-4 d-flex flex-column">
-                <div class="row flex-grow">
-                  <div class="col-md-6 col-lg-12 grid-margin stretch-card">
-                    <div class="card bg-primary card-rounded">
-                      <div class="card-body pb-0">
-                        <h4 class="card-title card-title-dash text-white mb-4">Status Summary</h4>
-                        <div class="row">
-                          <div class="col-sm-4">
-                            <p class="status-summary-ight-white mb-1">Closed Value</p>
-                            <h2 class="text-info">357</h2>
-                          </div>
-                          <div class="col-sm-8">
-                            <div class="status-summary-chart-wrapper pb-4">
-                              <canvas id="status-summary"></canvas>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-md-6 col-lg-12 grid-margin stretch-card">
-                    <div class="card card-rounded">
-                      <div class="card-body">
-                        <div class="row">
-                          <div class="col-sm-6">
-                            <div class="d-flex justify-content-between align-items-center mb-2 mb-sm-0">
-                              <div class="circle-progress-width">
-                                <div id="totalVisitors" class="progressbar-js-circle pr-2"></div>
-                              </div>
-                              <div>
-                                <p class="text-small mb-2">Total Visitors</p>
-                                <h4 class="mb-0 fw-bold">26.80%</h4>
-                              </div>
-                            </div>
-                          </div>
-                          <div class="col-sm-6">
-                            <div class="d-flex justify-content-between align-items-center">
-                              <div class="circle-progress-width">
-                                <div id="visitperday" class="progressbar-js-circle pr-2"></div>
-                              </div>
-                              <div>
-                                <p class="text-small mb-2">Visits per day</p>
-                                <h4 class="mb-0 fw-bold">9065</h4>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div> -->
             </div>
             <div class="row">
               <div class="col-sm-12 d-flex flex-column">
@@ -146,57 +94,36 @@
                           <table class="table select-table">
                             <thead>
                               <tr>
-                                <th>Subject</th>
+                                <th>Details</th>
                                 <th>Department</th>
                                 <th>Branch</th>
                                 <th>Status</th>
+                                <th></th>
                               </tr>
                             </thead>
                             <tbody>
-                              <tr>
-                                <td>
-                                  <h6>Accident in Colombo</h6>
-                                </td>
-                                <td>
-                                  <h6>Hospital</h6>
-                                </td>
-                                <td>
-                                  <h6>Colombo</h6>
-                                </td>
-                                <td>
-                                  <div class="badge badge-opacity-warning">Pending</div>
-                                </td>
-                              </tr>
 
-                              <tr>
-                                <td>
-                                  <h6>Accident in Galle</h6>
-                                </td>
-                                <td>
-                                  <h6>Hospital</h6>
-                                </td>
-                                <td>
-                                  <h6>Galle</h6>
-                                </td>
-                                <td>
-                                  <div class="badge badge-opacity-warning">Pending</div>
-                                </td>
-                              </tr>
-
-                              <tr>
-                                <td>
-                                  <h6>Fire in Jaffna</h6>
-                                </td>
-                                <td>
-                                  <h6>Police</h6>
-                                </td>
-                                <td>
-                                  <h6>Jaffna</h6>
-                                </td>
-                                <td>
-                                  <div class="badge badge-opacity-warning">Pending</div>
-                                </td>
-                              </tr>
+                              {% if inquires %}
+                              {% for i in inquires %}
+                                <tr>
+                                  <td>
+                                    <h6 class="text-truncate" style="width: 10rem;">{{ i[2] }}</h6>
+                                  </td>
+                                  <td>
+                                    <h6>{{ i[11] }}</h6>
+                                  </td>
+                                  <td>
+                                    <h6>{{ i[12] }}</h6>
+                                  </td>
+                                  <td>
+                                    <div class="badge badge-opacity-warning">{{ i[9] }}</div>
+                                  </td>
+                                  <td>
+                                    <a href="/view-inquiry-details?id={{ i[1] }}" class="btn btn-primary-outlined">VIEW</a>
+                                  </td>
+                                </tr>
+                              {% endfor %}
+                              {% endif %}
 
                             </tbody>
                           </table>
@@ -205,139 +132,6 @@
                     </div>
                   </div>
                 </div>
-
-                <!-- <div class="row flex-grow">
-                  <div class="col-md-6 col-lg-6 grid-margin stretch-card">
-                    <div class="card card-rounded">
-                      <div class="card-body card-rounded">
-                        <h4 class="card-title  card-title-dash">Recent Events</h4>
-                        <div class="list align-items-center border-bottom py-2">
-                          <div class="wrapper w-100">
-                            <p class="mb-2 font-weight-medium">
-                              Change in Directors
-                            </p>
-                            <div class="d-flex justify-content-between align-items-center">
-                              <div class="d-flex align-items-center">
-                                <i class="mdi mdi-calendar text-muted me-1"></i>
-                                <p class="mb-0 text-small text-muted">Mar 14, 2019</p>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                        <div class="list align-items-center border-bottom py-2">
-                          <div class="wrapper w-100">
-                            <p class="mb-2 font-weight-medium">
-                              Other Events
-                            </p>
-                            <div class="d-flex justify-content-between align-items-center">
-                              <div class="d-flex align-items-center">
-                                <i class="mdi mdi-calendar text-muted me-1"></i>
-                                <p class="mb-0 text-small text-muted">Mar 14, 2019</p>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                        <div class="list align-items-center border-bottom py-2">
-                          <div class="wrapper w-100">
-                            <p class="mb-2 font-weight-medium">
-                              Quarterly Report
-                            </p>
-                            <div class="d-flex justify-content-between align-items-center">
-                              <div class="d-flex align-items-center">
-                                <i class="mdi mdi-calendar text-muted me-1"></i>
-                                <p class="mb-0 text-small text-muted">Mar 14, 2019</p>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                        <div class="list align-items-center border-bottom py-2">
-                          <div class="wrapper w-100">
-                            <p class="mb-2 font-weight-medium">
-                              Change in Directors
-                            </p>
-                            <div class="d-flex justify-content-between align-items-center">
-                              <div class="d-flex align-items-center">
-                                <i class="mdi mdi-calendar text-muted me-1"></i>
-                                <p class="mb-0 text-small text-muted">Mar 14, 2019</p>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-
-                        <div class="list align-items-center pt-3">
-                          <div class="wrapper w-100">
-                            <p class="mb-0">
-                              <a href="#" class="fw-bold text-primary">Show all <i
-                                  class="mdi mdi-arrow-right ms-2"></i></a>
-                            </p>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-md-6 col-lg-6 grid-margin stretch-card">
-                    <div class="card card-rounded">
-                      <div class="card-body">
-                        <div class="d-flex align-items-center justify-content-between mb-3">
-                          <h4 class="card-title card-title-dash">Activities</h4>
-                          <p class="mb-0">20 finished, 5 remaining</p>
-                        </div>
-                        <ul class="bullet-line-list">
-                          <li>
-                            <div class="d-flex justify-content-between">
-                              <div><span class="text-light-green">Ben Tossell</span> assign you a task</div>
-                              <p>Just now</p>
-                            </div>
-                          </li>
-                          <li>
-                            <div class="d-flex justify-content-between">
-                              <div><span class="text-light-green">Oliver Noah</span> assign you a task</div>
-                              <p>1h</p>
-                            </div>
-                          </li>
-                          <li>
-                            <div class="d-flex justify-content-between">
-                              <div><span class="text-light-green">Jack William</span> assign you a task</div>
-                              <p>1h</p>
-                            </div>
-                          </li>
-                          <li>
-                            <div class="d-flex justify-content-between">
-                              <div><span class="text-light-green">Leo Lucas</span> assign you a task</div>
-                              <p>1h</p>
-                            </div>
-                          </li>
-                          <li>
-                            <div class="d-flex justify-content-between">
-                              <div><span class="text-light-green">Thomas Henry</span> assign you a task</div>
-                              <p>1h</p>
-                            </div>
-                          </li>
-                          <li>
-                            <div class="d-flex justify-content-between">
-                              <div><span class="text-light-green">Ben Tossell</span> assign you a task</div>
-                              <p>1h</p>
-                            </div>
-                          </li>
-                          <li>
-                            <div class="d-flex justify-content-between">
-                              <div><span class="text-light-green">Ben Tossell</span> assign you a task</div>
-                              <p>1h</p>
-                            </div>
-                          </li>
-                        </ul>
-                        <div class="list align-items-center pt-3">
-                          <div class="wrapper w-100">
-                            <p class="mb-0">
-                              <a href="#" class="fw-bold text-primary">Show all <i
-                                  class="mdi mdi-arrow-right ms-2"></i></a>
-                            </p>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div> -->
 
               </div>
 
