@@ -30,11 +30,6 @@
                 android:orientation="vertical"
                 android:weightSum="10">
 
-                <ImageView
-                    android:id="@+id/logo"
-                    android:layout_width="60dp"
-                    android:layout_height="60dp"/>
-
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -82,10 +77,9 @@
                 android:weightSum="10">
 
                 <TextView
-                    android:id="@+id/desc"
+                    android:id="@+id/actionDetails"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:singleLine="true"
                     android:fontFamily="sans-serif-condensed-light"
                     android:gravity="center"
                     android:text=""
@@ -113,7 +107,7 @@
                     android:layout_weight="1">
 
                     <TextView
-                        android:id="@+id/status"
+                        android:id="@+id/bUser"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:singleLine="true"

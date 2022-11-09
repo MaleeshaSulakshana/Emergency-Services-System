@@ -27,8 +27,7 @@
             <ImageView
                 android:id="@+id/logo"
                 android:layout_width="60dp"
-                android:layout_height="60dp"
-                android:src="@drawable/sl_police"/>
+                android:layout_height="60dp"/>
 
             <TextView
                 android:id="@+id/title"
@@ -37,7 +36,7 @@
                 android:layout_marginLeft="10dp"
                 android:fontFamily="sans-serif-condensed-light"
                 android:gravity="center"
-                android:text="Police"
+                android:text=""
                 android:textColor="@color/gray2"
                 android:textSize="25dp"
                 android:textAllCaps="true"

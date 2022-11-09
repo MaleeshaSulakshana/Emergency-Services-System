@@ -92,6 +92,17 @@ public class ViewInquiryDetailsActivity extends AppCompatActivity {
             }
         });
 
+        btnViewActions.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Intent intent = new Intent(ViewInquiryDetailsActivity.this, ViewInquiryActionsActivity.class);
+                intent.putExtra("id", id);
+                startActivity(intent);
+
+            }
+        });
+
     }
 
     private void showDetails() {

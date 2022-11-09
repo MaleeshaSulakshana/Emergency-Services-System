@@ -249,7 +249,8 @@ def add_inquiry_action(inquiry_id, branch_id, branch_user_id, action, c_date_tim
 def get_inquiry_action(inquiry_id):
     conn = dbConn.db_connector()
 
-    query = ''' SELECT inqury_actions.id, inquiry_id, inqury_actions.branch_id, action, departments.name, branches.location, branch_users.name, date_time FROM inqury_actions
+    query = ''' SELECT inqury_actions.id, inquiry_id, inqury_actions.branch_id, action, departments.name, branches.location, 
+                        branch_users.name, date_time FROM inqury_actions
                 INNER JOIN branches ON branches.branch_id = inqury_actions.branch_id
                 INNER JOIN departments ON departments.department_id = branches.department_id
                 INNER JOIN branch_users ON branch_users.id = inqury_actions.branch_user_id
