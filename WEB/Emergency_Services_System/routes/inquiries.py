@@ -85,7 +85,21 @@ def add_inquiry():
 @inquiries.route('/<id>', methods=['GET', 'POST'])
 def get_inquiry_by_id(id):
 
-    details = iq.get_inquires_by_id(id)
+    details = iq.get_inquiry_by_id(id)
+    return jsonify(details)
+
+
+@inquiries.route('/<id>/images', methods=['GET', 'POST'])
+def get_inquiry_images_by_id(id):
+
+    details = iq.get_inquiry_images(id)
+    return jsonify(details)
+
+
+@inquiries.route('/<id>/video', methods=['GET', 'POST'])
+def get_inquiry_video_by_id(id):
+
+    details = iq.get_inquiry_video(id)
     return jsonify(details)
 
 

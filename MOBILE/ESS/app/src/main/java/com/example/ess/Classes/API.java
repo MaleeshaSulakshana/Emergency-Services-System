@@ -21,5 +21,7 @@ public class API {
 
     public static final String PROFILE_ASSERT_URL = ASSERT_URL + "/users_profile_pic";
 
+    public static final String INQUIRY_ASSERT_URL = ASSERT_URL + "/inquiries";
+
 
 }

@@ -53,7 +53,7 @@ public class InquiriesActivity extends AppCompatActivity {
 
                 String selected = String.valueOf(detailsArrayList.get(i).getId());
 
-                Intent intent = new Intent(InquiriesActivity.this, BranchesActivity.class);
+                Intent intent = new Intent(InquiriesActivity.this, ViewInquiryDetailsActivity.class);
                 intent.putExtra("id", selected);
                 startActivity(intent);
 

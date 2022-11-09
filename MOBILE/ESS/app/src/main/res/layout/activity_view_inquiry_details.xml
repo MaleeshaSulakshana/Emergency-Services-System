@@ -1,0 +1,283 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical"
+    tools:context=".ViewInquiryDetailsActivity">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingTop="40dp"
+            android:paddingBottom="40dp"
+            android:orientation="vertical"
+            android:gravity="center">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_marginStart="30dp"
+                android:layout_marginTop="30dp"
+                android:layout_marginEnd="30dp"
+                android:layout_marginBottom="30dp"
+                android:fontFamily="sans-serif-condensed-light"
+                android:gravity="center"
+                android:text="View Inquiry"
+                android:textColor="@color/gray2"
+                android:textSize="30dp"
+                android:textAllCaps="true"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="30dp"
+                android:orientation="vertical"
+                android:gravity="left">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp"
+                    android:background="@drawable/white_background"
+                    android:shadowColor="@color/gray2"
+                    android:textColor="@color/gray2"
+                    android:hint="Inquiry Details"
+                    android:textColorHint="@color/gray2"
+                    android:textStyle="bold"/>
+
+                <TextView
+                    android:id="@+id/details"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="20dp"
+                    android:background="@drawable/white_background"
+                    android:shadowColor="@color/gray2"
+                    android:textColor="@color/gray2"
+                    android:hint="Inquiry Details"
+                    android:textColorHint="@color/gray2"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="30dp"
+                android:orientation="vertical"
+                android:gravity="left">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp"
+                    android:background="@drawable/white_background"
+                    android:shadowColor="@color/gray2"
+                    android:textColor="@color/gray2"
+                    android:hint="Location"
+                    android:textColorHint="@color/gray2"
+                    android:textStyle="bold"/>
+
+                <TextView
+                    android:id="@+id/location"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="20dp"
+                    android:background="@drawable/white_background"
+                    android:shadowColor="@color/gray2"
+                    android:textColor="@color/gray2"
+                    android:hint="Location"
+                    android:textColorHint="@color/gray2"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="30dp"
+                android:orientation="vertical"
+                android:gravity="left">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp"
+                    android:background="@drawable/white_background"
+                    android:shadowColor="@color/gray2"
+                    android:textColor="@color/gray2"
+                    android:hint="Contact Number"
+                    android:textColorHint="@color/gray2"
+                    android:textStyle="bold"/>
+
+                <TextView
+                    android:id="@+id/contact"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="20dp"
+                    android:background="@drawable/white_background"
+                    android:shadowColor="@color/gray2"
+                    android:textColor="@color/gray2"
+                    android:hint="Contact Number"
+                    android:textColorHint="@color/gray2"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="30dp"
+                android:orientation="vertical"
+                android:gravity="left">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp"
+                    android:background="@drawable/white_background"
+                    android:shadowColor="@color/gray2"
+                    android:textColor="@color/gray2"
+                    android:hint="Department and Branch"
+                    android:textColorHint="@color/gray2"
+                    android:textStyle="bold"/>
+
+                <TextView
+                    android:id="@+id/departmentBranch"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="20dp"
+                    android:background="@drawable/white_background"
+                    android:shadowColor="@color/gray2"
+                    android:textColor="@color/gray2"
+                    android:hint="Department and Branch"
+                    android:textColorHint="@color/gray2"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="30dp"
+                android:orientation="vertical"
+                android:gravity="left">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp"
+                    android:background="@drawable/white_background"
+                    android:shadowColor="@color/gray2"
+                    android:textColor="@color/gray2"
+                    android:hint="Date"
+                    android:textColorHint="@color/gray2"
+                    android:textStyle="bold"/>
+
+                <TextView
+                    android:id="@+id/date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="20dp"
+                    android:background="@drawable/white_background"
+                    android:shadowColor="@color/gray2"
+                    android:textColor="@color/gray2"
+                    android:hint="Date"
+                    android:textColorHint="@color/gray2"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="30dp"
+                android:orientation="vertical"
+                android:gravity="left">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp"
+                    android:background="@drawable/white_background"
+                    android:shadowColor="@color/gray2"
+                    android:textColor="@color/gray2"
+                    android:hint="Status"
+                    android:textColorHint="@color/gray2"
+                    android:textStyle="bold"/>
+
+                <TextView
+                    android:id="@+id/status"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="20dp"
+                    android:background="@drawable/white_background"
+                    android:shadowColor="@color/gray2"
+                    android:textColor="@color/gray2"
+                    android:hint="Status"
+                    android:textColorHint="@color/gray2"/>
+
+            </LinearLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerview"
+                android:scrollbars="horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="30dp"
+                android:layout_marginBottom="10dp"
+                android:layout_centerVertical="true"
+                android:layout_centerHorizontal="true" />
+
+            <Button
+                android:id="@+id/btnViewVideo"
+                android:layout_width="300dp"
+                android:layout_height="50dp"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/blue_background"
+                android:text="View Video"
+                android:textSize="18dp"
+                android:textStyle="bold"
+                android:textColor="@color/white"
+                app:backgroundTint="@null"
+                android:visibility="gone"/>
+
+            <Button
+                android:id="@+id/btnViewActions"
+                android:layout_width="300dp"
+                android:layout_height="50dp"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/blue_background"
+                android:text="View Actions"
+                android:textSize="18dp"
+                android:textStyle="bold"
+                android:textColor="@color/white"
+                app:backgroundTint="@null"/>
+
+            <Button
+                android:id="@+id/btnViewComments"
+                android:layout_width="300dp"
+                android:layout_height="50dp"
+                android:background="@drawable/blue_background"
+                android:text="View Comments"
+                android:textSize="18dp"
+                android:textStyle="bold"
+                android:textColor="@color/white"
+                app:backgroundTint="@null"/>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</LinearLayout>
