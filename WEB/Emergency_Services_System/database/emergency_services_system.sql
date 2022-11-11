@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 08, 2022 at 09:23 PM
+-- Generation Time: Nov 11, 2022 at 11:09 PM
 -- Server version: 10.4.19-MariaDB
 -- PHP Version: 7.4.19
 
@@ -134,13 +134,6 @@ CREATE TABLE `inquiries` (
   `date` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
---
--- Dumping data for table `inquiries`
---
-
-INSERT INTO `inquiries` (`auto_id`, `id`, `details`, `location`, `contact`, `user_id`, `branch`, `lat`, `lon`, `status`, `date`) VALUES
-(6, '2022110755003733', 'Test', 'Test', '0768595624', '5', '20220821498124', '87.215', '127.5246', 'pending', '2022-11-07');
-
 -- --------------------------------------------------------
 
 --
@@ -153,13 +146,6 @@ CREATE TABLE `inquiry_comments` (
   `comment` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
---
--- Dumping data for table `inquiry_comments`
---
-
-INSERT INTO `inquiry_comments` (`id`, `inquiry_id`, `comment`) VALUES
-(1, '2022110755003733', 'Hurry up');
-
 -- --------------------------------------------------------
 
 --
@@ -171,40 +157,6 @@ CREATE TABLE `inquiry_images` (
   `inquiry_id` varchar(255) NOT NULL,
   `image_name` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `inquiry_images`
---
-
-INSERT INTO `inquiry_images` (`id`, `inquiry_id`, `image_name`) VALUES
-(1, '2022110691562535', '2022110691562535_0.png'),
-(2, '2022110691562535', '2022110691562535_1.png'),
-(3, '2022110691562535', '2022110691562535_2.png'),
-(4, '2022110691562535', '2022110691562535_3.png'),
-(5, '2022110766084167', '2022110766084167_0.png'),
-(6, '2022110766084167', '2022110766084167_1.png'),
-(7, '2022110766084167', '2022110766084167_2.png'),
-(8, '2022110755707034', '2022110755707034_0.png'),
-(9, '2022110755707034', '2022110755707034_1.png'),
-(10, '2022110755707034', '2022110755707034_2.png'),
-(11, '2022110710060642', '2022110710060642_0.png'),
-(12, '2022110710060642', '2022110710060642_1.png'),
-(13, '2022110740835297', '2022110740835297_0.png'),
-(14, '2022110740835297', '2022110740835297_1.png'),
-(15, '2022110766884443', '2022110766884443_0.png'),
-(16, '2022110766884443', '2022110766884443_1.png'),
-(17, '2022110766884443', '2022110766884443_2.png'),
-(18, '2022110755570271', '2022110755570271_0.png'),
-(19, '2022110755570271', '2022110755570271_1.png'),
-(20, '2022110755570271', '2022110755570271_2.png'),
-(21, '2022110797086449', '2022110797086449_0.png'),
-(22, '2022110797086449', '2022110797086449_1.png'),
-(23, '2022110797086449', '2022110797086449_2.png'),
-(24, '2022110797086449', '2022110797086449_3.png'),
-(25, '2022110755003733', '2022110755003733_0.png'),
-(26, '2022110755003733', '2022110755003733_1.png'),
-(27, '2022110755003733', '2022110755003733_2.png'),
-(28, '2022110755003733', '2022110755003733_3.png');
 
 -- --------------------------------------------------------
 
@@ -233,22 +185,6 @@ CREATE TABLE `inqury_actions` (
   `date_time` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
---
--- Dumping data for table `inqury_actions`
---
-
-INSERT INTO `inqury_actions` (`id`, `inquiry_id`, `branch_id`, `branch_user_id`, `action`, `date_time`) VALUES
-(12, '2022110755003733', '20220821498124', '2', 'department or branch change from Hospital - Galle to Hospital - Homagama', '2022-11-08 23:51:59'),
-(13, '2022110755003733', '20220821498124', '2', 'Status change from pending to ongoing', '2022-11-08 23:51:59'),
-(14, '2022110755003733', '20220821498124', '2', 'Status change from ongoing to pending', '2022-11-08 23:51:59'),
-(15, '2022110755003733', '20220821498124', '2', 'department or branch change from Hospital - Homagama to Hospital - Galle', '2022-11-08 23:51:59'),
-(16, '2022110755003733', '20220821498124', '2', 'department or branch change from Hospital - Homagama to Hospital - Galle', '2022-11-08 23:51:59'),
-(17, '2022110755003733', '2022082252092101', '2', 'department or branch change from Hospital - Galle to Hospital - Homagama', '2022-11-08 23:51:59'),
-(18, '2022110755003733', '20220821498124', '2', 'Test action', '2022-11-08 23:51:59'),
-(19, '2022110755003733', '2022082252092101', '3', 'Test Action 2', '2022-11-08 23:51:59'),
-(20, '2022110755003733', '2022082252092101', '3', 'Test action 3', '2022-11-08 23:51:59'),
-(21, '2022110755003733', '20220821498124', '4', 't', '2022-11-08 23:51:59');
-
 -- --------------------------------------------------------
 
 --
@@ -257,20 +193,11 @@ INSERT INTO `inqury_actions` (`id`, `inquiry_id`, `branch_id`, `branch_user_id`,
 
 CREATE TABLE `predictions` (
   `id` int(255) NOT NULL,
+  `inquiry_id` varchar(255) NOT NULL,
   `image_id` varchar(255) NOT NULL,
   `prediction` varchar(255) NOT NULL,
   `accuracy` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `predictions`
---
-
-INSERT INTO `predictions` (`id`, `image_id`, `prediction`, `accuracy`) VALUES
-(1, '2022110755003733_0.png', 'Fire', '99'),
-(2, '2022110755003733_1.png', 'Fire', '99'),
-(3, '2022110755003733_2.png', 'Fire', '99'),
-(4, '2022110755003733_3.png', 'Fire', '99');
 
 -- --------------------------------------------------------
 
@@ -297,7 +224,7 @@ CREATE TABLE `users` (
 INSERT INTO `users` (`id`, `first_name`, `last_name`, `email`, `nic`, `number`, `address`, `psw`, `profile_pic`) VALUES
 (1, 'Maleesha', 'Sulakshana', 'maleesha@gmail.com', '982760747V', '0764852852', '406/5/1, Pitipana North Homagama', '25d55ad283aa400af464c76d713c07ad', '1.png'),
 (3, 'Sulakshana', 'Jayasinghe', 'sulakshana@gmail.com', '982760747V', '0767950600', '406/5/1, Pitipana North Homagama', '25d55ad283aa400af464c76d713c07ad', ''),
-(5, 'Jayasinghe', 'Sulakshana', 'jayasinghesulakshana@gmail.com', '982760747V', '0765241365', '406/5/1, Colombo', '7b9b8391b2dce732bfa9c27263578ac4', ''),
+(5, 'Jayasinghe', 'Sulakshana', 'jayasinghesulakshana@gmail.com', '982760747V', '0765241365', '406/5/1, Colombo', '25d55ad283aa400af464c76d713c07ad', ''),
 (6, 'Sithumini', 'Navodya', 'nsithumini96@gmail.com', '965236548V', '0715828021', 'Galle', '25d55ad283aa400af464c76d713c07ad', '6.png');
 
 --
@@ -402,37 +329,37 @@ ALTER TABLE `departments`
 -- AUTO_INCREMENT for table `inquiries`
 --
 ALTER TABLE `inquiries`
-  MODIFY `auto_id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `auto_id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT for table `inquiry_comments`
 --
 ALTER TABLE `inquiry_comments`
-  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `inquiry_images`
 --
 ALTER TABLE `inquiry_images`
-  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=49;
 
 --
 -- AUTO_INCREMENT for table `inquiry_video`
 --
 ALTER TABLE `inquiry_video`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `inqury_actions`
 --
 ALTER TABLE `inqury_actions`
-  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- AUTO_INCREMENT for table `predictions`
 --
 ALTER TABLE `predictions`
-  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
 -- AUTO_INCREMENT for table `users`

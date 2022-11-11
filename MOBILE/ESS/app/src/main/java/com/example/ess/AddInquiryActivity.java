@@ -1,10 +1,18 @@
 package com.example.ess;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -37,12 +45,13 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 
-public class AddInquiryActivity extends AppCompatActivity {
+public class AddInquiryActivity extends AppCompatActivity implements LocationListener {
 
     private Button btnAdd, btnSelectImages, btnSelectVideo;
     private EditText details, location, contact;
@@ -54,7 +63,9 @@ public class AddInquiryActivity extends AppCompatActivity {
     private static final int REQUEST_TAKE_GALLERY_VIDEO = 3;
     private Uri imageUri = Uri.EMPTY;
     private ArrayList<Bitmap> bitmapList = new ArrayList<Bitmap>();
-    private String videoPath = "";
+    private String videoPath = "", lat = "", lon = "" ;
+
+    private LocationManager locationManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,6 +85,36 @@ public class AddInquiryActivity extends AppCompatActivity {
 
         imageCount = (TextView) this.findViewById(R.id.imageCount);
         videoCount = (TextView) this.findViewById(R.id.videoCount);
+
+//        Get user permission for gps
+        try {
+            if (ContextCompat.checkSelfPermission(getApplicationContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED ) {
+                ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, 101);
+            }
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+
+        try {
+            locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
+            Location currentLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+
+            if (currentLocation != null) {
+
+                double latitude = currentLocation.getLatitude();
+                double longitude = currentLocation.getLongitude();
+
+                lat = String.valueOf(latitude);
+                lon = String.valueOf(longitude);
+
+            }
+
+
+        }
+        catch(SecurityException e) {
+            e.printStackTrace();
+        }
 
         btnSelectImages.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -97,42 +138,48 @@ public class AddInquiryActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                btnAdd.setEnabled(false);
+                if (lat != "" && lon != "") {
 
-                String strDetails = details.getText().toString();
-                String strLocation = location.getText().toString();
-                String strContact = contact.getText().toString();
+                    btnAdd.setEnabled(false);
 
-                if (strDetails.equals("") || strContact.equals("") || strLocation.equals("")) {
-                    btnAdd.setEnabled(true);
-                    Toast.makeText(AddInquiryActivity.this, "Fields are empty!",Toast.LENGTH_SHORT).show();
+                    String strDetails = details.getText().toString();
+                    String strLocation = location.getText().toString();
+                    String strContact = contact.getText().toString();
 
-                } else if (bitmapList.size() == 0) {
-                    btnAdd.setEnabled(true);
-                    Toast.makeText(AddInquiryActivity.this, "Please add one or more images for proof.",Toast.LENGTH_SHORT).show();
+                    if (strDetails.equals("") || strContact.equals("") || strLocation.equals("")) {
+                        btnAdd.setEnabled(true);
+                        Toast.makeText(AddInquiryActivity.this, "Fields are empty!",Toast.LENGTH_SHORT).show();
 
-                } else {
+                    } else if (strContact.length() != 10) {
+                        btnAdd.setEnabled(true);
+                        Toast.makeText(AddInquiryActivity.this, "Please check your mobile number!",Toast.LENGTH_SHORT).show();
 
-                    try {
-                        String URL = API.INQUIRIES_API + "/add_inquiry";
+                    } else if (bitmapList.size() == 0) {
+                        btnAdd.setEnabled(true);
+                        Toast.makeText(AddInquiryActivity.this, "Please add one or more images for proof!",Toast.LENGTH_SHORT).show();
 
-                        JSONArray jsonArray = new JSONArray();
-                        for (int i=0; i < bitmapList.size(); i++) {
-                            JSONObject jsonBody = new JSONObject();
-                            String image = getStringImage(bitmapList.get(i));
-                            jsonBody.put("image", image);
-                            jsonArray.put(jsonBody);
-                        }
+                    } else {
 
-                        JSONObject parameter =  new JSONObject();
-                        parameter.put("images", jsonArray);
-                        parameter.put("details", strDetails);
-                        parameter.put("location", strLocation);
-                        parameter.put("contact", strContact);
-                        parameter.put("user_id", Preferences.LOGGED_USER_ID);
-                        parameter.put("branch", id);
-                        parameter.put("lat", "87.215");
-                        parameter.put("lon", "127.5246");
+                        try {
+                            String URL = API.INQUIRIES_API + "/add_inquiry";
+
+                            JSONArray jsonArray = new JSONArray();
+                            for (int i=0; i < bitmapList.size(); i++) {
+                                JSONObject jsonBody = new JSONObject();
+                                String image = getStringImage(bitmapList.get(i));
+                                jsonBody.put("image", image);
+                                jsonArray.put(jsonBody);
+                            }
+
+                            JSONObject parameter =  new JSONObject();
+                            parameter.put("images", jsonArray);
+                            parameter.put("details", strDetails);
+                            parameter.put("location", strLocation);
+                            parameter.put("contact", strContact);
+                            parameter.put("user_id", Preferences.LOGGED_USER_ID);
+                            parameter.put("branch", id);
+                            parameter.put("lat", lat);
+                            parameter.put("lon", lon);
 
 //                        if (!videoPath.equals("")) {
 ////                            File file = new File(videoPath);
@@ -143,45 +190,48 @@ public class AddInquiryActivity extends AppCompatActivity {
 //
 //                        }
 
-                        JsonObjectRequest jsonObject = new JsonObjectRequest(Request.Method.POST, URL, parameter, new Response.Listener<JSONObject>() {
-                            @Override
-                            public void onResponse(JSONObject response) {
+                            JsonObjectRequest jsonObject = new JsonObjectRequest(Request.Method.POST, URL, parameter, new Response.Listener<JSONObject>() {
+                                @Override
+                                public void onResponse(JSONObject response) {
 
-                                try {
+                                    try {
 
-                                    String status = response.getString("status");
-                                    String msg = response.getString("msg");
+                                        String status = response.getString("status");
+                                        String msg = response.getString("msg");
 
-                                    Toast.makeText(AddInquiryActivity.this, msg, Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(AddInquiryActivity.this, msg, Toast.LENGTH_SHORT).show();
 
-                                    if (status.equals("success")) {
-                                        Intent intent = new Intent(AddInquiryActivity.this, InquiriesActivity.class);
-                                        startActivity(intent);
-                                        finish();
-                                    } else {
-                                        btnAdd.setEnabled(true);
+                                        if (status.equals("success")) {
+                                            Intent intent = new Intent(AddInquiryActivity.this, InquiriesActivity.class);
+                                            startActivity(intent);
+                                            finish();
+                                        } else {
+                                            btnAdd.setEnabled(true);
+                                        }
+
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
                                     }
 
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
                                 }
+                            }, new Response.ErrorListener() {
+                                @Override
+                                public void onErrorResponse(VolleyError error) {
+                                    Toast.makeText(AddInquiryActivity.this, error.getMessage().toString(), Toast.LENGTH_SHORT).show();
+                                }
+                            });
 
-                            }
-                        }, new Response.ErrorListener() {
-                            @Override
-                            public void onErrorResponse(VolleyError error) {
-                                Toast.makeText(AddInquiryActivity.this, error.getMessage().toString(), Toast.LENGTH_SHORT).show();
-                            }
-                        });
+                            RequestQueue queue = Volley.newRequestQueue(AddInquiryActivity.this);
+                            queue.add(jsonObject);
 
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
 
-                        RequestQueue queue = Volley.newRequestQueue(AddInquiryActivity.this);
-                        queue.add(jsonObject);
-
-                    } catch (JSONException e) {
-                        e.printStackTrace();
                     }
 
+                } else {
+                    Toast.makeText(AddInquiryActivity.this, "Waiting for get your location.", Toast.LENGTH_SHORT).show();
                 }
 
             }
@@ -256,6 +306,24 @@ public class AddInquiryActivity extends AppCompatActivity {
         byte[] imageBytes = byteArrayOutputStream.toByteArray();
         String encodedImage = Base64.encodeToString(imageBytes, Base64.DEFAULT);
         return encodedImage;
+    }
+
+    @Override
+    public void onLocationChanged(@NonNull Location location) {
+
+    }
+
+    @Override
+    public void onStatusChanged(String provider, int status, Bundle extras) {
+    }
+
+    @Override
+    public void onProviderEnabled(@NonNull String provider) {
+    }
+
+    @Override
+    public void onProviderDisabled(String provider) {
+        Toast.makeText(AddInquiryActivity.this, "Please Enable GPS and Internet", Toast.LENGTH_SHORT).show();
     }
 
 }
