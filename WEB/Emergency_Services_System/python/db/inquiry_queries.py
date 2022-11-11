@@ -102,8 +102,11 @@ def add_inquiry_images(inquiry_id, image_name):
 def get_inquiry_images(inquiry_id):
     conn = dbConn.db_connector()
 
-    query = ''' SELECT ROW_NUMBER() OVER (Order by inquiry_images.id) AS number, inquiry_images.id, inquiry_id, image_name FROM inquiry_images
-                INNER JOIN predictions ON predictions.image_id = inquiry_images.image_name WHERE inquiry_id = %s'''
+    query = ''' SELECT ROW_NUMBER() OVER (Order by inquiry_images.id) AS number, inquiry_images.id, inquiry_images.inquiry_id, image_name, prediction, accuracy FROM inquiry_images
+                INNER JOIN predictions ON 
+                    predictions.image_id = inquiry_images.image_name AND
+                    predictions.inquiry_id = inquiry_images.inquiry_id
+                WHERE inquiry_images.inquiry_id = %s'''
 
     values = (str(inquiry_id),)
 
@@ -179,14 +182,14 @@ def update_inquiry_status(id, status):
 
 # Save images prediction data
 # Function for add inquiry images prediction
-def add_prediction(image_id, prediction, accuracy):
+def add_prediction(inquiry_id, image_id, prediction, accuracy):
     conn = dbConn.db_connector()
 
     query = ''
     row_count = 0
 
-    query = ''' INSERT INTO predictions (image_id, prediction, accuracy) VALUES (%s, %s, %s) '''
-    values = (str(image_id), str(prediction), str(accuracy))
+    query = ''' INSERT INTO predictions (inquiry_id, image_id, prediction, accuracy) VALUES (%s, %s, %s, %s) '''
+    values = (str(inquiry_id), str(image_id), str(prediction), str(accuracy))
     cur = conn.cursor()
     cur.execute(query, values)
     conn.commit()

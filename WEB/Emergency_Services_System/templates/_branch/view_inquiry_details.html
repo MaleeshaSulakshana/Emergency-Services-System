@@ -107,6 +107,7 @@
                 {% for image in images %}
                 <tr>
                   <td class="col">Inquiry Image {{ image[0] }}</td>
+                  <td class="col">{{ image[4] }} - {{ image[5] }} (Model Predicted)</td>
                   <td class="col"><a href="/static/images/inquiries/{{ image[2] }}/images/{{ image[3] }}" class="form-control btn btn-secondary" target="_blank">View</a></td>
                 </tr>
                 {% endfor %}
@@ -139,8 +140,8 @@
                 
                 {% for video in videos %}
                 <tr>
-                  <td class="col">Inquiry Video {{ image[0] }}</td>
-                  <td class="col"><a href="{{ image[3] }}" class="form-control btn btn-secondary" target="_blank">View</a></td>
+                  <td class="col">Inquiry Video {{ video[0] }}</td>
+                  <td class="col"><a href="{{ video[3] }}" class="form-control btn btn-secondary" target="_blank">View</a></td>
                 </tr>
                 {% endfor %}
                 

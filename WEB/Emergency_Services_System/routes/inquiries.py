@@ -68,7 +68,7 @@ def add_inquiry():
 
             for pred in predict_data:
                 iq.add_prediction(
-                    pred['IMAGE_NAME'], pred['PREDICTED_CLASS'], pred['ACCURACY'])
+                    rand_no, pred['IMAGE_NAME'], pred['PREDICTED_CLASS'], pred['ACCURACY'])
 
         if video != "":
             iq.add_inquiry_video(rand_no, video)
@@ -122,3 +122,30 @@ def get_inquiry_comments_by_id(id):
 
     details = iq.get_inquiry_comment(id)
     return jsonify(details)
+
+
+# Route for add comment to inquiry
+@inquiries.route('/comment/add', methods=['GET', 'POST'])
+def add_comment():
+
+    if request.method == "POST":
+
+        request_data = request.get_json()
+
+        id = request_data['id']
+        comment = request_data['comment']
+
+        if (len(id) == 0 or len(comment) == 0):
+
+            return jsonify({"status": "error", 'msg': "Fields are empty!"})
+
+        else:
+
+            is_added = iq.add_inquiry_comment(id, comment)
+            if is_added > 0:
+                return jsonify({"status": "success", 'msg': "Inquiry comment added."})
+
+            else:
+                return jsonify({"status": "error", 'msg': "Inquiry comment not added."})
+
+    return jsonify({"status": "error", 'msg': "Method invalid"})

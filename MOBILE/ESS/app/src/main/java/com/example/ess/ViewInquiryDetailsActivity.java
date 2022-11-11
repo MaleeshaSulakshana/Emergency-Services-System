@@ -13,8 +13,10 @@ import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -46,7 +48,7 @@ public class ViewInquiryDetailsActivity extends AppCompatActivity {
     private LinearLayoutManager HorizontalLayout;
     private Button btnViewVideo, btnViewActions, btnViewComments;
 
-    String id = "", inquiryVideoUrl = "";
+    String id = "", inquiryVideoUrl = "", inquiryStatus = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,6 +81,34 @@ public class ViewInquiryDetailsActivity extends AppCompatActivity {
         showImages();
         showVideo();
 
+        recyclerview.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
+            @Override
+            public boolean onInterceptTouchEvent(@NonNull RecyclerView rv, @NonNull MotionEvent e) {
+                View item = rv.findChildViewUnder(e.getX(),e.getY());
+                int position = rv.getChildLayoutPosition(item);
+
+                String url = imagesArrayList.get(position).getImage();
+
+                if (!url.equals("")) {
+                    Intent defaultBrowser = Intent.makeMainSelectorActivity(Intent.ACTION_MAIN, Intent.CATEGORY_APP_BROWSER);
+                    defaultBrowser.setData(Uri.parse(url));
+                    startActivity(defaultBrowser);
+                }
+
+                return true;
+            }
+
+            @Override
+            public void onTouchEvent(@NonNull RecyclerView rv, @NonNull MotionEvent e) {
+
+            }
+
+            @Override
+            public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
+
+            }
+        });
+
         btnViewVideo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -109,6 +139,7 @@ public class ViewInquiryDetailsActivity extends AppCompatActivity {
 
                 Intent intent = new Intent(ViewInquiryDetailsActivity.this, ViewInquiryCommentsActivity.class);
                 intent.putExtra("id", id);
+                intent.putExtra("status", inquiryStatus);
                 startActivity(intent);
 
             }
@@ -142,7 +173,8 @@ public class ViewInquiryDetailsActivity extends AppCompatActivity {
                                 String strBranch = (String) responseData.get(12);
                                 String strDate = (String) responseData.get(10);
                                 String strStatus = (String) responseData.get(9);
-//                                String ProfilePic = API.PROFILE_ASSERT_URL + "/" +  (String) responseData.get(7);
+
+                                inquiryStatus = strStatus;
 
                                 details.setText(strDetails);
                                 location.setText(strLocation);
@@ -199,7 +231,7 @@ public class ViewInquiryDetailsActivity extends AppCompatActivity {
 
                                 String idNumber = ((Number) responseData.get(0)).toString();
                                 String imageName = (String) responseData.get(3);
-                                String imageUrl =  API.INQUIRY_ASSERT_URL + id + "/images/" +  imageName;
+                                String imageUrl =  API.INQUIRY_ASSERT_URL + "/" + id + "/images/" +  imageName;
 
                                 imagesArrayList.add(new Images(idNumber, imageUrl));
 
@@ -314,6 +346,7 @@ class ImagesAdapter extends RecyclerView.Adapter<ImagesAdapter.ImagesHolder> {
     public void onBindViewHolder(ImagesHolder holder, int position) {
         Images images = imagesList.get(position);
         holder.name.setText("Image " + images.getId());
+
     }
     @Override
     public int getItemCount() {

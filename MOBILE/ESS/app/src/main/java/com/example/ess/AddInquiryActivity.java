@@ -97,14 +97,18 @@ public class AddInquiryActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
+                btnAdd.setEnabled(false);
+
                 String strDetails = details.getText().toString();
                 String strLocation = location.getText().toString();
                 String strContact = contact.getText().toString();
 
                 if (strDetails.equals("") || strContact.equals("") || strLocation.equals("")) {
+                    btnAdd.setEnabled(true);
                     Toast.makeText(AddInquiryActivity.this, "Fields are empty!",Toast.LENGTH_SHORT).show();
 
                 } else if (bitmapList.size() == 0) {
+                    btnAdd.setEnabled(true);
                     Toast.makeText(AddInquiryActivity.this, "Please add one or more images for proof.",Toast.LENGTH_SHORT).show();
 
                 } else {
@@ -154,6 +158,8 @@ public class AddInquiryActivity extends AppCompatActivity {
                                         Intent intent = new Intent(AddInquiryActivity.this, InquiriesActivity.class);
                                         startActivity(intent);
                                         finish();
+                                    } else {
+                                        btnAdd.setEnabled(true);
                                     }
 
                                 } catch (JSONException e) {
