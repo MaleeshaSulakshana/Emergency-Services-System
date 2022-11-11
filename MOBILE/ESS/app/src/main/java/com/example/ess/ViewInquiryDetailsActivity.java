@@ -103,6 +103,17 @@ public class ViewInquiryDetailsActivity extends AppCompatActivity {
             }
         });
 
+        btnViewComments.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Intent intent = new Intent(ViewInquiryDetailsActivity.this, ViewInquiryCommentsActivity.class);
+                intent.putExtra("id", id);
+                startActivity(intent);
+
+            }
+        });
+
     }
 
     private void showDetails() {
