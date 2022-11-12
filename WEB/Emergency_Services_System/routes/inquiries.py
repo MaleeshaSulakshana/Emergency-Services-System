@@ -62,6 +62,13 @@ def add_inquiry():
                 fh.write(base64.b64decode(image[1]['image']))
                 iq.add_inquiry_images(rand_no, filename)
 
+        if video != "":
+            v_filename = rand_no + ".mp4"
+            video_url = inquiries_uploaded_path + "/" + v_filename
+            with open(video_url, "wb") as fh:
+                fh.write(base64.b64decode(video))
+                iq.add_inquiry_video(rand_no, v_filename)
+
         if os.path.exists(inquiries_uploaded_images_pred_path):
             predict_data = prediction.predict_images(
                 inquiries_uploaded_images_pred_path)
@@ -69,9 +76,6 @@ def add_inquiry():
             for pred in predict_data:
                 iq.add_prediction(
                     rand_no, pred['IMAGE_NAME'], pred['PREDICTED_CLASS'], pred['ACCURACY'])
-
-        if video != "":
-            iq.add_inquiry_video(rand_no, video)
 
         if os.path.exists(inquiries_uploaded_path):
             is_added = iq.add_inquiry_details(

@@ -279,7 +279,8 @@ public class ViewInquiryDetailsActivity extends AppCompatActivity {
 
                                 JSONArray responseData = response.getJSONArray(0);
 
-                                String videoUrl = (String) responseData.get(3);
+                                String videoName = (String) responseData.get(3);
+                                String videoUrl = (String) API.INQUIRY_ASSERT_URL + "/" + id + "/images/" +  videoName;
                                 inquiryVideoUrl = videoUrl;
                             }
 

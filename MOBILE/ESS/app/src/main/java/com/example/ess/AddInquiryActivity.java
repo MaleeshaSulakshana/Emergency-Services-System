@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -17,9 +18,11 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Base64;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -41,7 +44,9 @@ import org.json.JSONObject;
 import java.io.ByteArrayOutputStream;
 import java.io.Console;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -56,6 +61,7 @@ public class AddInquiryActivity extends AppCompatActivity implements LocationLis
     private Button btnAdd, btnSelectImages, btnSelectVideo;
     private EditText details, location, contact;
     private TextView imageCount, videoCount;
+    private ProgressBar progressBar;
 
     private String id = "";
 
@@ -76,6 +82,7 @@ public class AddInquiryActivity extends AppCompatActivity implements LocationLis
         id = intentThis.getStringExtra("id");
 
         btnAdd = (Button) this.findViewById(R.id.btnAdd);
+        progressBar = (ProgressBar) this.findViewById(R.id.progressBar);
         btnSelectImages = (Button) this.findViewById(R.id.btnSelectImages);
         btnSelectVideo = (Button) this.findViewById(R.id.btnSelectVideo);
 
@@ -90,6 +97,14 @@ public class AddInquiryActivity extends AppCompatActivity implements LocationLis
         try {
             if (ContextCompat.checkSelfPermission(getApplicationContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED ) {
                 ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, 101);
+            }
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+
+        try {
+            if (ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED ) {
+                ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.READ_EXTERNAL_STORAGE}, 102);
             }
         } catch (Exception e){
             e.printStackTrace();
@@ -140,6 +155,8 @@ public class AddInquiryActivity extends AppCompatActivity implements LocationLis
 
                 if (lat != "" && lon != "") {
 
+                    Toast.makeText(AddInquiryActivity.this, "Please wait for upload your inquiry. It take few minutes!",Toast.LENGTH_SHORT).show();
+                    progressBar.setVisibility(View.VISIBLE);
                     btnAdd.setEnabled(false);
 
                     String strDetails = details.getText().toString();
@@ -148,14 +165,17 @@ public class AddInquiryActivity extends AppCompatActivity implements LocationLis
 
                     if (strDetails.equals("") || strContact.equals("") || strLocation.equals("")) {
                         btnAdd.setEnabled(true);
+                        progressBar.setVisibility(View.VISIBLE);
                         Toast.makeText(AddInquiryActivity.this, "Fields are empty!",Toast.LENGTH_SHORT).show();
 
                     } else if (strContact.length() != 10) {
                         btnAdd.setEnabled(true);
+                        progressBar.setVisibility(View.VISIBLE);
                         Toast.makeText(AddInquiryActivity.this, "Please check your mobile number!",Toast.LENGTH_SHORT).show();
 
                     } else if (bitmapList.size() == 0) {
                         btnAdd.setEnabled(true);
+                        progressBar.setVisibility(View.VISIBLE);
                         Toast.makeText(AddInquiryActivity.this, "Please add one or more images for proof!",Toast.LENGTH_SHORT).show();
 
                     } else {
@@ -181,14 +201,13 @@ public class AddInquiryActivity extends AppCompatActivity implements LocationLis
                             parameter.put("lat", lat);
                             parameter.put("lon", lon);
 
-//                        if (!videoPath.equals("")) {
-////                            File file = new File(videoPath);
-//                            File videoFile = new File(videoPath);
-//                            RequestBody videoBody = RequestBody.create(MediaType.parse("video/*"), videoFile);
-//                            MultipartBody.Part vFile = MultipartBody.Part.createFormData("video", videoFile.getName(), videoBody);
-//                            parameter.put("video", vFile);
-//
-//                        }
+                        if (!videoPath.equals("")) {
+                            File file = new File(videoPath);
+
+                            String vdo = videoToBase64(file);
+                            parameter.put("video", vdo);
+
+                        }
 
                             JsonObjectRequest jsonObject = new JsonObjectRequest(Request.Method.POST, URL, parameter, new Response.Listener<JSONObject>() {
                                 @Override
@@ -207,6 +226,7 @@ public class AddInquiryActivity extends AppCompatActivity implements LocationLis
                                             finish();
                                         } else {
                                             btnAdd.setEnabled(true);
+                                            progressBar.setVisibility(View.VISIBLE);
                                         }
 
                                     } catch (JSONException e) {
@@ -237,6 +257,31 @@ public class AddInquiryActivity extends AppCompatActivity implements LocationLis
             }
         });
 
+    }
+
+    private String videoToBase64(File file) {
+        String encodedString = null;
+
+        InputStream inputStream = null;
+        try {
+            inputStream = new FileInputStream(file);
+        } catch (Exception e) {
+        }
+        byte[] bytes;
+        byte[] buffer = new byte[8192];
+        int bytesRead;
+        ByteArrayOutputStream output = new ByteArrayOutputStream();
+        try {
+            while ((bytesRead = inputStream.read(buffer)) != -1) {
+                output.write(buffer, 0, bytesRead);
+            }
+        } catch (IOException e) {
+
+        }
+        bytes = output.toByteArray();
+        encodedString = Base64.encodeToString(bytes, Base64.DEFAULT);
+
+        return encodedString;
     }
 
     private void openGalleryForSelectVideo()
