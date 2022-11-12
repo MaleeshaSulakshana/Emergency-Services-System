@@ -1,6 +1,19 @@
 import db_connector as dbConn
 
 
+# Function for get inquires count by daye
+def get_inquiries_count_by_date(date):
+    conn = dbConn.db_connector()
+
+    query = """ SELECT COUNT(*) FROM inquiries
+                INNER JOIN branches ON branches.branch_id = inquiries.branch
+                INNER JOIN departments ON departments.department_id = branches.department_id WHERE inquiries.date LIKE '%""" + str(date) + """%' """
+
+    cur = conn.cursor()
+    cur.execute(query)
+    return cur.fetchall()
+
+
 # Function for get inquires by branch
 def get_inquiry_by_id(id):
     conn = dbConn.db_connector()

@@ -285,30 +285,3 @@ def add_inquiry_actions():
         return jsonify({"error": "Inquiry action not added!"})
 
     return jsonify({'redirect': url_for('branch.index')})
-
-
-# # For mobile app
-# # Route for get all branches
-
-
-# @branches.route('/all', methods=['GET', 'POST'])
-# def get_all_branches():
-
-#     details = bq.get_all_branches()
-#     return jsonify(details)
-
-
-# # Route for get branches
-# @branches.route('/all/<id>', methods=['GET', 'POST'])
-# def get_all_branches_by_department(id):
-
-#     details = bq.get_all_branches_by_department(id)
-#     return jsonify(details)
-
-
-# # Route for get branch details by id
-# @branches.route('/<id>', methods=['GET', 'POST'])
-# def get_branch(id):
-
-#     details = bq.get_branch_all_details_by_id(id)
-#     return jsonify(details)

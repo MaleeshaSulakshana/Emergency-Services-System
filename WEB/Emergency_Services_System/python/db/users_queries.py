@@ -219,3 +219,45 @@ def get_admin_details_by_email(email):
     cur = conn.cursor()
     cur.execute(query, values)
     return cur.fetchall()
+
+
+# Function for update admin psw
+def update_admin_psw(data):
+    conn = dbConn.db_connector()
+
+    email = data['email']
+    psw = data['psw']
+
+    query = ''
+    row_count = 0
+
+    query = ''' UPDATE admin SET psw = %s WHERE email = %s '''
+    values = (str(psw), str(email))
+    cur = conn.cursor()
+    cur.execute(query, values)
+
+    conn.commit()
+    row_count = cur.rowcount
+
+    return row_count
+
+
+# Function for update admin profile
+def update_admin_profile(data):
+    conn = dbConn.db_connector()
+
+    email = data['email']
+    name = data['name']
+
+    query = ''
+    row_count = 0
+
+    query = ''' UPDATE admin SET full_name = %s WHERE email = %s '''
+    values = (str(name), str(email))
+    cur = conn.cursor()
+    cur.execute(query, values)
+
+    conn.commit()
+    row_count = cur.rowcount
+
+    return row_count

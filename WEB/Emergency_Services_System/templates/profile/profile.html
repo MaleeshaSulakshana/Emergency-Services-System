@@ -14,7 +14,7 @@
         <div class="card-body">
           <h4 class="card-title">View Account</h4>
 
-          <form class="forms-sample" id="form_create">
+          <form class="forms-sample" id="form">
 
             <div class="form-group">
               <label for="name">Name</label>
@@ -27,7 +27,7 @@
                 disabled>
             </div>
 
-            <button type="button" id="btn-add" class="btn btn-primary me-2">Update</button>
+            <button type="button" id="btn" class="btn btn-primary me-2">Update</button>
           </form>
         </div>
       </div>
@@ -36,27 +36,23 @@
   </div>
 </div>
 
-<!-- <script>
+<script>
 
   $(function () {
-    $('#btn-add').click(function () {
+    $('#btn').click(function () {
 
       var name = $('#name').val();
-      var email = $('#email').val();
-      var psw = $('#psw').val();
 
-      if (name == "" || email == "" || psw == "") {
-        swal.fire("Add Admin", "Fields are empty!", "warning");
+      if (name == "") {
+        swal.fire("Update Account", "Fields are empty!", "warning");
 
       } else {
 
         var form_data = new FormData();
         form_data.append('name', name);
-        form_data.append('email', email);
-        form_data.append('psw', psw);
 
         $.ajax({
-          url: "/admin_register",
+          url: "/update_profile",
           enctype: 'multipart/form-data',
           data: form_data,
           contentType: false,
@@ -69,14 +65,13 @@
               window.location.href = data.redirect;
             }
             else if (data.success) {
-              Swal.fire("Add Admin", data.success, "success");
-              document.getElementById("form_create").reset();
+              Swal.fire("Update Account", data.success, "success");
             }
             else if (data.error) {
-              Swal.fire("Add Admin", data.error, "warning");
+              Swal.fire("Update Account", data.error, "warning");
             }
             else {
-              Swal.fire("Add Admin", "Some error occur!", "warning");
+              Swal.fire("Update Account", "Some error occur!", "warning");
             }
           });
 
@@ -86,7 +81,7 @@
     });
   });
 
-</script> -->
+</script>
 
 {% endif %}
 

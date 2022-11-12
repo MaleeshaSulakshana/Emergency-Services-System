@@ -3,6 +3,7 @@ import sys
 import random
 import hashlib
 from datetime import datetime
+import datetime as dt
 from flask import Flask, render_template, redirect, jsonify, url_for, request, session
 
 sys.path.append(os.path.abspath('python/'))
@@ -98,25 +99,32 @@ def index():
         return redirect('/login')
 
     pending_inquires_count = 0
+    ongoing_inquires_count = 0
+    completed_inquires_count = 0
     users_count = 0
     departments_count = 0
     branches_count = 0
     branch_users_count = 0
 
-    inquires = iq.get_inquires("pending")
+    pending_inquires = iq.get_inquires("pending")
+    ongoing_inquires = iq.get_inquires("ongoing")
+    completed_inquires = iq.get_inquires("completed")
     users = uq.get_all_users()
     departments = dq.get_all_departments()
     branches = bq.get_all_branches()
     branch_users = buq.get_all_branch_users()
 
-    pending_inquires_count = len(inquires)
+    pending_inquires_count = len(pending_inquires)
+    ongoing_inquires_count = len(ongoing_inquires)
+    completed_inquires_count = len(completed_inquires)
     users_count = len(users)
     departments_count = len(departments)
     branches_count = len(branches)
     branch_users_count = len(branch_users)
 
-    return render_template('index.html', inquires=inquires, users_count=users_count, departments_count=departments_count, branches_count=branches_count,
-                           branch_users_count=branch_users_count, pending_inquires_count=pending_inquires_count)
+    return render_template('index.html', inquires=pending_inquires, users_count=users_count, departments_count=departments_count, branches_count=branches_count,
+                           branch_users_count=branch_users_count, pending_inquires_count=pending_inquires_count, ongoing_inquires_count=ongoing_inquires_count,
+                           completed_inquires_count=completed_inquires_count)
 
 
 # Route for view inquiry
@@ -135,6 +143,53 @@ def view_inquiry_details():
     branches = bq.get_all_branches()
 
     return render_template('view_inquiry_details.html', details=details, images=images, videos=videos, actions=actions, comments=comments, branches=branches)
+
+
+# Route for get graph data
+@app.route('/graph_data')
+def graph_data():
+
+    this_week_data = []
+    last_week_data = []
+    months_data = []
+
+    today = dt.date.today()
+
+    # This week days
+    for i in range(0, 7):
+        date = today - dt.timedelta(days=i)
+        day = date.strftime("%A")
+
+        inquiry_count = iq.get_inquiries_count_by_date(date)[0][0]
+        this_week_data.append(
+            {"day": f"{day}", "count": str(inquiry_count)})
+
+    # Last week days
+    for i in range(7, 14):
+        date = today - dt.timedelta(days=i)
+        day = date.strftime("%A")
+
+        inquiry_count = iq.get_inquiries_count_by_date(date)[0][0]
+        last_week_data.append(
+            {"day": f"{day}", "count": str(inquiry_count)})
+
+    # This and Last Months
+    current = dt.datetime(today.year, today.month, today.day)
+    start = current.replace(day=1)
+
+    for x in range(0, 12):
+        end = start - dt.timedelta(days=1)
+        start = end.replace(day=1)
+        month_year = start.date().strftime("%Y-%m")
+        month_number = start.date().strftime("%m")
+        month_name = start.date().strftime("%B")
+
+        inquiry_count = iq.get_inquiries_count_by_date(month_year)[0][0]
+
+        months_data.append(
+            {"month": f"{month_name}", "count": str(inquiry_count)})
+
+    return jsonify({"weekly": {"this_week": this_week_data, "last_week": last_week_data}, "monthly": months_data})
 
 
 # Route for add admin
@@ -266,6 +321,74 @@ def admin_login():
                 return jsonify({'error': "Sign in failed. Please try again!"})
 
     return jsonify({'redirect': url_for('sign-in')})
+
+
+# Route for admin psw change
+@app.route('/change_psw', methods=['GET', 'POST'])
+def change_psw():
+
+    if request.method == "POST":
+
+        if 'adminId' not in session:
+            return jsonify({'redirect': url_for('login')})
+
+        else:
+            psw = request.form.get('psw')
+            cpsw = request.form.get('cpsw')
+
+            if (len(psw) == 0 or len(cpsw) == 0):
+
+                return jsonify({'error': "Fields are empty!"})
+
+            else:
+
+                psw = hashlib.md5(psw.encode()).hexdigest()
+                data = {
+                    'email': session['adminId'],
+                    'psw': psw
+                }
+
+                is_updated = uq.update_admin_psw(data)
+                if is_updated > 0:
+                    return jsonify({'success': "Account password has been updated!"})
+
+                else:
+                    return jsonify({'error': "Account password not updated. Please try again!"})
+
+    return jsonify({'redirect': url_for('index')})
+
+
+# Route for admin profile update
+@app.route('/update_profile', methods=['GET', 'POST'])
+def update_profile():
+
+    if request.method == "POST":
+
+        if 'adminId' not in session:
+            return jsonify({'redirect': url_for('login')})
+
+        else:
+            name = request.form.get('name')
+
+            if (len(name) == 0):
+
+                return jsonify({'error': "Fields are empty!"})
+
+            else:
+
+                data = {
+                    'email': session['adminId'],
+                    'name': name
+                }
+
+                is_updated = uq.update_admin_profile(data)
+                if is_updated > 0:
+                    return jsonify({'success': "Account has been updated!"})
+
+                else:
+                    return jsonify({'error': "Account not updated. Please try again!"})
+
+    return jsonify({'redirect': url_for('index')})
 
 
 # Main

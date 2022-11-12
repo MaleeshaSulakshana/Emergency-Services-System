@@ -18,26 +18,6 @@ root = os.path.dirname(APP_ROOT)
 static_folder = os.path.dirname(root)
 
 
-# # Route for add branch_user
-# @branch_user.route('/add-branch-user')
-# def add_branch_user():
-#     if 'adminId' not in session:
-#         return redirect('/login')
-
-#     departments = buq.get_all_departments()
-#     return render_template('branch_user/add_branch_user.html', departments=departments)
-
-
-# # Route for view branch_user
-# @branch_user.route('/view-branch-user')
-# def view_branch_user():
-#     if 'adminId' not in session:
-#         return redirect('/login')
-
-#     branch_user_details = bq.get_all_branch_user()
-#     return render_template('branch_user/view_branch_user.html', branch_user=branch_user_details)
-
-
 # Route for view branch details
 @branch_user.route('/view-branch-user-details')
 def view_branch_user_details():
@@ -89,45 +69,6 @@ def add_branch_user():
 
     return jsonify({'redirect': url_for('index')})
 
-
-# # Route for update branch user
-# @branch_user.route('/update_branch_details', methods=['GET', 'POST'])
-# def update_branch_details():
-
-#     if request.method == "POST":
-#         if 'adminId' not in session:
-#             return jsonify({'redirect': url_for('login')})
-
-#         else:
-
-#             branch_id = request.form.get('id')
-#             department = request.form.get('department')
-#             location = request.form.get('location')
-#             emergency_number = request.form.get('emergency_number')
-#             address = request.form.get('address')
-
-#             if (len(branch_id) == 0 or len(department) == 0 or len(location) == 0 or len(emergency_number) == 0 or len(address) == 0):
-#                 return jsonify({'error': "Fields are empty!"})
-
-#             else:
-
-#                 data = {
-#                     'department': department,
-#                     'location': location,
-#                     'emergency_number': emergency_number,
-#                     'address': address,
-#                     'branch_id': branch_id
-#                 }
-
-#                 is_created = bq.branch_user_registration(data)
-
-#                 if is_created > 0:
-#                     return jsonify({'success': "Branch details update successfully!"})
-
-#                 else:
-#                     return jsonify({'error': "Branch details update not successfully. Please try again!"})
-
-#     return jsonify({'redirect': url_for('index')})
 
 # Route for add branch
 @branch_user.route('/remove', methods=['GET', 'POST'])

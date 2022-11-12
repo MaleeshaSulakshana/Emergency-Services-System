@@ -10,8 +10,6 @@ def send_mail(receiver_email, subject, body):
     email['To'] = str(receiver_email)
     email.set_content(body, subtype='html')
 
-    # """Password recovery code : <b>{}</b>""".format(str(code))
-
     # Send
     server = smtplib.SMTP('smtp.gmail.com', 587)
     server.starttls()

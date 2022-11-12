@@ -59,58 +59,6 @@
   </div>
 </div>
 
-<!-- <script>
-
-  $(function () {
-    $('#btn-add').click(function () {
-
-      var name = $('#name').val();
-      var email = $('#email').val();
-      var psw = $('#psw').val();
-
-      if (name == "" || email == "" || psw == "") {
-        swal.fire("Add Admin", "Fields are empty!", "warning");
-
-      } else {
-
-        var form_data = new FormData();
-        form_data.append('name', name);
-        form_data.append('email', email);
-        form_data.append('psw', psw);
-
-        $.ajax({
-          url: "/admin_register",
-          enctype: 'multipart/form-data',
-          data: form_data,
-          contentType: false,
-          cache: false,
-          processData: false,
-          type: 'POST',
-        })
-          .done(function (data) {
-            if (data.redirect) {
-              window.location.href = data.redirect;
-            }
-            else if (data.success) {
-              Swal.fire("Add Admin", data.success, "success");
-              document.getElementById("form_create").reset();
-            }
-            else if (data.error) {
-              Swal.fire("Add Admin", data.error, "warning");
-            }
-            else {
-              Swal.fire("Add Admin", "Some error occur!", "warning");
-            }
-          });
-
-      }
-
-      event.preventDefault();
-    });
-  });
-
-</script> -->
-
 {% endif %}
 
 {% endblock %}
