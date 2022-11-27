@@ -26,8 +26,8 @@ import org.json.JSONException;
 public class ServiceBranchDetailsActivity extends AppCompatActivity {
 
     private Button btnInquiry;
-    private ImageView logo;
-    private TextView branchLocation, branchNumber, branchAddress,
+    private ImageView logo, showLocation;
+    private TextView title, branchLocation, branchNumber, branchAddress,
             departmentNumber, departmentLink, departmentAddress, departmentDesc;
 
     String id = "", mapLink = "";
@@ -42,7 +42,9 @@ public class ServiceBranchDetailsActivity extends AppCompatActivity {
 
         btnInquiry = (Button) this.findViewById(R.id.btnInquiry);
         logo = (ImageView) this.findViewById(R.id.logo);
+        showLocation = (ImageView) this.findViewById(R.id.showLocation);
 
+        title = (TextView) this.findViewById(R.id.title);
         branchLocation = (TextView) this.findViewById(R.id.branchLocation);
         branchNumber = (TextView) this.findViewById(R.id.branchNumber);
         branchAddress = (TextView) this.findViewById(R.id.branchAddress);
@@ -83,7 +85,7 @@ public class ServiceBranchDetailsActivity extends AppCompatActivity {
             }
         });
 
-        branchAddress.setOnClickListener(new View.OnClickListener() {
+        showLocation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
@@ -126,6 +128,7 @@ public class ServiceBranchDetailsActivity extends AppCompatActivity {
                                 JSONArray responseData = response.getJSONArray(0);
 
                                 String strLogo = API.DEPARTMENTS_ASSERT_URL + "/" +  (String) responseData.get(10);
+                                String dName = (String) responseData.get(2);
                                 String bLocation = (String) responseData.get(3);
                                 String bNumber = (String) responseData.get(4);
                                 String bAddress = (String) responseData.get(5);
@@ -137,6 +140,7 @@ public class ServiceBranchDetailsActivity extends AppCompatActivity {
 
                                 mapLink = dMapLink;
 
+                                title.setText(dName);
                                 branchLocation.setText(bLocation);
                                 branchNumber.setText(bNumber);
                                 branchAddress.setText(bAddress);

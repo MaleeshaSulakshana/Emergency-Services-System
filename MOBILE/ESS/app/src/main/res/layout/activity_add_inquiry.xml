@@ -56,7 +56,7 @@
             android:background="@drawable/white_background"
             android:shadowColor="@color/gray2"
             android:textColor="@color/gray2"
-            android:hint="Location"
+            android:hint="Location Address"
             android:textColorHint="@color/gray2"
             android:inputType="textPersonName"/>
 

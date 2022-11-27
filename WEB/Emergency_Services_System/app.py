@@ -87,6 +87,9 @@ def login():
     if 'adminId' in session:
         return redirect('/index')
 
+    elif 'branchUserId' in session:
+        return redirect('/branch/index')
+
     details = bq.get_all_branches()
     return render_template('login.html', details=details)
 
@@ -247,8 +250,8 @@ def admin_register():
 
     if request.method == "POST":
 
-        if 'adminId' in session:
-            return jsonify({'redirect': url_for('index')})
+        if 'adminId' not in session:
+            return jsonify({'redirect': url_for('login')})
 
         else:
             name = request.form.get('name')

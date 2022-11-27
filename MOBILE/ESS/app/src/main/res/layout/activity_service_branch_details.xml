@@ -22,7 +22,7 @@
             android:layout_marginBottom="15dp"
             android:fontFamily="sans-serif-condensed-light"
             android:gravity="center"
-            android:text="Police"
+            android:text=""
             android:textColor="@color/gray2"
             android:textSize="30dp"
             android:textAllCaps="true"
@@ -31,8 +31,7 @@
         <ImageView
             android:id="@+id/logo"
             android:layout_width="150dp"
-            android:layout_height="150dp"
-            android:src="@drawable/sl_police"/>
+            android:layout_height="150dp"/>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -60,7 +59,7 @@
                 android:layout_marginBottom="5dp"
                 android:fontFamily="sans-serif-condensed-light"
                 android:gravity="center"
-                android:text="Homagama"
+                android:text=""
                 android:textColor="@color/gray2"
                 android:textSize="25dp"
                 android:textAllCaps="true"
@@ -73,7 +72,7 @@
                 android:layout_marginBottom="5dp"
                 android:fontFamily="sans-serif-condensed-light"
                 android:gravity="center"
-                android:text="0112452654"
+                android:text=""
                 android:textColor="@color/gray2"
                 android:textSize="20dp"
                 android:textAllCaps="true"
@@ -85,11 +84,18 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="sans-serif-condensed-light"
                 android:gravity="center"
-                android:text="406/5/1, Pitipana North, Homagama"
+                android:text=""
                 android:textColor="@color/gray2"
                 android:textSize="20dp"
                 android:textAllCaps="true"
                 android:textStyle="bold" />
+
+            <ImageView
+                android:id="@+id/showLocation"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/ic_location_on"
+                app:tint="@color/blue2"/>
 
         </LinearLayout>
 
@@ -119,7 +125,7 @@
                 android:layout_marginBottom="5dp"
                 android:fontFamily="sans-serif-condensed-light"
                 android:gravity="center"
-                android:text="0112452654"
+                android:text=""
                 android:textColor="@color/gray2"
                 android:textSize="20dp"
                 android:textAllCaps="true"
@@ -132,7 +138,7 @@
                 android:layout_marginBottom="5dp"
                 android:fontFamily="sans-serif-condensed-light"
                 android:gravity="center"
-                android:text="www.hospital.lk"
+                android:text=""
                 android:textColor="@color/gray2"
                 android:textSize="20dp"
                 android:textStyle="bold" />
@@ -144,7 +150,7 @@
                 android:layout_marginBottom="10dp"
                 android:fontFamily="sans-serif-condensed-light"
                 android:gravity="center"
-                android:text="406/5/1, Pitipana North, Homagama"
+                android:text=""
                 android:textColor="@color/gray2"
                 android:textSize="18dp"
                 android:textAllCaps="true"
@@ -156,7 +162,7 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="sans-serif-condensed-light"
                 android:gravity="center"
-                android:text="We always assign help to people."
+                android:text=""
                 android:textColor="@color/blue1"
                 android:textSize="16dp"
                 android:textAllCaps="true"

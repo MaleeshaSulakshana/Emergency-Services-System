@@ -308,6 +308,7 @@ public class AddInquiryActivity extends AppCompatActivity implements LocationLis
         if (resultCode == RESULT_OK) {
             if (requestCode == PICK_IMAGE) {
                 if (data.getClipData() != null) {
+                    bitmapList = new ArrayList<Bitmap>();
                     int count = data.getClipData().getItemCount();
                     for (int i = 0; i < count; i++) {
                         try {
@@ -318,8 +319,9 @@ public class AddInquiryActivity extends AppCompatActivity implements LocationLis
                             e.printStackTrace();
                         }
                     }
-                    imageCount.setText(String.valueOf(count) + " Images selected");
+                    imageCount.setText(String.valueOf(bitmapList.size()) + " Images selected");
                 }
+                
             } else {
 
                 Uri videoUri = data.getData();
